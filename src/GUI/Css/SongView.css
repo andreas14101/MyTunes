@@ -1,0 +1,11 @@
+.background{
+    -fx-background-image: url(/GUI/ImageAssets/backgroundSongView.png);
+}
+.button{
+    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9, #07ff00);
+    -fx-text-fill: white;
+}
+.label {
+    -fx-text-fill: white;
+}
+

@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.SongViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.SongViewController" stylesheets="/GUI/Css/SongView.css" styleClass="background">
    <children>
       <GridPane prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -30,7 +29,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label prefHeight="54.0" prefWidth="58.0" text="Title:">
+                  <Label prefHeight="54.0" prefWidth="58.0" styleClass="label" text="Title:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -39,7 +38,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label text="Artist:">
+                  <Label styleClass="label" text="Artist:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -48,7 +47,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label text="Category:">
+                  <Label styleClass="label" text="Category:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -57,7 +56,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label text="Time:">
+                  <Label styleClass="label" text="Time:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -66,7 +65,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label text="File:">
+                  <Label styleClass="label" text="File:">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -90,12 +89,12 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                <children>
-                  <ComboBox fx:id="CategoryCB" prefWidth="150.0">
+                  <ComboBox fx:id="CategoryCB" prefWidth="150.0" styleClass="button">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Button fx:id="moreCategoriesBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" text="More Category">
+                  <Button fx:id="moreCategoriesBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" styleClass="button" text="More Category">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -110,7 +109,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <children>
                   <TextField fx:id="fileTxt" prefHeight="26.0" prefWidth="359.0" />
-                  <Button fx:id="chooseFileBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="67.0" text="Choose File">
+                  <Button fx:id="chooseFileBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="67.0" styleClass="button" text="Choose File">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -119,8 +118,8 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button">
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" styleClass="button"/>
+                  <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" styleClass="button">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
