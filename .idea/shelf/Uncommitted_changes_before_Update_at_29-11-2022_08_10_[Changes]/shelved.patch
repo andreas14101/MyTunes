@@ -1,0 +1,308 @@
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1669628688602)
++++ b/.idea/vcs.xml	(date 1669628688602)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: src/GUI/Views/SongView.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GUI/Views/SongView.fxml b/src/GUI/Views/SongView.fxml
+new file mode 100644
+--- /dev/null	(date 1669630409390)
++++ b/src/GUI/Views/SongView.fxml	(date 1669630409390)
+@@ -0,0 +1,133 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<?import javafx.geometry.Insets?>
++<?import javafx.scene.control.Button?>
++<?import javafx.scene.control.ComboBox?>
++<?import javafx.scene.control.Label?>
++<?import javafx.scene.control.TextField?>
++<?import javafx.scene.layout.AnchorPane?>
++<?import javafx.scene.layout.ColumnConstraints?>
++<?import javafx.scene.layout.GridPane?>
++<?import javafx.scene.layout.HBox?>
++<?import javafx.scene.layout.RowConstraints?>
++
++
++<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Views.SongView">
++   <children>
++      <GridPane prefHeight="400.0" prefWidth="600.0">
++        <columnConstraints>
++          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.20001220703125" minWidth="10.0" prefWidth="61.600032806396484" />
++          <ColumnConstraints hgrow="SOMETIMES" maxWidth="540.8000038146972" minWidth="10.0" prefWidth="539.1999671936035" />
++        </columnConstraints>
++        <rowConstraints>
++          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
++          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
++          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
++            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
++            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
++            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
++        </rowConstraints>
++         <children>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Label prefHeight="54.0" prefWidth="58.0" text="Title:">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Label>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Label text="Artist:">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Label>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Label text="Category:">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Label>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Label text="Time:">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Label>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Label text="File:">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Label>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
++               <children>
++                  <TextField fx:id="songTitleTxt" prefHeight="33.0" prefWidth="394.0">
++                     <HBox.margin>
++                        <Insets top="9.0" />
++                     </HBox.margin>
++                  </TextField>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
++               <children>
++                  <TextField fx:id="artistTxt" prefHeight="26.0" prefWidth="402.0" />
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
++               <children>
++                  <ComboBox fx:id="CategoryCB" prefWidth="150.0">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </ComboBox>
++                  <Button fx:id="moreCategoriesBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" text="More Category">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Button>
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
++               <children>
++                  <TextField fx:id="timeTxt" />
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
++               <children>
++                  <TextField fx:id="fileTxt" prefHeight="26.0" prefWidth="359.0" />
++                  <Button fx:id="chooseFileBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="67.0" text="Choose File">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Button>
++               </children>
++            </HBox>
++            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Button mnemonicParsing="false" text="Button" />
++                  <Button mnemonicParsing="false" text="Button">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Button>
++               </children>
++            </HBox>
++         </children>
++      </GridPane>
++   </children>
++</AnchorPane>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"02a70709-8dcf-4175-80a6-96b57c283682\" name=\"Changes\" comment=\"\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Hx1bfNb8rdHdFsAkFmGTT9e4tk\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"02a70709-8dcf-4175-80a6-96b57c283682\" name=\"Changes\" comment=\"\" />\r\n      <created>1669211996090</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1669211996090</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 17404db688128a6637442948d2e798d99c71e91e)
++++ b/.idea/workspace.xml	(date 1669705819397)
+@@ -1,24 +1,44 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="" />
++    <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/GUI/Views/PlaylistView.fxml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/GUI/Views/SongView.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="FxmlFile" />
++      </list>
++    </option>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++  </component>
++  <component name="MarkdownSettingsMigration">
++    <option name="stateVersion" value="1" />
++  </component>
+   <component name="ProjectId" id="2Hx1bfNb8rdHdFsAkFmGTT9e4tk" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -27,7 +47,24 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1669211996090</updated>
++      <workItem from="1669211998451" duration="683000" />
++      <workItem from="1669628674203" duration="313000" />
++      <workItem from="1669630159841" duration="2765000" />
+     </task>
+     <servers />
+   </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
+ </project>
+\ No newline at end of file
+Index: src/GUI/Views/PlaylistView.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GUI/Views/PlaylistView.fxml b/src/GUI/Views/PlaylistView.fxml
+new file mode 100644
+--- /dev/null	(date 1669631668955)
++++ b/src/GUI/Views/PlaylistView.fxml	(date 1669631668955)
+@@ -0,0 +1,50 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<?import javafx.geometry.Insets?>
++<?import javafx.scene.control.Button?>
++<?import javafx.scene.control.Label?>
++<?import javafx.scene.control.TextField?>
++<?import javafx.scene.layout.AnchorPane?>
++<?import javafx.scene.layout.ColumnConstraints?>
++<?import javafx.scene.layout.GridPane?>
++<?import javafx.scene.layout.HBox?>
++<?import javafx.scene.layout.RowConstraints?>
++
++
++<AnchorPane prefHeight="328.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Views.PlaylistView">
++   <children>
++      <GridPane layoutX="31.0" layoutY="58.0" prefHeight="244.0" prefWidth="460.0">
++        <columnConstraints>
++          <ColumnConstraints hgrow="SOMETIMES" maxWidth="221.40000915527344" minWidth="10.0" prefWidth="189.40000915527344" />
++          <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.59999084472656" minWidth="10.0" prefWidth="264.59999084472656" />
++        </columnConstraints>
++        <rowConstraints>
++          <RowConstraints maxHeight="147.4" minHeight="10.0" prefHeight="49.60001220703125" vgrow="SOMETIMES" />
++          <RowConstraints maxHeight="255.39999618530274" minHeight="10.0" prefHeight="97.59998779296876" vgrow="SOMETIMES" />
++        </rowConstraints>
++         <children>
++            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Label prefHeight="18.0" prefWidth="62.0" text="Name:" />
++               </children>
++            </HBox>
++            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
++               <children>
++                  <TextField fx:id="PLAYLISTNAMETXT" alignment="CENTER" prefHeight="31.0" prefWidth="223.0" />
++               </children>
++            </HBox>
++            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
++            <HBox alignment="BOTTOM_RIGHT" prefHeight="136.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
++               <children>
++                  <Button fx:id="CANCELBtn" mnemonicParsing="false" text="Cancel" />
++                  <Button fx:id="SAVEBTN" mnemonicParsing="false" text="Save">
++                     <HBox.margin>
++                        <Insets left="10.0" />
++                     </HBox.margin>
++                  </Button>
++               </children>
++            </HBox>
++         </children>
++      </GridPane>
++   </children>
++</AnchorPane>
