@@ -4,7 +4,7 @@ import BE.Playlist;
 
 import java.util.List;
 
-public interface InterfaceCRUDPlaylist {
+public interface ICRUDPlaylist {
 
     public List<Playlist> getAllPlaylists() throws Exception;
 
