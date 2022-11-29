@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/GUI/Views/PlaylistView.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/Views/SongView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Views/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Views/MainView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +14,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -49,6 +49,7 @@
       <workItem from="1669211998451" duration="683000" />
       <workItem from="1669628674203" duration="313000" />
       <workItem from="1669630159841" duration="2792000" />
+      <workItem from="1669706009557" duration="1556000" />
     </task>
     <servers />
   </component>

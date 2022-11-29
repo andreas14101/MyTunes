@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -38,7 +38,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="frwardBtn" mnemonicParsing="false" text="forward">
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" text="forward">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
@@ -78,7 +78,7 @@
             </Label>
             <HBox prefHeight="260.0" prefWidth="210.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="PLAYLISTTABLE" prefHeight="323.0" prefWidth="179.0">
+                  <TableView fx:id="playlistTable" prefHeight="323.0" prefWidth="179.0">
                     <columns>
                       <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" text="Name" />
                       <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" text="Songs" />
@@ -184,12 +184,12 @@
          <children>
             <HBox prefHeight="276.0" prefWidth="239.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="SONGSTABLE" prefHeight="331.0" prefWidth="330.0">
+                  <TableView fx:id="songsTable" prefHeight="331.0" prefWidth="330.0">
                     <columns>
-                      <TableColumn fx:id="SONGTITLECOLUMN" prefWidth="113.60000610351562" text="Title" />
-                      <TableColumn fx:id="SONGARTISTCOLUMN" prefWidth="94.4000244140625" text="Artist" />
-                        <TableColumn fx:id="SONGCATEGORYCOLUMN" prefWidth="60.800048828125" text="Category" />
-                        <TableColumn fx:id="SONGTIMECOLUMN" prefWidth="59.199951171875" text="Time" />
+                      <TableColumn fx:id="songTitleColumn" prefWidth="113.60000610351562" text="Title" />
+                      <TableColumn fx:id="songArtistColumn" prefWidth="94.4000244140625" text="Artist" />
+                        <TableColumn fx:id="songCategoryColumn" prefWidth="60.800048828125" text="Category" />
+                        <TableColumn fx:id="songTimeColumn" prefWidth="59.199951171875" text="Time" />
                     </columns>
                   </TableView>
                </children>
