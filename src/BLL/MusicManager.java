@@ -1,12 +1,16 @@
 package BLL;
 
+import DAL.ICRUDPlaylist;
+import DAL.ICRUDSongs;
 import DAL.MusicDAO;
 
 public class MusicManager {
 
-    private MusicDAO musicDAO;
+    private ICRUDSongs songDAO;
+    private ICRUDPlaylist playlistDAO;
 
     public MusicManager() {
-        musicDAO = new MusicDAO();
+        songDAO = new MusicDAO();
+        playlistDAO = new MusicDAO();
     }
 }
