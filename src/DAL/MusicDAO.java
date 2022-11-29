@@ -55,11 +55,12 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
                 int id = rs.getInt("Id");
                 String title = rs.getString("Title");
                 Duration time = Duration.ofSeconds(rs.getInt("Time"));
+                String timeOutput = time.toMinutesPart() + ":" + time.toSecondsPart();
                 String artist = rs.getString("Artist");
                 String category = rs.getString("Category");
                 String pathToFile = rs.getString("PathToFile");
 
-                Song song = new Song(id, title, artist, time, category, pathToFile);
+                Song song = new Song(id, title, artist, timeOutput, category, pathToFile);
                 allSongs.add(song);
             }
             return allSongs;

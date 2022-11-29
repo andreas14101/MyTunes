@@ -7,11 +7,11 @@ public class Song {
     private int id;
     private String title;
     private String artist;
-    private Duration length;
+    private String length;
     private String category;
     private String filePath;
 
-    public Song(int id, String title, String artist, Duration length, String category, String filePath) {
+    public Song(int id, String title, String artist, String length, String category, String filePath) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -28,7 +28,7 @@ public class Song {
         return artist;
     }
 
-    public int getLength() {
+    public String getLength() {
         return length;
     }
 
@@ -48,7 +48,7 @@ public class Song {
         this.artist = artist;
     }
 
-    public void setLength(int length) {
+    public void setLength(String length) {
         this.length = length;
     }
 

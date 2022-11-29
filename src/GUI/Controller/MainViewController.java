@@ -48,7 +48,6 @@ public class MainViewController extends BaseController implements Initializable 
         songCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
         songTimeColumn.setCellValueFactory(new PropertyValueFactory<>("Length"));
 
-
         songsTable.getColumns().addAll();
         songsTable.setItems(musicModel.getObservableSongs());
 
