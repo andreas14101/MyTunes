@@ -7,15 +7,15 @@ public class Song {
     private String artist;
     private int length;
     private String category;
-    private String filePath;
+    private String pathToFile;
 
-    public Song(int id, String title, String artist, int length, String category, String filePath) {
+    public Song(int id, String title, String artist, int length, String category, String pathToFile) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.length = length;
         this.category = category;
-        this.filePath = filePath;
+        this.pathToFile = pathToFile;
     }
 
     public String getTitle() {
