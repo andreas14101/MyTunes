@@ -6,7 +6,10 @@ public class Playlist {
     private int numberOfSongs;
     private int timeLength;
 
-    public Playlist() {
+    public Playlist(String title, int numberOfSongs, int timeLength) {
+        this.title = title;
+        this.numberOfSongs = numberOfSongs;
+        this.timeLength = timeLength;
     }
 
     public String getTitle() {
@@ -19,5 +22,17 @@ public class Playlist {
 
     public int getTimeLength() {
         return timeLength;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setNumberOfSongs(int numberOfSongs) {
+        this.numberOfSongs = numberOfSongs;
+    }
+
+    public void setTimeLength(int timeLength) {
+        this.timeLength = timeLength;
     }
 }
