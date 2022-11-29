@@ -3,7 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Views/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Views/MainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/BaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/PlaylistViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/PlaylistViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Views/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Views/PlaylistView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/PlaylistView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Views/SongView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/SongView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
+        <option value="JavaFXApplication" />
         <option value="Class" />
       </list>
     </option>
@@ -38,6 +45,31 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="GUI" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.Main" />
+      <module name="MyTunes" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GUI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -49,7 +81,7 @@
       <workItem from="1669211998451" duration="683000" />
       <workItem from="1669628674203" duration="313000" />
       <workItem from="1669630159841" duration="2792000" />
-      <workItem from="1669706009557" duration="1556000" />
+      <workItem from="1669706009557" duration="5376000" />
     </task>
     <servers />
   </component>

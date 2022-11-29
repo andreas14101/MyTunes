@@ -52,7 +52,7 @@
                         <Insets left="20.0" top="15.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Slider prefHeight="64.0" prefWidth="108.0">
+                  <Slider fx:id="volumeSlider" prefHeight="64.0" prefWidth="108.0">
                      <HBox.margin>
                         <Insets top="15.0" />
                      </HBox.margin>
@@ -135,7 +135,7 @@
             </HBox>
             <HBox prefHeight="31.0" prefWidth="182.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="newPlaylistBtn" mnemonicParsing="false" text="New playlist">
+                  <Button fx:id="newPlaylistBtn" mnemonicParsing="false" text="New playlist" onAction="#handleNewPlaylist">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -209,8 +209,8 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="NEWsongBtn" mnemonicParsing="false" text="New song" />
-                  <Button fx:id="EDITSongBtn" mnemonicParsing="false" text="Edit song">
+                  <Button fx:id="NewSongBtn" mnemonicParsing="false" text="New song" onAction="#handleNewSong" />
+                  <Button fx:id="EditSongBtn" mnemonicParsing="false" text="Edit song">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -224,7 +224,7 @@
             </Button>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="CLOSEBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Close">
+                  <Button fx:id="CloseBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Close">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -244,7 +244,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="CURRENTSONGPLAYING" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label">
+                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -253,7 +253,7 @@
             </HBox>
             <HBox prefHeight="43.0" prefWidth="197.0" GridPane.rowIndex="1">
                <children>
-                  <Slider fx:id="TIMESLIDER" prefHeight="14.0" prefWidth="211.0" />
+                  <Slider fx:id="timeSlider" prefHeight="14.0" prefWidth="211.0" />
                </children>
             </HBox>
          </children>
@@ -273,12 +273,12 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="FILTERSEARCH" prefHeight="68.0" prefWidth="166.0">
+                  <TextField fx:id="filterSearch" prefHeight="68.0" prefWidth="166.0">
                      <HBox.margin>
                         <Insets top="6.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="SEARCHBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="51.0" text="Button">
+                  <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="51.0" text="Button">
                      <HBox.margin>
                         <Insets top="6.0" />
                      </HBox.margin></Button>
