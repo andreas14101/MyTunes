@@ -26,7 +26,7 @@ public class Main extends Application {
         controller.setModel(new MyTunesModel());
         controller.setup();
 
-        primaryStage.setTitle("MRS2022");
+        primaryStage.setTitle("MyTunes");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
