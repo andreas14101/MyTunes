@@ -4,6 +4,7 @@ import BE.Playlist;
 import BE.Song;
 
 import java.sql.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +52,9 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             //Loop through rows from the database result set
             while (rs.next()) {
                 //Map DB row to Song Object
-
                 int id = rs.getInt("Id");
                 String title = rs.getString("Title");
-                int time = rs.getInt("Time");
+                Duration time = Duration.ofSeconds(rs.getInt("Time"));
                 String artist = rs.getString("Artist");
                 String category = rs.getString("Category");
                 String pathToFile = rs.getString("PathToFile");

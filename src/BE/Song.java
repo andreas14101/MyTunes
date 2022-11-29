@@ -1,15 +1,17 @@
 package BE;
 
+import java.time.Duration;
+
 public class Song {
 
     private int id;
     private String title;
     private String artist;
-    private int length;
+    private Duration length;
     private String category;
     private String filePath;
 
-    public Song(int id, String title, String artist, int length, String category, String filePath) {
+    public Song(int id, String title, String artist, Duration length, String category, String filePath) {
         this.id = id;
         this.title = title;
         this.artist = artist;
