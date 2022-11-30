@@ -66,6 +66,7 @@ public class MainViewController extends BaseController implements Initializable 
         AnchorPane pane = (AnchorPane) loader.load();
 
         SongViewController controller = loader.getController();
+        controller.setModel(super.getModel());
         controller.setup();
 
         // Create the dialog stage
@@ -85,6 +86,7 @@ public class MainViewController extends BaseController implements Initializable 
         AnchorPane pane = (AnchorPane) loader.load();
 
         PlaylistViewController controller = loader.getController();
+        controller.setModel(super.getModel());
         controller.setup();
 
         // Create the dialog stage
@@ -115,7 +117,24 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
     }
 
-    public void handleEditSong(ActionEvent actionEvent) {
+    public void handleEditSong(ActionEvent actionEvent) throws Exception {
+        musicModel.shouldEditSong();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
+
+        SongViewController controller = loader.getController();
+        controller.setModel(super.getModel());
+        controller.setup();
+
+        // Create the dialog stage
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("New song");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+        dialogWindow.showAndWait();
     }
 
     public void handleDeleteSong(ActionEvent actionEvent) throws Exception {

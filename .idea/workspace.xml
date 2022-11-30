@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="MyDatabaseConnector added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/BLL/MusicManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/BLL/MusicManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/MainView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BLL/MusicManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLL/MusicManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BE/Song.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BE/Song.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAL/MusicDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/MusicDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/SongViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/SongViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
