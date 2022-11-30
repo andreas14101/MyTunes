@@ -109,8 +109,24 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     @Override
     public void editUpdateSong(Song song) throws Exception {
+        try(Connection conn = databaseConnector.getConnection()){
+            String sql = "UPDATE Songs SET Title=?, Artist=?, Category=?, PathToFile=? WHERE Id=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
 
+            // Bind parameters
+            stmt.setString(1, song.getTitle());
+            stmt.setString(2, song.getArtist());
+            stmt.setString(3, song.getCategory());
+            stmt.setString(4, song.getFilePath());
+
+            stmt.executeUpdate();
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+            throw new Exception("could not update song", ex);
+        }
     }
+
 
     @Override
     public void deleteSong(Song s) throws Exception {

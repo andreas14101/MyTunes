@@ -12,6 +12,9 @@ public class SongModel {
 
     private MusicManager musicManager;
 
+    private Song selectedSong;
+    private boolean shouldEdit = false;
+
     public SongModel() throws Exception {
 
         musicManager = new MusicManager();
@@ -31,10 +34,11 @@ public class SongModel {
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         musicManager.createSong(title, artist, length, category, pathToFile);
     }
+
     public ObservableList<Song> filteredSongs(String search) {
         filteredSongs = FXCollections.observableArrayList();
-        for (int i = 0; i < songsToBeViewed.size(); i++){
-            if(songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)){
+        for (int i = 0; i < songsToBeViewed.size(); i++) {
+            if (songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)) {
                 filteredSongs.add(songsToBeViewed.get(i));
             } else if (songsToBeViewed.get(i).getArtist().toLowerCase().contains(search)) {
                 filteredSongs.add(songsToBeViewed.get(i));
@@ -44,5 +48,22 @@ public class SongModel {
 
         }
         return filteredSongs;
+    }
+
+    public Song getSelectedSong() {return selectedSong;}
+
+    public void setSelectedSong(Song selectedSong) {this.selectedSong = selectedSong;}
+
+    public Boolean shouldEditSong()
+    {
+        if (shouldEdit == false && selectedSong != null)
+        {
+            shouldEdit = true;
+            return true;
+        }
+        else {
+            shouldEdit = false;
+            return false;
+        }
     }
 }

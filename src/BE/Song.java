@@ -55,4 +55,12 @@ public class Song {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 }
