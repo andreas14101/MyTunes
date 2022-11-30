@@ -1,8 +1,26 @@
 package GUI.Controller;
 
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 public class PlaylistViewController extends BaseController{
+
+    public Button cxlBtn;
+    public TextField playlistName;
+
     @Override
     public void setup() {
+
+    }
+
+    public void handleCancel(ActionEvent actionEvent) {
+        Stage stage = (Stage) cxlBtn.getScene().getWindow();
+        stage.close();
+    }
+
+    public void handleSave(ActionEvent actionEvent) {
 
     }
 }

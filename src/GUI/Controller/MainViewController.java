@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import BE.Song;
 import GUI.Model.MyTunesModel;
+import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,8 +40,12 @@ public class MainViewController extends BaseController implements Initializable 
     public TableColumn songTimeColumn;
     public Button CloseBtn;
     public Button searchBtn;
+    public TableColumn playlistNameColumn;
+    public TableColumn playlistSongsAmountColumn;
+    public TableColumn playlistTimeColumn;
 
     private SongModel musicModel;
+    private PlaylistModel playlistModel;
 
     @Override
     public void setup() {
@@ -54,6 +59,15 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.getColumns().addAll();
         songsTable.setItems(musicModel.getObservableSongs());
 
+        playlistModel = getModel().getPlaylistModel();
+
+        playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
+        playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
+
+
+        playlistTable.getColumns().addAll();
+        playlistTable.setItems(playlistModel.getObservablePlaylists());
 
     }
 
