@@ -32,7 +32,7 @@ public class SongModel {
     }
 
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
-        musicManager.createSong(title, artist, length, category, pathToFile);
+        songsToBeViewed.add(musicManager.createSong(title, artist, length, category, pathToFile));
     }
 
     public ObservableList<Song> filteredSongs(String search) {
