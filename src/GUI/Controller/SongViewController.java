@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
@@ -36,7 +35,7 @@ public class SongViewController extends BaseController {
 
         AudioFileFormat baseFileFormat = null;
         baseFileFormat = AudioSystem.getAudioFileFormat(file);
-        int baseFileFormat.getFrameLength();
+        int length = baseFileFormat.getFrameLength();
 
 
     }

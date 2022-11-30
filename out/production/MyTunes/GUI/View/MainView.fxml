@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController" stylesheets="/GUI/Css/MainView.css" styleClass="background">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -38,7 +38,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="frwardBtn" mnemonicParsing="false" text="forward">
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" text="forward">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
@@ -52,7 +52,7 @@
                         <Insets left="20.0" top="15.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Slider prefHeight="64.0" prefWidth="108.0">
+                  <Slider fx:id="volumeSlider" prefHeight="64.0" prefWidth="108.0">
                      <HBox.margin>
                         <Insets top="15.0" />
                      </HBox.margin>
@@ -78,11 +78,11 @@
             </Label>
             <HBox prefHeight="260.0" prefWidth="210.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="PLAYLISTTABLE" prefHeight="323.0" prefWidth="179.0">
+                  <TableView fx:id="playlistTable" prefHeight="323.0" prefWidth="179.0">
                     <columns>
-                      <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" text="Name" />
-                      <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" text="Songs" />
-                        <TableColumn fx:id="playlistTimeColumn" prefWidth="59.99993896484375" text="Time" />
+                      <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" text="Name" styleClass="button"/>
+                      <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" text="Songs" styleClass="button"/>
+                        <TableColumn fx:id="playlistTimeColumn" prefWidth="59.99993896484375" text="Time" styleClass="button"/>
                     </columns>
                      <HBox.margin>
                         <Insets />
@@ -135,7 +135,7 @@
             </HBox>
             <HBox prefHeight="31.0" prefWidth="182.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="newPlaylistBtn" mnemonicParsing="false" text="New playlist">
+                  <Button fx:id="newPlaylistBtn" mnemonicParsing="false" onAction="#handleNewPlaylist" text="New playlist">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -173,7 +173,7 @@
             </HBox>
          </children>
       </GridPane>
-      <GridPane layoutX="409.0" layoutY="83.0" prefHeight="355.0" prefWidth="323.0">
+      <GridPane layoutX="409.0" layoutY="83.0" prefHeight="355.0" prefWidth="333.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -184,12 +184,12 @@
          <children>
             <HBox prefHeight="276.0" prefWidth="239.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="SONGSTABLE" prefHeight="331.0" prefWidth="330.0">
+                  <TableView fx:id="songsTable" prefHeight="310.0" prefWidth="328.0">
                     <columns>
-                      <TableColumn fx:id="SONGTITLECOLUMN" prefWidth="113.60000610351562" text="Title" />
-                      <TableColumn fx:id="SONGARTISTCOLUMN" prefWidth="94.4000244140625" text="Artist" />
-                        <TableColumn fx:id="SONGCATEGORYCOLUMN" prefWidth="60.800048828125" text="Category" />
-                        <TableColumn fx:id="SONGTIMECOLUMN" prefWidth="59.199951171875" text="Time" />
+                      <TableColumn fx:id="songTitleColumn" prefWidth="113.60000610351562" text="Title" styleClass="button"/>
+                      <TableColumn fx:id="songArtistColumn" prefWidth="94.4000244140625" text="Artist" styleClass="button"/>
+                        <TableColumn fx:id="songCategoryColumn" prefWidth="60.800048828125" text="Category" styleClass="button" />
+                        <TableColumn fx:id="songTimeColumn" prefWidth="59.199951171875" text="Time"  styleClass="button"/>
                     </columns>
                   </TableView>
                </children>
@@ -209,8 +209,8 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="NEWsongBtn" mnemonicParsing="false" text="New song" />
-                  <Button fx:id="EDITSongBtn" mnemonicParsing="false" text="Edit song">
+                  <Button fx:id="NewSongBtn" mnemonicParsing="false" onAction="#handleNewSong" text="New song" />
+                  <Button fx:id="EditSongBtn" mnemonicParsing="false" text="Edit song">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -224,7 +224,7 @@
             </Button>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="CLOSEBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Close">
+                  <Button fx:id="CloseBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Close">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -244,7 +244,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="CURRENTSONGPLAYING" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label">
+                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -253,7 +253,7 @@
             </HBox>
             <HBox prefHeight="43.0" prefWidth="197.0" GridPane.rowIndex="1">
                <children>
-                  <Slider fx:id="TIMESLIDER" prefHeight="14.0" prefWidth="211.0" />
+                  <Slider fx:id="timeSlider" prefHeight="14.0" prefWidth="211.0" />
                </children>
             </HBox>
          </children>
@@ -273,12 +273,12 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="FILTERSEARCH" prefHeight="68.0" prefWidth="166.0">
+                  <TextField fx:id="filterSearch" prefHeight="68.0" prefWidth="166.0">
                      <HBox.margin>
                         <Insets top="6.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="SEARCHBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="51.0" text="Button">
+                  <Button fx:id="searchBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="51.0" text="Button">
                      <HBox.margin>
                         <Insets top="6.0" />
                      </HBox.margin></Button>

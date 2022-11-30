@@ -1,0 +1,58 @@
+.background{
+    -fx-background-image: url(/GUI/ImageAssets/backgroundMainView.png);
+}
+
+.button{
+    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9, #07ff00);
+    -fx-text-fill: white;
+}
+.list-view{
+    -fx-background-color: linear-gradient(to top right, lightblue,tomato);
+    -fx-text-fill: white;
+}
+.list-view .list-cell:hover {
+    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9);
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9, #07ff00);
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell {
+    -fx-background-color: linear-gradient(to top right, #ff2d35, #2be1ea, #3fd93a);;
+    -fx-text-fill: white;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+.list-view .label{
+    -fx-text-fill: white;
+}
+
+.table-view .column-header-background .filler{
+    -fx-background-color: Transparent;
+    -fx-text-fill: white;
+}
+
+.table-view {
+    -fx-background-color: Transparent;
+}
+.table-view .table-cell{
+    -fx-background-color: rgba(43, 225, 234, 0.22);
+    -fx-text-fill: #313131;
+}
+.table-row-cell:hover {
+    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9);
+    -fx-text-fill: white;
+}
+.table-row-cell:selected {
+    -fx-background-color: #00d0d9;
+    -fx-text-fill: white;
+}
+.table-view .label {
+    -fx-text-fill: white;
+}

@@ -1,15 +1,19 @@
 package BE;
 
+import java.time.Duration;
+
 public class Song {
 
     private int id;
     private String title;
     private String artist;
-    private int length;
+    private String length;
     private String category;
     private String pathToFile;
 
-    public Song(int id, String title, String artist, int length, String category, String pathToFile) {
+
+    public Song(int id, String title, String artist, String length, String category, String filePath) {
+
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -26,7 +30,7 @@ public class Song {
         return artist;
     }
 
-    public int getLength() {
+    public String getLength() {
         return length;
     }
 
@@ -46,7 +50,7 @@ public class Song {
         this.artist = artist;
     }
 
-    public void setLength(int length) {
+    public void setLength(String length) {
         this.length = length;
     }
 

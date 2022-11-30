@@ -4,6 +4,10 @@ import BE.Song;
 import DAL.ICRUDPlaylist;
 import DAL.ICRUDSongs;
 import DAL.MusicDAO;
+import jdk.jfr.Timespan;
+
+import java.time.Duration;
+import java.util.List;
 
 public class MusicManager {
 
@@ -15,8 +19,17 @@ public class MusicManager {
         playlistDAO = new MusicDAO();
     }
 
-    public Song createSong(String title, String artist, int length, String category, String pathToFile) throws Exception {
+    public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         return songDAO.createSong(title, artist, length, category, pathToFile);
     }
 
+    public List<Song> getAllSongs() throws Exception {
+        return songDAO.getAllSongs();
+    }
+
+    public void deleteSong(Song song) throws Exception {
+        songDAO.deleteSong(song);
+    }
+
 }
+

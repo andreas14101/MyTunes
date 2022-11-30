@@ -4,6 +4,9 @@ import BE.Playlist;
 import BE.Song;
 
 import java.sql.*;
+import java.time.Duration;
+import java.util.ArrayList;
+
 import java.util.List;
 
 public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
@@ -36,11 +39,42 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     @Override
     public List<Song> getAllSongs() throws Exception {
-        return null;
+        //Make a list called allSongs
+        ArrayList<Song> allSongs = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "SELECT * FROM Songs;";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //Loop through rows from the database result set
+            while (rs.next()) {
+                //Map DB row to Song Object
+                int id = rs.getInt("Id");
+                String title = rs.getString("Title");
+                Duration time = Duration.ofSeconds(rs.getInt("Time"));
+                String timeOutput = time.toMinutesPart() + ":" + time.toSecondsPart();
+                String artist = rs.getString("Artist");
+                String category = rs.getString("Category");
+                String pathToFile = rs.getString("PathToFile");
+
+                Song song = new Song(id, title, artist, timeOutput, category, pathToFile);
+                allSongs.add(song);
+            }
+            return allSongs;
+
+        }
+        catch (SQLException ex){
+        ex.printStackTrace();
+        throw new Exception("Could not get songs from database");
+        }
     }
 
     @Override
-    public Song createSong(String title, String artist, int length, String category, String pathToFile) throws Exception {
+    public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
 
         //SQL Statement and initializing id variable.
         String sql = "INSERT INTO Songs (Artist, Title, Category, Time, pathToFile) VALUES ?,?,?,?,?";
@@ -54,7 +88,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             stmt.setString(1,artist);
             stmt.setString(2,title);
             stmt.setString(3,category);
-            stmt.setInt(4,length);
+            stmt.setInt(4,Integer.parseInt(length));
             stmt.setString(5,pathToFile);
 
             //Run statement on DB.
@@ -82,6 +116,11 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     @Override
     public void deleteSong(Song song) throws Exception {
-
+        int id = song.getId();
+        String sql = "DELETE FROM Song WHERE Id = "+ id+";";
+        try (Connection conn = databaseConnector.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        }
     }
 }
