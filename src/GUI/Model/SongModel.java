@@ -24,4 +24,8 @@ public class SongModel {
         musicManager.deleteSong(s);
         songsToBeViewed.remove(s);
     }
+
+    public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
+        musicManager.createSong(title, artist, length, category, pathToFile);
+    }
 }
