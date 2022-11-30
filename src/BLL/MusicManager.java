@@ -25,5 +25,9 @@ public class MusicManager {
     public void deleteSong(Song s) throws Exception {
         songDAO.deleteSong(s);
     }
+
+    public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
+        return songDAO.createSong(title, artist, length, category, pathToFile);
+    }
 }
 
