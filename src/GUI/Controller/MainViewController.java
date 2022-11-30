@@ -3,6 +3,7 @@ package GUI.Controller;
 import BE.Song;
 import GUI.Model.MyTunesModel;
 import GUI.Model.SongModel;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class MainViewController extends BaseController implements Initializable {
 
@@ -36,6 +38,7 @@ public class MainViewController extends BaseController implements Initializable 
     public TableColumn songCategoryColumn;
     public TableColumn songTimeColumn;
     public Button CloseBtn;
+    public Button searchBtn;
 
     private SongModel musicModel;
 
@@ -133,5 +136,19 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleClose(ActionEvent actionEvent) {
         Stage stage = (Stage) CloseBtn.getScene().getWindow();
         stage.close();
+    }
+
+    public void handleSearch(ActionEvent actionEvent) {
+        if(searchBtn.getText().equals("Search")){
+            if(filterSearch.getText() != null){
+                String search = filterSearch.getText().toLowerCase();
+                songsTable.setItems(musicModel.filteredSongs(search));
+            }
+            searchBtn.setText("Clear");
+        } else if (searchBtn.getText().equals("Clear")) {
+            filterSearch.setText("");
+            songsTable.setItems(musicModel.getObservableSongs());
+            searchBtn.setText("Search");
+        }
     }
 }
