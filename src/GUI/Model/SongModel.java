@@ -5,8 +5,11 @@ import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.function.Predicate;
+
 public class SongModel {
-    private ObservableList<Song> songsToBeViewed;
+    private ObservableList<Song> songsToBeViewed, filteredSongs;
+
     private MusicManager musicManager;
 
     public SongModel() throws Exception {
@@ -27,5 +30,19 @@ public class SongModel {
 
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         musicManager.createSong(title, artist, length, category, pathToFile);
+    }
+    public ObservableList<Song> filteredSongs(String search) {
+        filteredSongs = FXCollections.observableArrayList();
+        for (int i = 0; i < songsToBeViewed.size(); i++){
+            if(songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)){
+                filteredSongs.add(songsToBeViewed.get(i));
+            } else if (songsToBeViewed.get(i).getArtist().toLowerCase().contains(search)) {
+                filteredSongs.add(songsToBeViewed.get(i));
+            } else if (songsToBeViewed.get(i).getCategory().toLowerCase().contains(search)) {
+                filteredSongs.add(songsToBeViewed.get(i));
+            }
+
+        }
+        return filteredSongs;
     }
 }
