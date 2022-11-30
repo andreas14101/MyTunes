@@ -35,7 +35,7 @@ public class SongViewController extends BaseController {
     }
 
     @FXML
-    private void handleSaveLSH(ActionEvent actionEvent) throws Exception {
+    /*private void handleSaveLSH(ActionEvent actionEvent) throws Exception {
 
         String title = songTitleTxt.getText();
         String artist = artistTxt.getText();
@@ -50,11 +50,10 @@ public class SongViewController extends BaseController {
 
         model.createSong(title, artist,String.valueOf(length),"TEST", "TEST");
 
-    }
+    }*/
 
-    @FXML
-    private void handleSave(ActionEvent actionEvent) throws Exception {
-        String title = songTitleTxt.getText();
+    public void handleSave(ActionEvent actionEvent) throws Exception {
+        /*String title = songTitleTxt.getText();
         String artist = artistTxt.getText();
         String pathToFile = fileTxt.getText();
 
@@ -66,6 +65,6 @@ public class SongViewController extends BaseController {
         //TODO finish this create song method
 
         model.createSong(title, artist,String.valueOf(length),"TEST", "TEST");
-
+*/
     }
 }

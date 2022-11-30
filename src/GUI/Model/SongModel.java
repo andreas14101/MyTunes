@@ -31,9 +31,9 @@ public class SongModel {
         songsToBeViewed.remove(s);
     }
 
-    public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
+    /*public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         songsToBeViewed.add(musicManager.createSong(title, artist, length, category, pathToFile));
-    }
+    }*/
 
     public ObservableList<Song> filteredSongs(String search) {
         filteredSongs = FXCollections.observableArrayList();
