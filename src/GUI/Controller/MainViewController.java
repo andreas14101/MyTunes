@@ -9,9 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -36,6 +35,7 @@ public class MainViewController extends BaseController implements Initializable 
     public TableColumn songArtistColumn;
     public TableColumn songCategoryColumn;
     public TableColumn songTimeColumn;
+    public Button CloseBtn;
 
     private SongModel musicModel;
 
@@ -95,5 +95,43 @@ public class MainViewController extends BaseController implements Initializable 
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
+    }
+
+    public void handleMovePlaylistUp(ActionEvent actionEvent) {
+    }
+
+    public void handleMovePlaylistDown(ActionEvent actionEvent) {
+    }
+
+    public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
+    }
+
+    public void handleEditPlaylist(ActionEvent actionEvent) {
+    }
+
+    public void handleDeletePlaylist(ActionEvent actionEvent) {
+    }
+
+    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+    }
+
+    public void handleEditSong(ActionEvent actionEvent) {
+    }
+
+    public void handleDeleteSong(ActionEvent actionEvent) throws Exception {
+        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            musicModel.deleteSong(s);
+        }
+
+    }
+
+    public void handleClose(ActionEvent actionEvent) {
+        Stage stage = (Stage) CloseBtn.getScene().getWindow();
+        stage.close();
     }
 }
