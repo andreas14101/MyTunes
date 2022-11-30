@@ -50,6 +50,16 @@ public class SongModel {
         return filteredSongs;
     }
 
+    public void editSong(Song updatedSong) throws Exception {
+        // Call BLL
+        // Update song in DB
+        musicManager.editSong(updatedSong);
+
+        // update Tableview
+        songsToBeViewed.clear();
+        songsToBeViewed.addAll(musicManager.getAllSongs());
+    }
+
     public Song getSelectedSong() {return selectedSong;}
 
     public void setSelectedSong(Song selectedSong) {this.selectedSong = selectedSong;}

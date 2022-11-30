@@ -120,7 +120,9 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
     }
 
-    public void handleEditSong(ActionEvent actionEvent) throws Exception {
+    public void handleEditSong(ActionEvent actionEvent) throws IOException {
+        Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+        musicModel.setSelectedSong(selectedSong);
         musicModel.shouldEditSong();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
