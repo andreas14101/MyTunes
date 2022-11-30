@@ -2,11 +2,13 @@ package BE;
 
 public class Playlist {
 
+    private int id;
     private String title;
     private int numberOfSongs;
-    private int timeLength;
+    private String timeLength;
 
-    public Playlist(String title, int numberOfSongs, int timeLength) {
+    public Playlist(int id, String title, String timeLength, int numberOfSongs) {
+        this.id = id;
         this.title = title;
         this.numberOfSongs = numberOfSongs;
         this.timeLength = timeLength;
@@ -20,7 +22,7 @@ public class Playlist {
         return numberOfSongs;
     }
 
-    public int getTimeLength() {
+    public String getTimeLength() {
         return timeLength;
     }
 
@@ -32,7 +34,7 @@ public class Playlist {
         this.numberOfSongs = numberOfSongs;
     }
 
-    public void setTimeLength(int timeLength) {
+    public void setTimeLength(String timeLength) {
         this.timeLength = timeLength;
     }
 }
