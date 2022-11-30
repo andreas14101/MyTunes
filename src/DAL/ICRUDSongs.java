@@ -7,7 +7,7 @@ import java.util.List;
 public interface ICRUDSongs {
     public List<Song> getAllSongs() throws Exception;
 
-    public Song createSong(String title, String artist, int length, String category);
+    public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception;
 
     public void editUpdateSong(Song song) throws Exception;
 
