@@ -4,7 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.IOException;
 
 public class SongViewController extends BaseController {
 
@@ -21,7 +26,7 @@ public class SongViewController extends BaseController {
     }
 
     @FXML
-    private void handleSave(ActionEvent actionEvent) {
+    private void handleSave(ActionEvent actionEvent) throws UnsupportedAudioFileException, IOException {
 
         String title = songTitleTxt.getText();
         String artist = artistTxt.getText();
@@ -29,6 +34,9 @@ public class SongViewController extends BaseController {
 
         File file = new File(pathToFile);
 
+        AudioFileFormat baseFileFormat = null;
+        baseFileFormat = AudioSystem.getAudioFileFormat(file);
+        int baseFileFormat.getFrameLength();
 
 
     }
