@@ -1,12 +1,8 @@
 package GUI.Controller;
 
 import BE.Song;
-import GUI.Model.MyTunesModel;
 import GUI.Model.SongModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -20,11 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.text.TabExpander;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Time;
 import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
@@ -52,14 +45,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         songsTable.getColumns().addAll();
         songsTable.setItems(musicModel.getObservableSongs());
-
-        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
-
-            @Override
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-            }
-        });
-
 
     }
 
