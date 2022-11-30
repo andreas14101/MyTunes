@@ -20,8 +20,8 @@ public class SongModel {
         return songsToBeViewed;
     }
 
-    public void deleteSong(Song song) throws Exception {
-        musicManager.deleteSong(song);
-        songsToBeViewed.remove(song);
+    public void deleteSong(Song s) throws Exception {
+        musicManager.deleteSong(s);
+        songsToBeViewed.remove(s);
     }
 }

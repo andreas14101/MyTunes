@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController" stylesheets="/GUI/Css/MainView.css" styleClass="background">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -80,9 +80,9 @@
                <children>
                   <TableView fx:id="playlistTable" prefHeight="323.0" prefWidth="179.0">
                     <columns>
-                      <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" text="Name" styleClass="button"/>
-                      <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" text="Songs" styleClass="button"/>
-                        <TableColumn fx:id="playlistTimeColumn" prefWidth="59.99993896484375" text="Time" styleClass="button"/>
+                      <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" styleClass="button" text="Name" />
+                      <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" styleClass="button" text="Songs" />
+                        <TableColumn fx:id="playlistTimeColumn" prefWidth="59.99993896484375" styleClass="button" text="Time" />
                     </columns>
                      <HBox.margin>
                         <Insets />
@@ -117,13 +117,13 @@
          <children>
             <HBox prefHeight="58.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="upArrowBtn" mnemonicParsing="false" text="Up ">
+                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistUp" text="Up ">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="downArrowBtn" mnemonicParsing="false" text="down " />
-                  <Button fx:id="deleteSongFromPlaylistBtn" mnemonicParsing="false" text="Delete">
+                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistDown" text="Down " />
+                  <Button fx:id="deleteSongFromPlaylistBtn" mnemonicParsing="false" onAction="#handleDeleteSongOnPlaylist" text="Delete">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -140,12 +140,12 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="editPlaylistBtn" mnemonicParsing="false" text="Edit playlist">
+                  <Button fx:id="editPlaylistBtn" mnemonicParsing="false" onAction="#handleEditPlaylist" text="Edit playlist">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="deletePlaylistBtn" mnemonicParsing="false" text="Delete playlist">
+                  <Button fx:id="deletePlaylistBtn" mnemonicParsing="false" onAction="#handleDeletePlaylist" text="Delete playlist">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -164,7 +164,7 @@
          <children>
             <HBox prefHeight="24.0" prefWidth="36.0">
                <children>
-                  <Button fx:id="leftArrowBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="38.0" text="left">
+                  <Button fx:id="leftArrowBtn" mnemonicParsing="false" onAction="#handleAddSongToPlaylist" prefHeight="26.0" prefWidth="38.0" text="Left">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -186,10 +186,10 @@
                <children>
                   <TableView fx:id="songsTable" prefHeight="310.0" prefWidth="328.0">
                     <columns>
-                      <TableColumn fx:id="songTitleColumn" prefWidth="113.60000610351562" text="Title" styleClass="button"/>
-                      <TableColumn fx:id="songArtistColumn" prefWidth="94.4000244140625" text="Artist" styleClass="button"/>
-                        <TableColumn fx:id="songCategoryColumn" prefWidth="60.800048828125" text="Category" styleClass="button" />
-                        <TableColumn fx:id="songTimeColumn" prefWidth="59.199951171875" text="Time"  styleClass="button"/>
+                      <TableColumn fx:id="songTitleColumn" prefWidth="113.60000610351562" styleClass="button" text="Title" />
+                      <TableColumn fx:id="songArtistColumn" prefWidth="94.4000244140625" styleClass="button" text="Artist" />
+                        <TableColumn fx:id="songCategoryColumn" prefWidth="60.800048828125" styleClass="button" text="Category" />
+                        <TableColumn fx:id="songTimeColumn" prefWidth="59.199951171875" styleClass="button" text="Time" />
                     </columns>
                   </TableView>
                </children>
@@ -210,21 +210,21 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
                   <Button fx:id="NewSongBtn" mnemonicParsing="false" onAction="#handleNewSong" text="New song" />
-                  <Button fx:id="EditSongBtn" mnemonicParsing="false" text="Edit song">
+                  <Button fx:id="EditSongBtn" mnemonicParsing="false" onAction="#handleEditSong" text="Edit song">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
-            <Button fx:id="deleteSongBtn" mnemonicParsing="false" text="Delete song" GridPane.columnIndex="1">
+            <Button fx:id="deleteSongBtn" mnemonicParsing="false" onAction="#handleDeleteSong" text="Delete song" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </Button>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="CloseBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Close">
+                  <Button fx:id="CloseBtn" mnemonicParsing="false" onAction="#handleClose" prefHeight="26.0" prefWidth="70.0" text="Close">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
