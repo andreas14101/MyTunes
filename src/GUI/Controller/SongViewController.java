@@ -1,32 +1,42 @@
 package GUI.Controller;
-import BE.Song;
-import GUI.Model.SongModel;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
+import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
+    private TextField artistTxt;
+
+    @FXML
     private TextField songTitleTxt;
-    public TextField artistTxt;
-    public ComboBox CategoryCB;
-    public TextField timeTxt;
-    public TextField fileTxt;
+    @FXML
+    private TextField fileTxt;
 
-    private SongModel model;
+
     @Override
-    public void setup()
-    {
+    public void setup() {
+    }
 
-        model = getModel().getSongModel();
+    @FXML
+    private void handleSaveLSH(ActionEvent actionEvent) throws UnsupportedAudioFileException, IOException {
 
-        if(model.shouldEditSong() == true)
-        {
-            songTitleTxt.setText(model.getSelectedSong().getTitle());
-            artistTxt.setText(model.getSelectedSong().getArtist());
-            timeTxt.setText(model.getSelectedSong().getLength());
-            fileTxt.setText(model.getSelectedSong().getFilePath());
-        }
+        String title = songTitleTxt.getText();
+        String artist = artistTxt.getText();
+        String pathToFile = fileTxt.getText();
+
+        File file = new File(pathToFile);
+
+        AudioFileFormat baseFileFormat = null;
+        baseFileFormat = AudioSystem.getAudioFileFormat(file);
+        int length = baseFileFormat.getFrameLength();
+        //TODO finish this create song method
 
     }
     

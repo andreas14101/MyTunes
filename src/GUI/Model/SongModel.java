@@ -5,13 +5,12 @@ import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.function.Predicate;
+
 public class SongModel {
-    private ObservableList<Song> songsToBeViewed;
+    private ObservableList<Song> songsToBeViewed, filteredSongs;
+
     private MusicManager musicManager;
-
-    private Song selectedSong;
-
-    private Boolean shouldEdit = false;
 
     public SongModel() throws Exception {
 
@@ -24,30 +23,26 @@ public class SongModel {
         return songsToBeViewed;
     }
 
-    public void updateSong(Song updatedSong) throws Exception{
-        // Call BLL
-        // Update Song in DB
-        musicManager.updateSong(updatedSong);
-
-        // Update ObservableList
-        songsToBeViewed.clear();
-        songsToBeViewed.addAll(musicManager.getAllSongs());
+    public void deleteSong(Song s) throws Exception {
+        musicManager.deleteSong(s);
+        songsToBeViewed.remove(s);
     }
 
-    public Song getSelectedSong() {return selectedSong;}
+    public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
+        musicManager.createSong(title, artist, length, category, pathToFile);
+    }
+    public ObservableList<Song> filteredSongs(String search) {
+        filteredSongs = FXCollections.observableArrayList();
+        for (int i = 0; i < songsToBeViewed.size(); i++){
+            if(songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)){
+                filteredSongs.add(songsToBeViewed.get(i));
+            } else if (songsToBeViewed.get(i).getArtist().toLowerCase().contains(search)) {
+                filteredSongs.add(songsToBeViewed.get(i));
+            } else if (songsToBeViewed.get(i).getCategory().toLowerCase().contains(search)) {
+                filteredSongs.add(songsToBeViewed.get(i));
+            }
 
-    public void setSelectedSong(Song selectedSong) {this.selectedSong = selectedSong;}
-
-    public Boolean shouldEditSong()
-    {
-        if (shouldEdit == false && selectedSong != null)
-        {
-            shouldEdit = true;
-            return true;
         }
-        else {
-            shouldEdit = false;
-            return false;
-        }
+        return filteredSongs;
     }
 }

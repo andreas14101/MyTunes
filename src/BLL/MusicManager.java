@@ -22,8 +22,12 @@ public class MusicManager {
         return songDAO.getAllSongs();
     }
 
-    public void updateSong(Song updatedSong) throws Exception {
-        songDAO.editUpdateSong(updatedSong);
+    public void deleteSong(Song s) throws Exception {
+        songDAO.deleteSong(s);
+    }
+
+    public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
+        return songDAO.createSong(title, artist, length, category, pathToFile);
     }
 }
 
