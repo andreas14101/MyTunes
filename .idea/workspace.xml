@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="MyDatabaseConnector added">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_11_2022_09_04__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_11_2022_09_04__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/MainView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/PlaylistView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/PlaylistView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/SongView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/SongView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/View/PlaylistView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/PlaylistView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/View/SongView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/SongView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BLL/MusicManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLL/MusicManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAL/MusicDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/MusicDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

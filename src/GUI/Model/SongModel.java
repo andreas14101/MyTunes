@@ -19,4 +19,9 @@ public class SongModel {
     public ObservableList<Song> getObservableSongs() {
         return songsToBeViewed;
     }
+
+    public void deleteSong(Song song) throws Exception {
+        musicManager.deleteSong(song);
+        songsToBeViewed.remove(song);
+    }
 }

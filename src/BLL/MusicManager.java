@@ -21,5 +21,9 @@ public class MusicManager {
     public List<Song> getAllSongs() throws Exception {
         return songDAO.getAllSongs();
     }
+
+    public void deleteSong(Song song) throws Exception {
+        songDAO.deleteSong(song);
+    }
 }
 
