@@ -210,7 +210,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
                   <Button fx:id="NewSongBtn" mnemonicParsing="false" onAction="#handleNewSong" text="New song" />
-                  <Button fx:id="EditSongBtn" mnemonicParsing="false" text="Edit song">
+                  <Button fx:id="EditSongBtn" mnemonicParsing="false" text="Edit song" onAction="#HandleUpdateSong">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

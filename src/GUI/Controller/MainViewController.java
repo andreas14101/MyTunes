@@ -3,6 +3,8 @@ package GUI.Controller;
 import BE.Song;
 import GUI.Model.MyTunesModel;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +53,13 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.getColumns().addAll();
         songsTable.setItems(musicModel.getObservableSongs());
 
+        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+            }
+        });
+
 
     }
 
@@ -66,6 +75,7 @@ public class MainViewController extends BaseController implements Initializable 
         AnchorPane pane = (AnchorPane) loader.load();
 
         SongViewController controller = loader.getController();
+        controller.setModel(super.getModel());
         controller.setup();
 
         // Create the dialog stage
@@ -85,11 +95,32 @@ public class MainViewController extends BaseController implements Initializable 
         AnchorPane pane = (AnchorPane) loader.load();
 
         PlaylistViewController controller = loader.getController();
+        controller.setModel(super.getModel());
         controller.setup();
 
         // Create the dialog stage
         Stage dialogWindow = new Stage();
         dialogWindow.setTitle("New playlist");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node)event.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+        dialogWindow.showAndWait();
+    }
+
+    public void HandleUpdateSong(ActionEvent event) throws IOException {
+        musicModel.shouldEditSong();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
+
+        SongViewController controller = loader.getController();
+        controller.setModel(super.getModel());
+        controller.setup();
+
+        // Create the dialog stage
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("New song");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
         dialogWindow.initOwner(((Node)event.getSource()).getScene().getWindow());
         Scene scene = new Scene(pane);

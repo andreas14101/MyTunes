@@ -119,7 +119,7 @@
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <children>
                   <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" styleClass="button"/>
-                  <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" styleClass="button">
+                  <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" styleClass="button" onAction="">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
