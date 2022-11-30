@@ -170,4 +170,8 @@ public class MainViewController extends BaseController implements Initializable 
             searchBtn.setText("Search");
         }
     }
+
+    public void playSong(ActionEvent actionEvent) {
+        
+    }
 }
