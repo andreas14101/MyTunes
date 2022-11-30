@@ -27,8 +27,8 @@ public class MusicManager {
         return songDAO.getAllSongs();
     }
 
-    public void deleteSong(Song song) throws Exception {
-        songDAO.deleteSong(song);
+    public void deleteSong(Song s) throws Exception {
+        songDAO.deleteSong(s);
     }
 
 }

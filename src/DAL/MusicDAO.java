@@ -115,9 +115,9 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
     }
 
     @Override
-    public void deleteSong(Song song) throws Exception {
-        int id = song.getId();
-        String sql = "DELETE FROM Song WHERE Id = "+ id+";";
+    public void deleteSong(Song s) throws Exception {
+        int id = s.getId();
+        String sql = "DELETE FROM Songs WHERE Id = "+ id+";";
         try (Connection conn = databaseConnector.getConnection()){
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.executeUpdate();
