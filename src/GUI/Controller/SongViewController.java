@@ -32,13 +32,13 @@ public class SongViewController extends BaseController {
     private TextField fileTxt;
 
     private SongModel model;
+
     @Override
     public void setup() {
 
         model = getModel().getSongModel();
 
-        if(model.shouldEditSong() == true)
-        {
+        if (model.shouldEditSong() == true) {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
             artistTxt.setText(model.getSelectedSong().getArtist());
             //fileTxt.setText(model.getSelectedSong().getFilePath());
@@ -60,7 +60,7 @@ public class SongViewController extends BaseController {
         int length = af.getAudioHeader().getTrackLength();
 
         //Sends the info to the model layer.
-        model.createSong(title, artist,String.valueOf(length),"TEST", pathToFile);
+        model.createSong(title, artist, String.valueOf(length), "TEST", pathToFile);
 
         //Closes window
         Stage stage = (Stage) saveBtn.getScene().getWindow();

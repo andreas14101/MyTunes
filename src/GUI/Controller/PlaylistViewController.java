@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class PlaylistViewController extends BaseController{
+public class PlaylistViewController extends BaseController {
 
     private PlaylistModel playlistModel;
     public Button cxlBtn;
@@ -27,16 +27,17 @@ public class PlaylistViewController extends BaseController{
 
     public void handleSave(ActionEvent actionEvent) throws Exception {
 
-        if(playlistModel.shouldEditPlaylist() == false) {
+        if (playlistModel.shouldEditPlaylist() == false) {
             String plname = playlistName.getText();
             playlistModel.createNewPlaylist(plname);
             Stage stage = (Stage) cxlBtn.getScene().getWindow();
             stage.close();
-        }
-        else {String plname = playlistName.getText();
+        } else {
+            String plname = playlistName.getText();
             Playlist pl = playlistModel.getSelectedPlaylist();
             playlistModel.editPlaylist(plname, pl);
             Stage stage = (Stage) cxlBtn.getScene().getWindow();
             stage.close();
-    }}
+        }
+    }
 }

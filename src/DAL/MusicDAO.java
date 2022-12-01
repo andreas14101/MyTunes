@@ -11,9 +11,10 @@ import java.util.List;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 
-public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
+public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
 
     private MyDatabaseConnector databaseConnector;
+
     public MusicDAO() {
         databaseConnector = new MyDatabaseConnector();
     }
@@ -42,14 +43,12 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
                 int numSongs = rs.getInt("numSongs");
 
 
-
                 Playlist pl = new Playlist(id, title, timeOutput, numSongs);
                 allPlaylists.add(pl);
             }
             return allPlaylists;
 
-        }
-        catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception("Could not get playlists from database");
 
@@ -76,16 +75,15 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
-            if(rs.next()){
+            if (rs.next()) {
                 id = rs.getInt(1);
 
-        }
-        }
-            catch (SQLException ex) {
-                ex.printStackTrace();
-                throw new Exception("Could not create playlist" + ex);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not create playlist" + ex);
 
-    }
+        }
         return new Playlist(id, Title, time, numSongs);
     }
 
@@ -103,8 +101,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             ps.setString(1, Title);
             ps.executeUpdate();
 
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception("Could not update playlist" + ex);
 
@@ -116,8 +113,8 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
     @Override
     public void deletePlaylist(Playlist playlist) throws Exception {
         int id = playlist.getId();
-        String sql = "DELETE FROM Playlists WHERE Id = "+ id+";";
-        try (Connection conn = databaseConnector.getConnection()){
+        String sql = "DELETE FROM Playlists WHERE Id = " + id + ";";
+        try (Connection conn = databaseConnector.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.executeUpdate();
         }
@@ -152,10 +149,9 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             }
             return allSongs;
 
-        }
-        catch (SQLException ex){
-        ex.printStackTrace();
-        throw new Exception("Could not get songs from database");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not get songs from database");
         }
     }
 
@@ -167,21 +163,21 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
         //Establish connection with a try with resources, and creating prepared statement.
         try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS)){
+             PreparedStatement stmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS)) {
 
             //Bind parameters to the SQL statement.
-            stmt.setString(1,artist);
-            stmt.setString(2,title);
-            stmt.setString(3,category);
-            stmt.setInt(4,Integer.parseInt(length));
-            stmt.setString(5,pathToFile);
+            stmt.setString(1, artist);
+            stmt.setString(2, title);
+            stmt.setString(3, category);
+            stmt.setInt(4, Integer.parseInt(length));
+            stmt.setString(5, pathToFile);
 
             //Run statement on DB.
             stmt.executeUpdate();
 
             //Get the new ID from DB.
             ResultSet rs = stmt.getGeneratedKeys();
-            if(rs.next()){
+            if (rs.next()) {
                 id = rs.getInt(1);
             }
 
@@ -196,12 +192,12 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
         String outDuration = duration.toMinutesPart() + ":" + duration.toSecondsPart();
 
         //Generating and returning the new song.
-        return new Song(id,title,artist,outDuration,category,pathToFile);
+        return new Song(id, title, artist, outDuration, category, pathToFile);
     }
 
     @Override
     public void editUpdateSong(Song song) throws Exception {
-        try(Connection conn = databaseConnector.getConnection()){
+        try (Connection conn = databaseConnector.getConnection()) {
             String sql = "UPDATE Songs SET Title=?, Artist=?, Category=?, PathToFile=? WHERE Id=?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -212,8 +208,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             stmt.setString(4, song.getFilePath());
 
             stmt.executeUpdate();
-        }
-        catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception("could not update song", ex);
         }
@@ -223,8 +218,8 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
     @Override
     public void deleteSong(Song s) throws Exception {
         int id = s.getId();
-        String sql = "DELETE FROM Songs WHERE Id = "+ id+";";
-        try (Connection conn = databaseConnector.getConnection()){
+        String sql = "DELETE FROM Songs WHERE Id = " + id + ";";
+        try (Connection conn = databaseConnector.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.executeUpdate();
         }

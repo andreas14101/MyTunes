@@ -50,18 +50,19 @@ public class SongModel {
         return filteredSongs;
     }
 
-    public Song getSelectedSong() {return selectedSong;}
+    public Song getSelectedSong() {
+        return selectedSong;
+    }
 
-    public void setSelectedSong(Song selectedSong) {this.selectedSong = selectedSong;}
+    public void setSelectedSong(Song selectedSong) {
+        this.selectedSong = selectedSong;
+    }
 
-    public Boolean shouldEditSong()
-    {
-        if (shouldEdit == false && selectedSong != null)
-        {
+    public Boolean shouldEditSong() {
+        if (shouldEdit == false && selectedSong != null) {
             shouldEdit = true;
             return true;
-        }
-        else {
+        } else {
             shouldEdit = false;
             return false;
         }

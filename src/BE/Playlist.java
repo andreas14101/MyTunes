@@ -40,6 +40,8 @@ public class Playlist {
         this.timeLength = timeLength;
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
 }

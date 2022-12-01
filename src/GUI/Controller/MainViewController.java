@@ -73,7 +73,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
-        public void updatePLList(){
+    public void updatePLList() {
         playlistTable.getColumns().removeAll();
 
         playlistTable.getColumns().addAll();
@@ -85,8 +85,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
-    public void handleNewSong(ActionEvent event) throws IOException
-    {
+    public void handleNewSong(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
@@ -99,14 +98,14 @@ public class MainViewController extends BaseController implements Initializable 
         Stage dialogWindow = new Stage();
         dialogWindow.setTitle("New song");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node)event.getSource()).getScene().getWindow());
+        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
     }
 
 
-    public void handleNewPlaylist(ActionEvent event)  throws  IOException{
+    public void handleNewPlaylist(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
@@ -119,7 +118,7 @@ public class MainViewController extends BaseController implements Initializable 
         Stage dialogWindow = new Stage();
         dialogWindow.setTitle("New playlist");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node)event.getSource()).getScene().getWindow());
+        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
@@ -138,7 +137,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
         Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-        if (selectedPlaylist != null){
+        if (selectedPlaylist != null) {
             playlistModel.setSelectedPlaylist(selectedPlaylist);
         }
 
@@ -154,7 +153,7 @@ public class MainViewController extends BaseController implements Initializable 
         Stage dialogWindow = new Stage();
         dialogWindow.setTitle("New playlist");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
@@ -190,7 +189,7 @@ public class MainViewController extends BaseController implements Initializable 
         Stage dialogWindow = new Stage();
         dialogWindow.setTitle("New song");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
@@ -214,8 +213,8 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void handleSearch(ActionEvent actionEvent) {
-        if(searchBtn.getText().equals("Search")){
-            if(filterSearch.getText() != null){
+        if (searchBtn.getText().equals("Search")) {
+            if (filterSearch.getText() != null) {
                 String search = filterSearch.getText().toLowerCase();
                 songsTable.setItems(musicModel.filteredSongs(search));
             }

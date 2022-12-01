@@ -14,6 +14,7 @@ public class PlaylistModel {
 
     private MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
+
     public PlaylistModel() throws Exception {
 
         musicManager = new MusicManager();
@@ -33,6 +34,7 @@ public class PlaylistModel {
     public void createNewPlaylist(String plname) throws Exception {
         playlistsToBeViewed.add(musicManager.createPlaylist(plname));
     }
+
     public Playlist getSelectedPlaylist() {
         return selectedPlaylist;
     }
@@ -41,13 +43,10 @@ public class PlaylistModel {
         this.selectedPlaylist = selectedPlaylist;
     }
 
-    public Boolean shouldEditPlaylist()
-    {
-        if (shouldEdit == false && selectedPlaylist != null)
-        {
+    public Boolean shouldEditPlaylist() {
+        if (shouldEdit == false && selectedPlaylist != null) {
             shouldEdit = true;
-        }
-        else {
+        } else {
             shouldEdit = false;
         }
         return shouldEdit;
@@ -56,7 +55,6 @@ public class PlaylistModel {
     public void editPlaylist(String plname, Playlist pl) throws Exception {
         playlistsToBeViewed.add(musicManager.editPlaylist(plname, pl));
         playlistsToBeViewed.remove(selectedPlaylist);
-
 
 
     }
