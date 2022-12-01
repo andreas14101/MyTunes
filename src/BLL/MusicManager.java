@@ -5,15 +5,15 @@ import BE.Song;
 import DAL.ICRUDPlaylist;
 import DAL.ICRUDSongs;
 import DAL.MusicDAO;
-import jdk.jfr.Timespan;
 
-import java.time.Duration;
 import java.util.List;
 
 public class MusicManager {
 
     private ICRUDSongs songDAO;
     private ICRUDPlaylist playlistDAO;
+
+    private Playlist selectedPlaylist;
 
     public MusicManager() {
         songDAO = new MusicDAO();
@@ -41,8 +41,12 @@ public class MusicManager {
     }
 
     public Playlist createPlaylist(String plname) throws Exception {
-        Playlist pl = new Playlist(0,plname,"0",0);
-        return playlistDAO.createNewPlaylist(pl);
+        return playlistDAO.createNewPlaylist(plname);
+    }
+
+    public Playlist editPlaylist(String plname, Playlist playlist) throws Exception {
+
+        return playlistDAO.editUpdatePlaylist(plname, playlist);
     }
 }
 

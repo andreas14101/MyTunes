@@ -57,9 +57,10 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
     }
 
     @Override
-    public Playlist createNewPlaylist(Playlist playlist) throws Exception {
+    public Playlist createNewPlaylist(String plname) throws Exception {
+
         String sql = "INSERT INTO Playlists(Title, Time, numSongs) VALUES (?,?,?);";
-        String Title = playlist.getTitle();
+        String Title = plname;
         int id = 0;
         int numSongs = 0;
         String time = "0";
@@ -89,7 +90,26 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
     }
 
     @Override
-    public void editUpdatePlaylist(Playlist playlist) throws Exception {
+    public Playlist editUpdatePlaylist(String plname, Playlist playlist) throws Exception {
+
+
+        String Title = plname;
+        int id = playlist.getId();
+        String sql = "UPDATE Playlists SET Title = (?) WHERE Id =" + id + ";";
+
+        try (Connection conn = databaseConnector.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, Title);
+            ps.executeUpdate();
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not update playlist" + ex);
+
+        }
+        return new Playlist(id, Title, playlist.getTimeLength(), playlist.getNumberOfSongs());
 
     }
 

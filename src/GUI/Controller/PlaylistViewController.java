@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.Playlist;
 import GUI.Model.PlaylistModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ public class PlaylistViewController extends BaseController{
     @Override
     public void setup() {
         playlistModel = getModel().getPlaylistModel();
+        playlistName.setText(playlistModel.getSelectedPlaylist().getTitle());
     }
 
     public void handleCancel(ActionEvent actionEvent) {
@@ -24,10 +26,17 @@ public class PlaylistViewController extends BaseController{
     }
 
     public void handleSave(ActionEvent actionEvent) throws Exception {
-        String plname = playlistName.getText();
-        playlistModel.createNewPlaylist(plname);
-        Stage stage = (Stage) cxlBtn.getScene().getWindow();
-        stage.close();
 
-    }
+        if(playlistModel.shouldEditPlaylist() == false) {
+            String plname = playlistName.getText();
+            playlistModel.createNewPlaylist(plname);
+            Stage stage = (Stage) cxlBtn.getScene().getWindow();
+            stage.close();
+        }
+        else {String plname = playlistName.getText();
+            Playlist pl = playlistModel.getSelectedPlaylist();
+            playlistModel.editPlaylist(plname, pl);
+            Stage stage = (Stage) cxlBtn.getScene().getWindow();
+            stage.close();
+    }}
 }

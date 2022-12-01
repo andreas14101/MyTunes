@@ -8,6 +8,10 @@ import javafx.collections.ObservableList;
 
 public class PlaylistModel {
 
+
+    private Playlist selectedPlaylist;
+    private boolean shouldEdit = false;
+
     private MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
     public PlaylistModel() throws Exception {
@@ -29,4 +33,32 @@ public class PlaylistModel {
     public void createNewPlaylist(String plname) throws Exception {
         playlistsToBeViewed.add(musicManager.createPlaylist(plname));
     }
+    public Playlist getSelectedPlaylist() {
+        return selectedPlaylist;
+    }
+
+    public void setSelectedPlaylist(Playlist selectedPlaylist) {
+        this.selectedPlaylist = selectedPlaylist;
+    }
+
+    public Boolean shouldEditPlaylist()
+    {
+        if (shouldEdit == false && selectedPlaylist != null)
+        {
+            shouldEdit = true;
+        }
+        else {
+            shouldEdit = false;
+        }
+        return shouldEdit;
+    }
+
+    public void editPlaylist(String plname, Playlist pl) throws Exception {
+        playlistsToBeViewed.add(musicManager.editPlaylist(plname, pl));
+        playlistsToBeViewed.remove(selectedPlaylist);
+
+
+
+    }
+
 }

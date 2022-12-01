@@ -48,6 +48,7 @@ public class MainViewController extends BaseController implements Initializable 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
 
+
     @Override
     public void setup() {
         musicModel = getModel().getSongModel();
@@ -135,7 +136,30 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
     }
 
-    public void handleEditPlaylist(ActionEvent actionEvent) {
+    public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
+        Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+        if (selectedPlaylist != null){
+            playlistModel.setSelectedPlaylist(selectedPlaylist);
+        }
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
+
+        PlaylistViewController controller = loader.getController();
+        controller.setModel(super.getModel());
+        controller.setup();
+
+        // Create the dialog stage
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("New playlist");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+        dialogWindow.showAndWait();
+
+        //return selectedPlaylist;
     }
 
     public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
