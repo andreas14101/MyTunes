@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="MyDatabaseConnector added">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-11-2022_08_10__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-11-2022_08_10__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_11_2022_09_04__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_11_2022_09_04__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSongs/finalCountDown.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/DataSongs/ZfinalCountDown.mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Controller/MainViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Controller/MainViewController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/View/MainView.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
@@ -52,6 +51,11 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\aneho\OneDrive - Erhvervsakademi Sydvest\Github\MyTunes\DataSongs" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.Main" />
