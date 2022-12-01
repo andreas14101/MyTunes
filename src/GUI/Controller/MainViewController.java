@@ -72,6 +72,13 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
+        public void updatePLList(){
+        playlistTable.getColumns().removeAll();
+
+        playlistTable.getColumns().addAll();
+        playlistTable.setItems(playlistModel.getObservablePlaylists());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -115,6 +122,8 @@ public class MainViewController extends BaseController implements Initializable 
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
+
+
     }
 
     public void handleMovePlaylistUp(ActionEvent actionEvent) {

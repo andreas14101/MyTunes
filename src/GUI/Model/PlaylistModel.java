@@ -27,6 +27,6 @@ public class PlaylistModel {
     }
 
     public void createNewPlaylist(String plname) throws Exception {
-        musicManager.createPlaylist(plname);
+        playlistsToBeViewed.add(musicManager.createPlaylist(plname));
     }
 }

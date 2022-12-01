@@ -40,9 +40,9 @@ public class MusicManager {
         playlistDAO.deletePlaylist(pl);
     }
 
-    public void createPlaylist(String plname) throws Exception {
+    public Playlist createPlaylist(String plname) throws Exception {
         Playlist pl = new Playlist(0,plname,"0",0);
-        playlistDAO.createNewPlaylist(pl);
+        return playlistDAO.createNewPlaylist(pl);
     }
 }
 

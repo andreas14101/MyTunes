@@ -12,9 +12,10 @@ public class PlaylistViewController extends BaseController{
     public Button cxlBtn;
     public TextField playlistName;
 
+
     @Override
     public void setup() {
-
+        playlistModel = getModel().getPlaylistModel();
     }
 
     public void handleCancel(ActionEvent actionEvent) {
@@ -25,5 +26,8 @@ public class PlaylistViewController extends BaseController{
     public void handleSave(ActionEvent actionEvent) throws Exception {
         String plname = playlistName.getText();
         playlistModel.createNewPlaylist(plname);
+        Stage stage = (Stage) cxlBtn.getScene().getWindow();
+        stage.close();
+
     }
 }
