@@ -45,10 +45,10 @@ public class SongViewController extends BaseController {
         }
     }
 
+
     //Handles the Save button in the new song window.
     @FXML
-    private void handleSave(ActionEvent actionEvent) throws Exception {
-        //Gets user inputs
+    public void handleSave(ActionEvent actionEvent) throws Exception {
         String title = songTitleTxt.getText();
         String artist = artistTxt.getText();
         String pathToFile = fileTxt.getText();
@@ -62,9 +62,9 @@ public class SongViewController extends BaseController {
         //Sends the info to the model layer.
         model.createSong(title, artist,String.valueOf(length),"TEST", pathToFile);
 
+        //Closes window
         Stage stage = (Stage) saveBtn.getScene().getWindow();
         stage.close();
-
     }
 
     @FXML

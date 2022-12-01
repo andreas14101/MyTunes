@@ -1,7 +1,9 @@
 package GUI.Controller;
 
+import BE.Playlist;
 import BE.Song;
 import GUI.Model.MyTunesModel;
+import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,8 +41,12 @@ public class MainViewController extends BaseController implements Initializable 
     public TableColumn songTimeColumn;
     public Button CloseBtn;
     public Button searchBtn;
+    public TableColumn playlistNameColumn;
+    public TableColumn playlistSongsAmountColumn;
+    public TableColumn playlistTimeColumn;
 
     private SongModel musicModel;
+    private PlaylistModel playlistModel;
 
     @Override
     public void setup() {
@@ -54,7 +60,23 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.getColumns().addAll();
         songsTable.setItems(musicModel.getObservableSongs());
 
+        playlistModel = getModel().getPlaylistModel();
 
+        playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
+        playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
+
+
+        playlistTable.getColumns().addAll();
+        playlistTable.setItems(playlistModel.getObservablePlaylists());
+
+    }
+
+        public void updatePLList(){
+        playlistTable.getColumns().removeAll();
+
+        playlistTable.getColumns().addAll();
+        playlistTable.setItems(playlistModel.getObservablePlaylists());
     }
 
     @Override
@@ -100,6 +122,8 @@ public class MainViewController extends BaseController implements Initializable 
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
+
+
     }
 
     public void handleMovePlaylistUp(ActionEvent actionEvent) {
@@ -114,7 +138,15 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleEditPlaylist(ActionEvent actionEvent) {
     }
 
-    public void handleDeletePlaylist(ActionEvent actionEvent) {
+    public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
+        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            playlistModel.deletePlaylist(pl);
+        }
     }
 
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {

@@ -1,5 +1,6 @@
 package BLL;
 
+import BE.Playlist;
 import BE.Song;
 import DAL.ICRUDPlaylist;
 import DAL.ICRUDSongs;
@@ -18,6 +19,7 @@ public class MusicManager {
         songDAO = new MusicDAO();
         playlistDAO = new MusicDAO();
     }
+
     public List<Song> getAllSongs() throws Exception {
         return songDAO.getAllSongs();
     }
@@ -28,6 +30,19 @@ public class MusicManager {
 
     public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         return songDAO.createSong(title, artist, length, category, pathToFile);
+    }
+
+    public List<Playlist> getAllPlaylists() throws Exception {
+        return playlistDAO.getAllPlaylists();
+    }
+
+    public void deletePlaylist(Playlist pl) throws Exception {
+        playlistDAO.deletePlaylist(pl);
+    }
+
+    public Playlist createPlaylist(String plname) throws Exception {
+        Playlist pl = new Playlist(0,plname,"0",0);
+        return playlistDAO.createNewPlaylist(pl);
     }
 }
 

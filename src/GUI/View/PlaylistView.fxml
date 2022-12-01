@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="328.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PlaylistViewController" styleClass="background" stylesheets="/GUI/Css/PlaylistView.css">
+<AnchorPane prefHeight="328.0" prefWidth="510.0" styleClass="background" stylesheets="/GUI/Css/PlaylistView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PlaylistViewController">
    <children>
       <GridPane layoutX="31.0" layoutY="58.0" prefHeight="244.0" prefWidth="460.0">
         <columnConstraints>
@@ -30,14 +29,14 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="PLAYLISTNAMETXT" alignment="CENTER" prefHeight="31.0" prefWidth="223.0" />
+                  <TextField fx:id="playlistName" alignment="CENTER" prefHeight="31.0" prefWidth="223.0" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
             <HBox alignment="BOTTOM_RIGHT" prefHeight="136.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="CANCELBtn" mnemonicParsing="false" text="Cancel" />
-                  <Button fx:id="SAVEBTN" mnemonicParsing="false" text="Save">
+                  <Button fx:id="cxlBtn" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSave" text="Save">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

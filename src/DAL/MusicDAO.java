@@ -8,6 +8,9 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
+
+
 public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     private MyDatabaseConnector databaseConnector;
@@ -18,12 +21,71 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     @Override
     public List<Playlist> getAllPlaylists() throws Exception {
-        return null;
+        //Make a list called allPlaylists
+        ArrayList<Playlist> allPlaylists = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "SELECT * FROM Playlists;";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //Loop through rows from the database result set
+            while (rs.next()) {
+                //Map DB row to Song Object
+                int id = rs.getInt("Id");
+                String title = rs.getString("Title");
+                Duration time = Duration.ofSeconds(rs.getInt("Time"));
+                String timeOutput = time.toMinutesPart() + ":" + time.toSecondsPart();
+                int numSongs = rs.getInt("numSongs");
+
+
+
+                Playlist pl = new Playlist(id, title, timeOutput, numSongs);
+                allPlaylists.add(pl);
+            }
+            return allPlaylists;
+
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+            throw new Exception("Could not get playlists from database");
+
+        }
     }
 
     @Override
     public Playlist createNewPlaylist(Playlist playlist) throws Exception {
-        return null;
+        String sql = "INSERT INTO Playlists(Title, Time, numSongs) VALUES (?,?,?);";
+        String Title = playlist.getTitle();
+        int id = 0;
+        int numSongs = 0;
+        String time = "0";
+        try (Connection conn = databaseConnector.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
+
+            ps.setString(1, Title);
+            ps.setString(2, time);
+            ps.setInt(3, numSongs);
+
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                id = rs.getInt(1);
+
+        }
+        }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+                throw new Exception("Could not create playlist" + ex);
+
+    }
+        return new Playlist(id, Title, time, numSongs);
     }
 
     @Override
@@ -33,7 +95,12 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     @Override
     public void deletePlaylist(Playlist playlist) throws Exception {
-
+        int id = playlist.getId();
+        String sql = "DELETE FROM Playlists WHERE Id = "+ id+";";
+        try (Connection conn = databaseConnector.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        }
     }
 
     @Override
@@ -80,7 +147,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
         //Establish connection with a try with resources, and creating prepared statement.
         try (Connection conn = databaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+             PreparedStatement stmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS)){
 
             //Bind parameters to the SQL statement.
             stmt.setString(1,artist);
