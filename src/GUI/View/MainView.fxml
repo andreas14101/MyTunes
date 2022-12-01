@@ -52,7 +52,7 @@
                         <Insets left="20.0" top="15.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Slider fx:id="volumeSlider" prefHeight="64.0" prefWidth="108.0">
+                  <Slider fx:id="volumeSlider" prefHeight="64.0" prefWidth="108.0" max="100.0" value="50.0" >
                      <HBox.margin>
                         <Insets top="15.0" />
                      </HBox.margin>
