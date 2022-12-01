@@ -56,15 +56,6 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label styleClass="label" text="Time:">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-               <children>
                   <Label styleClass="label" text="File:">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -72,6 +63,7 @@
                   </Label>
                </children>
             </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
@@ -103,22 +95,21 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="timeTxt" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-               <children>
-                  <TextField fx:id="fileTxt" prefHeight="26.0" prefWidth="359.0" />
-                  <Button fx:id="chooseFileBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="67.0" styleClass="button" text="Choose File">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="fileTxt" prefHeight="26.0" prefWidth="359.0" />
+                        <Button fx:id="chooseFileBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="41.0" styleClass="button" text="Choose File">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="cancelBtn" mnemonicParsing="false" styleClass="button" text="Cancel" />
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#handleCancel" styleClass="button" text="Cancel" />
                   <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSave" styleClass="button" text="Save">
                      <HBox.margin>
                         <Insets left="10.0" />
