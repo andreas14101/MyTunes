@@ -75,7 +75,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
     @Override
     public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         //SQL Statement and initializing id variable.
-        String sql = "INSERT INTO Songs (Artist, Title, Category, Time, pathToFile) VALUES ?,?,?,?,?";
+        String sql = "INSERT INTO Songs (Artist, Title, Category, Time, pathToFile) VALUES (?,?,?,?,?)";
         int id = 0;
 
         //Establish connection with a try with resources, and creating prepared statement.
@@ -103,8 +103,13 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
             throw new Exception("Could not create movie" + ex);
         }
 
+        //Changes the given seconds and changes it into duration and then to a readable String, in the format we want.
+        int intDuration = Integer.parseInt(length);
+        Duration duration = Duration.ofSeconds(intDuration);
+        String outDuration = duration.toMinutesPart() + ":" + duration.toSecondsPart();
+
         //Generating and returning the new song.
-        return new Song(id,title,artist,length,category,pathToFile);
+        return new Song(id,title,artist,outDuration,category,pathToFile);
     }
 
     @Override
