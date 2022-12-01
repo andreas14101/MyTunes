@@ -4,6 +4,8 @@ public class Playlist {
 
     private int id;
     private String title;
+
+
     private int numberOfSongs;
     private String timeLength;
 
@@ -37,4 +39,7 @@ public class Playlist {
     public void setTimeLength(String timeLength) {
         this.timeLength = timeLength;
     }
+
+    public int getId() { return id; }
+
 }

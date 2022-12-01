@@ -20,4 +20,13 @@ public class PlaylistModel {
     public ObservableList<Playlist> getObservablePlaylists() {
         return playlistsToBeViewed;
     }
+
+    public void deletePlaylist(Playlist pl) throws Exception {
+        playlistsToBeViewed.remove(pl);
+        musicManager.deletePlaylist(pl);
+    }
+
+    public void createNewPlaylist(String plname) throws Exception {
+        musicManager.createPlaylist(plname);
+    }
 }

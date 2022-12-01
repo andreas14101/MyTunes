@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.Playlist;
 import BE.Song;
 import GUI.Model.MyTunesModel;
 import GUI.Model.PlaylistModel;
@@ -128,7 +129,15 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleEditPlaylist(ActionEvent actionEvent) {
     }
 
-    public void handleDeletePlaylist(ActionEvent actionEvent) {
+    public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
+        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            playlistModel.deletePlaylist(pl);
+        }
     }
 
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {

@@ -49,12 +49,18 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
         catch (SQLException ex){
             ex.printStackTrace();
             throw new Exception("Could not get playlists from database");
+
         }
     }
 
     @Override
     public Playlist createNewPlaylist(Playlist playlist) throws Exception {
-        return null;
+      /**  try (Connection conn = databaseConnector.getConnection()) {
+            String sql = "SELECT * FROM Playlists;";
+            PreparedStatement stmt =
+            ResultSet rs = stmt.executeQuery(sql);
+        } */
+      return null;
     }
 
     @Override
@@ -64,7 +70,12 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs{
 
     @Override
     public void deletePlaylist(Playlist playlist) throws Exception {
-
+        int id = playlist.getId();
+        String sql = "DELETE FROM Playlists WHERE Id = "+ id+";";
+        try (Connection conn = databaseConnector.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        }
     }
 
     @Override
