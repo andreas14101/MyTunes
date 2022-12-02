@@ -84,7 +84,6 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-
     }
 
     private void updateSongsInPlaylist() {
@@ -124,10 +123,15 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /**boolean isPlaying = false;
+         boolean isPlaying = false;
          songs = new ArrayList<File>();
-         directory = new File("DataSongs");
-         files = directory.listFiles();  //stores files in directory
+
+        //ToDo here needs to be a kind og getFilePath på selected song
+        String filepath = songs.get(0).getPath();
+        directory = new File(filepath);
+        //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
+
+        files = directory.listFiles();  //stores files in directory
 
          if (files != null) {
          for (File file : files) {
@@ -154,7 +158,6 @@ public class MainViewController extends BaseController implements Initializable 
 
          //Display the song on the label
          currentSongPlaying.setText(songs.get(songNumber).getName());
-         */
     }
 
     public void handleNewSong(ActionEvent event) throws IOException {
