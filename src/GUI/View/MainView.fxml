@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -28,17 +28,17 @@
          <children>
             <HBox prefHeight="254.0" prefWidth="242.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="backBtn" blendMode="SRC_ATOP" mnemonicParsing="false" text="back">
+                  <Button fx:id="backBtn" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#previosOrRestartSong" text="back">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="playBtn" mnemonicParsing="false" text="play">
+                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playSong" text="play">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="forwardBtn" mnemonicParsing="false" text="forward">
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" onAction="#nextSong" text="forward">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
@@ -52,7 +52,7 @@
                         <Insets left="20.0" top="15.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Slider fx:id="volumeSlider" prefHeight="64.0" prefWidth="108.0">
+                  <Slider fx:id="volumeSlider" max="100.0" prefHeight="64.0" prefWidth="108.0" value="50.0">
                      <HBox.margin>
                         <Insets top="15.0" />
                      </HBox.margin>
@@ -253,7 +253,7 @@
             </HBox>
             <HBox prefHeight="43.0" prefWidth="197.0" GridPane.rowIndex="1">
                <children>
-                  <Slider fx:id="timeSlider" prefHeight="14.0" prefWidth="211.0" />
+                  <Slider fx:id="timeSlider" max="100.0" onMouseDragReleased="#timeChanged" prefHeight="14.0" prefWidth="211.0" />
                </children>
             </HBox>
          </children>

@@ -31,9 +31,9 @@ public class SongModel {
         songsToBeViewed.remove(s);
     }
 
-    /*public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
+    public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         songsToBeViewed.add(musicManager.createSong(title, artist, length, category, pathToFile));
-    }*/
+    }
 
     public ObservableList<Song> filteredSongs(String search) {
         filteredSongs = FXCollections.observableArrayList();
@@ -50,28 +50,19 @@ public class SongModel {
         return filteredSongs;
     }
 
-    public void editSong(Song updatedSong) throws Exception {
-        // Call BLL
-        // Update song in DB
-        musicManager.editSong(updatedSong);
-
-        // update Tableview
-        songsToBeViewed.clear();
-        songsToBeViewed.addAll(musicManager.getAllSongs());
+    public Song getSelectedSong() {
+        return selectedSong;
     }
 
-    public Song getSelectedSong() {return selectedSong;}
+    public void setSelectedSong(Song selectedSong) {
+        this.selectedSong = selectedSong;
+    }
 
-    public void setSelectedSong(Song selectedSong) {this.selectedSong = selectedSong;}
-
-    public Boolean shouldEditSong()
-    {
-        if (shouldEdit == false && selectedSong != null)
-        {
+    public Boolean shouldEditSong() {
+        if (shouldEdit == false && selectedSong != null) {
             shouldEdit = true;
             return true;
-        }
-        else {
+        } else {
             shouldEdit = false;
             return false;
         }
