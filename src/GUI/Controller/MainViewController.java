@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -113,7 +114,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      boolean isPlaying = false;
+     /* boolean isPlaying = false;
         songs = new ArrayList<File>();
         directory = new File("DataSongs");
         files = directory.listFiles();  //stores files in directory
@@ -145,7 +146,7 @@ public class MainViewController extends BaseController implements Initializable 
 
         //Display the song on the label
         currentSongPlaying.setText(songs.get(songNumber).getName());
-
+    */
     }
 
     public void handleNewSong(ActionEvent event) throws IOException {
@@ -403,5 +404,8 @@ public class MainViewController extends BaseController implements Initializable 
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void handlePlaylistUpdate(MouseEvent mouseEvent) {
     }
 }
