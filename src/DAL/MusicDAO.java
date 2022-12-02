@@ -228,7 +228,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
     }
 
     @Override
-    public ObservableList<Category> getAllCategories() throws Exception {
+    public List<Category> getAllCategories() throws Exception {
         //Make a list to return
         ArrayList<Category> allCategories = new ArrayList<>();
 
@@ -249,7 +249,6 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
                 Category category = new Category(id, name);
                 allCategories.add(category);
             }
-            System.out.println("Categories in DAO" + allCategories);
             return allCategories;
 
         } catch (SQLException ex) {

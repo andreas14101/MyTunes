@@ -49,7 +49,6 @@ public class SongViewController extends BaseController {
             //System.out.println("Categories in view: " + model.getObservableCategories());
             //categoryCB.setItems(model.getObservableCategories());
             test = model.getObservableCategories();
-            System.out.println(test);
             categoryCB.setItems(test);
 
         } catch (Exception e){
@@ -62,6 +61,8 @@ public class SongViewController extends BaseController {
     public void handleSave(ActionEvent actionEvent) throws Exception {
         String title = songTitleTxt.getText();
         String artist = artistTxt.getText();
+        String category = categoryCB.getValue().toString();
+        System.out.println(category);
         String pathToFile = fileTxt.getText();
 
         //Takes the duration of the file given, and maps it to an int in seconds,
@@ -71,7 +72,7 @@ public class SongViewController extends BaseController {
         int length = af.getAudioHeader().getTrackLength();
 
         //Sends the info to the model layer.
-        model.createSong(title, artist, String.valueOf(length), "TEST", pathToFile);
+        model.createSong(title, artist, String.valueOf(length), category, pathToFile);
 
         //Closes window
         Stage stage = (Stage) saveBtn.getScene().getWindow();

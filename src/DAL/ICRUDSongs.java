@@ -14,7 +14,7 @@ public interface ICRUDSongs {
 
     public void deleteSong(Song song) throws Exception;
 
-    public ObservableList<Category> getAllCategories() throws Exception;
+    public List<Category> getAllCategories() throws Exception;
 
     public Category createCategory(String name) throws Exception;
 

@@ -50,7 +50,7 @@ public class MusicManager {
         return playlistDAO.editUpdatePlaylist(plname, playlist);
     }
 
-    public ObservableList<Category> getAllCategories() throws Exception {
+    public List<Category> getAllCategories() throws Exception {
         return songDAO.getAllCategories();
     }
 
