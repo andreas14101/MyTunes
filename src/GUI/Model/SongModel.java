@@ -1,20 +1,18 @@
 package GUI.Model;
 
-import BE.Category;
 import BE.Song;
 import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.function.Predicate;
+
 public class SongModel {
     private ObservableList<Song> songsToBeViewed, filteredSongs;
-    private ObservableList<Category> categoriesToBeViewed;
 
     private MusicManager musicManager;
 
     private Song selectedSong;
-
-    private Category selectedCategory;
 
     private boolean shouldEdit = false;
 
@@ -23,17 +21,10 @@ public class SongModel {
         musicManager = new MusicManager();
         songsToBeViewed = FXCollections.observableArrayList();
         songsToBeViewed.addAll(musicManager.getAllSongs());
-        categoriesToBeViewed = FXCollections.observableArrayList();
-        categoriesToBeViewed.addAll(musicManager.getAllCategories());
-
     }
 
     public ObservableList<Song> getObservableSongs() {
         return songsToBeViewed;
-    }
-
-    public ObservableList<Category> getObservableCategories() throws Exception {
-        return categoriesToBeViewed;
     }
 
     public void deleteSong(Song s) throws Exception {
@@ -43,10 +34,6 @@ public class SongModel {
 
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         songsToBeViewed.add(musicManager.createSong(title, artist, length, category, pathToFile));
-    }
-
-    public void createCategory(String name) throws Exception {
-        categoriesToBeViewed.add(musicManager.createCategory(name));
     }
 
     public ObservableList<Song> filteredSongs(String search) {
@@ -64,12 +51,17 @@ public class SongModel {
         return filteredSongs;
     }
 
+    public void songUpdate(Song updatedSong) throws Exception {
+        // Call BLL
+        // Update song in DB
+        musicManager.editSong(updatedSong);
+
+        // update TableView
+        songsToBeViewed.clear();
+        songsToBeViewed.addAll(musicManager.getAllSongs());
+    }
     public Song getSelectedSong() {
         return selectedSong;
-    }
-
-    public Category getSelectedCategory(){
-        return selectedCategory;
     }
 
     public void setSelectedSong(Song selectedSong) {
@@ -77,20 +69,12 @@ public class SongModel {
     }
 
     public Boolean shouldEditSong() {
-        if (shouldEdit == false && selectedSong != null) {
+
+        if (!shouldEdit && selectedSong != null) {
             shouldEdit = true;
-            return true;
         } else {
             shouldEdit = false;
-            return false;
         }
-    }
-
-    public void addSongToPlaylist(int sId, int plId) {
-        musicManager.addSongToPlaylist(sId, plId);
-    }
-
-    public void removeSongFromPlaylist(int sId, int plId) {
-        musicManager.removeSongFromPlaylist(sId, plId);
+        return shouldEdit;
     }
 }
