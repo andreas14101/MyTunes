@@ -93,8 +93,4 @@ public class SongModel {
     public void removeSongFromPlaylist(int sId, int plId) {
         musicManager.removeSongFromPlaylist(sId, plId);
     }
-
-    public void songUpdate(Song updatedSong) throws Exception {
-        musicManager.editSong(updatedSong);
-    }
 }
