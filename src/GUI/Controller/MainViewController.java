@@ -113,7 +113,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      /*  boolean isPlaying = false;
+      boolean isPlaying = false;
         songs = new ArrayList<File>();
         directory = new File("DataSongs");
         files = directory.listFiles();  //stores files in directory
@@ -144,7 +144,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
 
         //Display the song on the label
-        currentSongPlaying.setText(songs.get(songNumber).getName()); */
+        currentSongPlaying.setText(songs.get(songNumber).getName());
 
     }
 
