@@ -64,6 +64,7 @@ public class MainViewController extends BaseController implements Initializable 
     public Button forwardBtn;
     public Label currentSongPlaying;
     public Button backBtn;
+    public ListView songsOnPL;
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
@@ -83,16 +84,22 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void setup() {
-        musicModel = getModel().getSongModel();
+        updateSongList();
+        updatePlaylist();
+    }
 
-        songArtistColumn.setCellValueFactory(new PropertyValueFactory<>("Artist"));
-        songTitleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
-        songCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
-        songTimeColumn.setCellValueFactory(new PropertyValueFactory<>("Length"));
+    private void updateSongsInPlaylist() {
+        try {
+            playlistModel = getModel().getPlaylistModel();
+            Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+            songsOnPL.setItems(playlistModel.getSongsOnPL(pl.getId()));
 
-        songsTable.getColumns().addAll();
-        songsTable.setItems(musicModel.getObservableSongs());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
+    private void updatePlaylist() {
         playlistModel = getModel().getPlaylistModel();
 
         playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -102,7 +109,18 @@ public class MainViewController extends BaseController implements Initializable 
 
         playlistTable.getColumns().addAll();
         playlistTable.setItems(playlistModel.getObservablePlaylists());
+    }
 
+    private void updateSongList() {
+        musicModel = getModel().getSongModel();
+
+        songArtistColumn.setCellValueFactory(new PropertyValueFactory<>("Artist"));
+        songTitleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        songCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        songTimeColumn.setCellValueFactory(new PropertyValueFactory<>("Length"));
+
+        songsTable.getColumns().addAll();
+        songsTable.setItems(musicModel.getObservableSongs());
     }
 
     public void updatePLList() {
@@ -406,6 +424,5 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-    public void handlePlaylistUpdate(MouseEvent mouseEvent) {
-    }
+    public void handlePlaylistUpdate(MouseEvent mouseEvent) {updateSongsInPlaylist();}
 }
