@@ -57,5 +57,9 @@ public class MusicManager {
     public Category createCategory(String name) throws Exception {
         return songDAO.createCategory(name);
     }
+
+    public List<Song> getSongsFromPlaylist(int id) throws Exception {
+        return songDAO.getSongsOnPlaylist(id);
+    }
 }
 

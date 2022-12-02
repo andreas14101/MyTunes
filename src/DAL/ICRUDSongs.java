@@ -17,4 +17,6 @@ public interface ICRUDSongs {
     public ObservableList<Category> getAllCategories() throws Exception;
 
     public Category createCategory(String name) throws Exception;
+
+    public List<Song> getSongsOnPlaylist(int id) throws Exception;
 }
