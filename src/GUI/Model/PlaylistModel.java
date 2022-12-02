@@ -14,12 +14,16 @@ public class PlaylistModel {
 
     private MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
+    private ObservableList<String> songsOnList;
+
+    private ObservableList<Song> songsOnPL;
 
     public PlaylistModel() throws Exception {
 
         musicManager = new MusicManager();
         playlistsToBeViewed = FXCollections.observableArrayList();
         playlistsToBeViewed.addAll(musicManager.getAllPlaylists());
+
     }
 
     public ObservableList<Playlist> getObservablePlaylists() {
@@ -59,4 +63,15 @@ public class PlaylistModel {
 
     }
 
+    public ObservableList<String> getSongsOnPL(int id) throws Exception {
+        songsOnPL = FXCollections.observableArrayList();
+        songsOnPL.addAll(musicManager.getSongsFromPlaylist(id));
+        songsOnList = FXCollections.observableArrayList();
+        for (int i = 0; i < songsOnPL.size(); i++) {
+            String SoL = i+1 + ": " + songsOnPL.get(i).getTitle();
+
+            songsOnList.add(SoL);
+        }
+        return songsOnList;
+    }
 }

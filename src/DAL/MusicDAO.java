@@ -1,7 +1,9 @@
 package DAL;
 
+import BE.Category;
 import BE.Playlist;
 import BE.Song;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.Duration;
@@ -223,6 +225,135 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
         try (Connection conn = databaseConnector.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public List<Category> getAllCategories() throws Exception {
+        //Make a list to return
+        ArrayList<Category> allCategories = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "SELECT * FROM Category;";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //Loop through rows from the database result set
+            while (rs.next()) {
+                //Map DB row to Song Object
+                int id = rs.getInt("ID");
+                String name = rs.getString("Category");
+
+                Category category = new Category(id, name);
+                allCategories.add(category);
+            }
+            return allCategories;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not get categories from database");
+        }
+    }
+
+    public List<Song> getSongsOnPlaylist(int id) throws Exception {
+        //Make a list called allSongs
+        ArrayList<Song> allSongs = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "SELECT * FROM SongPlaylistLink JOIN Songs on SongPlaylistLink.songID = Songs.Id WHERE playlistID = "+ id +";";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //Loop through rows from the database result set
+            while (rs.next()) {
+                //Map DB row to Song Object
+                int songId = rs.getInt("Id");
+                String title = rs.getString("Title");
+                Duration time = Duration.ofSeconds(rs.getInt("Time"));
+                String timeOutput = time.toMinutesPart() + ":" + time.toSecondsPart();
+                String artist = rs.getString("Artist");
+                String category = rs.getString("Category");
+                String pathToFile = rs.getString("PathToFile");
+
+                Song song = new Song(songId, title, artist, timeOutput, category, pathToFile);
+                allSongs.add(song);
+            }
+            return allSongs;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not get songs from database");
+        }
+    }
+
+    @Override
+    public Category createCategory(String name) throws Exception {
+        //SQL Statement and initializing id variable.
+        String sql = "INSERT INTO Songs (Category) VALUES (?)";
+        int id = 0;
+
+        //Establish connection with a try with resources, and creating prepared statement.
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS)) {
+
+            //Bind parameters to the SQL statement.
+            stmt.setString(1, name);
+
+            //Run statement on DB.
+            stmt.executeUpdate();
+
+            //Get the new ID from DB.
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not create category" + ex);
+        }
+
+        //Generating and returning the new song.
+        return new Category(id, name);
+    }
+
+    public void addSongToPlayList(int sId, int plId){
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "INSERT INTO SongPlaylistLink(playlistID,songID) VALUES("+plId+","+sId+");";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        }
+    }
+
+    public void removeSongFromPlayList(int sId, int plId) {
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "DELETE FROM SongPlaylistLink WHERE playlistID = "+plId+" AND songID = "+sId+";";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
         }
     }
 }
