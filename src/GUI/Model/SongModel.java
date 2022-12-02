@@ -14,6 +14,8 @@ public class SongModel {
 
     private Song selectedSong;
 
+    private boolean shouldEdit = false;
+
     public SongModel() throws Exception {
 
         musicManager = new MusicManager();
@@ -67,7 +69,6 @@ public class SongModel {
     }
 
     public Boolean shouldEditSong() {
-        boolean shouldEdit = false;
 
         if (!shouldEdit && selectedSong != null) {
             shouldEdit = true;
