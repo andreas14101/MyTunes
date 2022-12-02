@@ -30,12 +30,12 @@ public class SongViewController extends BaseController {
         {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
             artistTxt.setText(model.getSelectedSong().getArtist());
-            fileTxt.setText(model.getSelectedSong().getFilePath());
+            //fileTxt.setText(model.getSelectedSong().getFilePath());
         }
     }
 
     @FXML
-    private void handleSaveLSH(ActionEvent actionEvent) throws UnsupportedAudioFileException, IOException {
+    /*private void handleSaveLSH(ActionEvent actionEvent) throws Exception {
 
         String title = songTitleTxt.getText();
         String artist = artistTxt.getText();
@@ -48,6 +48,23 @@ public class SongViewController extends BaseController {
         int length = baseFileFormat.getFrameLength();
         //TODO finish this create song method
 
+        model.createSong(title, artist,String.valueOf(length),"TEST", "TEST");
+
+    }*/
+
+    public void handleSave(ActionEvent actionEvent) throws Exception {
+        /*String title = songTitleTxt.getText();
+        String artist = artistTxt.getText();
+        String pathToFile = fileTxt.getText();
+
+        File file = new File(pathToFile);
+
+        AudioFileFormat baseFileFormat = null;
+        baseFileFormat = AudioSystem.getAudioFileFormat(file);
+        int length = baseFileFormat.getFrameLength();
+        //TODO finish this create song method
+
+        model.createSong(title, artist,String.valueOf(length),"TEST", "TEST");
+*/
     }
-    
 }

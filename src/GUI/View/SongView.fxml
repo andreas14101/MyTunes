@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.SongViewController" stylesheets="/GUI/Css/SongView.css" styleClass="background">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="/GUI/Css/SongView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.SongViewController">
    <children>
       <GridPane prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
@@ -118,8 +118,8 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" styleClass="button"/>
-                  <Button fx:id="saveBtn" mnemonicParsing="false" text="Save" styleClass="button" onAction="">
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" styleClass="button" text="Cancel" />
+                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSave" styleClass="button" text="Save">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
