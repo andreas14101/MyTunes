@@ -23,6 +23,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -31,6 +32,7 @@ import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -111,7 +113,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        boolean isPlaying = false;
+      /*  boolean isPlaying = false;
         songs = new ArrayList<File>();
         directory = new File("DataSongs");
         files = directory.listFiles();  //stores files in directory
@@ -142,7 +144,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
 
         //Display the song on the label
-        currentSongPlaying.setText(songs.get(songNumber).getName());
+        currentSongPlaying.setText(songs.get(songNumber).getName()); */
 
     }
 
@@ -250,7 +252,7 @@ public class MainViewController extends BaseController implements Initializable 
 
         // Create the dialog stage
         Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New song");
+        dialogWindow.setTitle("Edit song");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
         dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
         Scene scene = new Scene(pane);
@@ -388,5 +390,18 @@ public class MainViewController extends BaseController implements Initializable 
         double newTimeOnSong = end * howfarNew;
         System.out.println(newTimeOnSong);
         mediaPlayer.seek(Duration.seconds(newTimeOnSong));
+    }
+
+    public void handleCat(ActionEvent event) throws InterruptedException {
+        Desktop desktop = Desktop.getDesktop();
+        if(desktop.isSupported(Desktop.Action.BROWSE))
+        {
+            try
+            {
+                desktop.browse(URI.create("https://www.nyan.cat/index.php?cat=original"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -206,6 +206,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
             stmt.setString(2, song.getArtist());
             stmt.setString(3, song.getCategory());
             stmt.setString(4, song.getFilePath());
+            stmt.setInt(5, song.getId());
 
             stmt.executeUpdate();
         } catch (SQLException ex) {

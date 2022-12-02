@@ -32,6 +32,11 @@ public class MusicManager {
         return songDAO.createSong(title, artist, length, category, pathToFile);
     }
 
+    public void editSong(Song updatedSong) throws Exception
+    {
+       songDAO.editUpdateSong(updatedSong);
+    }
+
     public List<Playlist> getAllPlaylists() throws Exception {
         return playlistDAO.getAllPlaylists();
     }

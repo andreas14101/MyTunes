@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -51,6 +52,9 @@
                      <HBox.margin>
                         <Insets left="20.0" top="15.0" />
                      </HBox.margin>
+                     <image>
+                        <Image url="@../ImageAssets/pngegg.png" />
+                     </image>
                   </ImageView>
                   <Slider fx:id="volumeSlider" max="100.0" prefHeight="64.0" prefWidth="108.0" value="50.0">
                      <HBox.margin>
@@ -117,12 +121,12 @@
          <children>
             <HBox prefHeight="58.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistUp" text="Up ">
+                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistUp" text="⬆">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistDown" text="Down " />
+                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistDown" text="⬇" />
                   <Button fx:id="deleteSongFromPlaylistBtn" mnemonicParsing="false" onAction="#handleDeleteSongOnPlaylist" text="Delete">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -164,7 +168,7 @@
          <children>
             <HBox prefHeight="24.0" prefWidth="36.0">
                <children>
-                  <Button fx:id="leftArrowBtn" mnemonicParsing="false" onAction="#handleAddSongToPlaylist" prefHeight="26.0" prefWidth="38.0" text="Left">
+                  <Button fx:id="leftArrowBtn" mnemonicParsing="false" onAction="#handleAddSongToPlaylist" prefHeight="26.0" prefWidth="38.0" text="⬅">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -286,5 +290,6 @@
             </HBox>
          </children>
       </GridPane>
+      <Button fx:id="catBtn" layoutX="640.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleCat" text="Button" styleClass="catButton" />
    </children>
 </AnchorPane>

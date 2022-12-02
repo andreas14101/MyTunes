@@ -13,7 +13,6 @@ public class SongModel {
     private MusicManager musicManager;
 
     private Song selectedSong;
-    private boolean shouldEdit = false;
 
     public SongModel() throws Exception {
 
@@ -50,6 +49,15 @@ public class SongModel {
         return filteredSongs;
     }
 
+    public void songUpdate(Song updatedSong) throws Exception {
+        // Call BLL
+        // Update song in DB
+        musicManager.editSong(updatedSong);
+
+        // update TableView
+        songsToBeViewed.clear();
+        songsToBeViewed.addAll(musicManager.getAllSongs());
+    }
     public Song getSelectedSong() {
         return selectedSong;
     }
@@ -59,12 +67,13 @@ public class SongModel {
     }
 
     public Boolean shouldEditSong() {
-        if (shouldEdit == false && selectedSong != null) {
+        boolean shouldEdit = false;
+
+        if (!shouldEdit && selectedSong != null) {
             shouldEdit = true;
-            return true;
         } else {
             shouldEdit = false;
-            return false;
         }
+        return shouldEdit;
     }
 }
