@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -61,6 +62,7 @@ public class MainViewController extends BaseController implements Initializable 
     public Button forwardBtn;
     public Label currentSongPlaying;
     public Button backBtn;
+    public ListView songsOnPL;
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
@@ -80,16 +82,23 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void setup() {
-        musicModel = getModel().getSongModel();
+        updateSongList();
+        updatePlaylist();
 
-        songArtistColumn.setCellValueFactory(new PropertyValueFactory<>("Artist"));
-        songTitleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
-        songCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
-        songTimeColumn.setCellValueFactory(new PropertyValueFactory<>("Length"));
+    }
 
-        songsTable.getColumns().addAll();
-        songsTable.setItems(musicModel.getObservableSongs());
+    private void updateSongsInPlaylist() {
+        try {
+            playlistModel = getModel().getPlaylistModel();
+            Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+            songsOnPL.setItems(playlistModel.getSongsOnPL(pl.getId()));
 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void updatePlaylist() {
         playlistModel = getModel().getPlaylistModel();
 
         playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -99,51 +108,53 @@ public class MainViewController extends BaseController implements Initializable 
 
         playlistTable.getColumns().addAll();
         playlistTable.setItems(playlistModel.getObservablePlaylists());
-
     }
 
-    public void updatePLList() {
-        playlistTable.getColumns().removeAll();
+    private void updateSongList() {
+        musicModel = getModel().getSongModel();
 
-        playlistTable.getColumns().addAll();
-        playlistTable.setItems(playlistModel.getObservablePlaylists());
+        songArtistColumn.setCellValueFactory(new PropertyValueFactory<>("Artist"));
+        songTitleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        songCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        songTimeColumn.setCellValueFactory(new PropertyValueFactory<>("Length"));
+
+        songsTable.getColumns().addAll();
+        songsTable.setItems(musicModel.getObservableSongs());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        boolean isPlaying = false;
-        songs = new ArrayList<File>();
-        directory = new File("DataSongs");
-        files = directory.listFiles();  //stores files in directory
+        /**boolean isPlaying = false;
+         songs = new ArrayList<File>();
+         directory = new File("DataSongs");
+         files = directory.listFiles();  //stores files in directory
 
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-                System.out.println(file);
-            }
+         if (files != null) {
+         for (File file : files) {
+         songs.add(file);
+         System.out.println(file);
+         }
+         }
+         media = new Media(songs.get(songNumber).toURI().toString());
+         mediaPlayer = new MediaPlayer(media);
+
+
+         //controlling volumenslider
+         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
         }
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-
-
-        //controlling volumenslider
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-            }
         });
 
-        //Controlling timeslider
-        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            }
+         //Controlling timeslider
+         timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        }
         });
 
-        //Display the song on the label
-        currentSongPlaying.setText(songs.get(songNumber).getName());
-
+         //Display the song on the label
+         currentSongPlaying.setText(songs.get(songNumber).getName());
+         */
     }
 
     public void handleNewSong(ActionEvent event) throws IOException {
@@ -234,6 +245,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+
     }
 
     public void handleEditSong(ActionEvent actionEvent) throws Exception {
@@ -291,12 +303,11 @@ public class MainViewController extends BaseController implements Initializable 
         beginTimer();
         //play and pause the song
         //if song is playing, then set button to pause
-        if (isPlaying){
+        if (isPlaying) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
-        }
-        else{
+        } else {
             playBtn.setText("Pause");
             isPlaying = true;
             mediaPlayer.play();
@@ -305,16 +316,16 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void nextSong() {
-        if (songNumber < songs.size()-1){
+        if (songNumber < songs.size() - 1) {
             songNumber++;
             shiftSong();
-        }
-        else {
+        } else {
             songNumber = 0;
             shiftSong();
         }
     }
-    public void shiftSong(){
+
+    public void shiftSong() {
         mediaPlayer.stop();
         media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
         mediaPlayer = new MediaPlayer(media);   //sets the song
@@ -327,37 +338,37 @@ public class MainViewController extends BaseController implements Initializable 
     public void previosOrRestartSong() {
         //if more than 7 seconds has passed, the song is restartet, else it is the previos song
         double current = mediaPlayer.getCurrentTime().toSeconds();
-        if (current >= 7.0){
+        if (current >= 7.0) {
             mediaPlayer.seek(Duration.seconds(0));
             isPlaying = false;
             playSong();
-        }else{
+        } else {
             //look for witch song the previos is
-            if (songNumber > 0){
+            if (songNumber > 0) {
                 songNumber--;
                 shiftSong();
-            }
-            else {
-                songNumber = songs.size()-1;
+            } else {
+                songNumber = songs.size() - 1;
                 shiftSong();
             }
 
         }
     }
-    public void beginTimer(){
+
+    public void beginTimer() {
         timer = new Timer();
-        timerTask = new TimerTask(){
+        timerTask = new TimerTask() {
             //Timertask is the task to be executed.
             @Override
             public void run() {
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 double end = media.getDuration().toSeconds();
                 int endTot = (int) Math.round(end);
-                double howFar = current/end;
+                double howFar = current / end;
 
-                System.out.println(Math.round(howFar * 100*100)/100+ " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: "+ Math.round(current)+ "\t Total Duration: " + endTot);
-                timeSlider.setValue(Math.round(howFar * 100 * 100)/100);
-                if (howFar == 1){
+                System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
+                timeSlider.setValue(Math.round(howFar * 100 * 100) / 100);
+                if (howFar == 1) {
                     nextSong();
                     cancelTimer();
                 }
@@ -367,13 +378,14 @@ public class MainViewController extends BaseController implements Initializable 
         timer.scheduleAtFixedRate(timerTask, 1000, 1000);
 
     }
-    public void cancelTimer(){
+
+    public void cancelTimer() {
         timer.cancel();
 
     }
 
     public void timeChanged(MouseDragEvent mouseDragEvent) {
-        double howfarNew = Math.round(timeSlider.getValue())/100;
+        double howfarNew = Math.round(timeSlider.getValue()) / 100;
         /**
          (current/end)*100=howfar%
          (100 second far/ 200 second end)=0.5 howFarTo1
@@ -386,5 +398,9 @@ public class MainViewController extends BaseController implements Initializable 
         double newTimeOnSong = end * howfarNew;
         System.out.println(newTimeOnSong);
         mediaPlayer.seek(Duration.seconds(newTimeOnSong));
+    }
+
+    public void handlePlaylistUpdate(MouseEvent mouseEvent) {
+        updateSongsInPlaylist();
     }
 }

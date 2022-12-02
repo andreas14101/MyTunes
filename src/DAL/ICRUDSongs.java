@@ -12,4 +12,6 @@ public interface ICRUDSongs {
     public void editUpdateSong(Song song) throws Exception;
 
     public void deleteSong(Song song) throws Exception;
+
+    public List<Song> getSongsOnPlaylist(int id) throws Exception;
 }

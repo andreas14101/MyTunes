@@ -47,5 +47,9 @@ public class MusicManager {
     public Playlist editPlaylist(String plname, Playlist playlist) throws Exception {
         return playlistDAO.editUpdatePlaylist(plname, playlist);
     }
+
+    public List<Song> getSongsFromPlaylist(int id) throws Exception {
+        return songDAO.getSongsOnPlaylist(id);
+    }
 }
 
