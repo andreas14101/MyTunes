@@ -82,7 +82,7 @@
             </Label>
             <HBox prefHeight="260.0" prefWidth="210.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="playlistTable" prefHeight="323.0" prefWidth="179.0">
+                  <TableView fx:id="playlistTable" onMouseClicked="#handlePlaylistUpdate" prefHeight="323.0" prefWidth="179.0">
                     <columns>
                       <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" styleClass="button" text="Name" />
                       <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" styleClass="button" text="Songs" />
@@ -96,7 +96,7 @@
             </HBox>
             <HBox prefHeight="284.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <ListView prefHeight="278.0" prefWidth="136.0">
+                  <ListView fx:id="songsOnPL" prefHeight="278.0" prefWidth="136.0">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin>
