@@ -1,7 +1,8 @@
 package DAL;
 
+import BE.Category;
 import BE.Song;
-
+import javafx.collections.ObservableList;
 import java.util.List;
 
 public interface ICRUDSongs {
@@ -12,4 +13,8 @@ public interface ICRUDSongs {
     public void editUpdateSong(Song song) throws Exception;
 
     public void deleteSong(Song song) throws Exception;
+
+    public ObservableList<Category> getAllCategories() throws Exception;
+
+    public Category createCategory(String name) throws Exception;
 }

@@ -1,10 +1,12 @@
 package BLL;
 
+import BE.Category;
 import BE.Playlist;
 import BE.Song;
 import DAL.ICRUDPlaylist;
 import DAL.ICRUDSongs;
 import DAL.MusicDAO;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -46,6 +48,14 @@ public class MusicManager {
 
     public Playlist editPlaylist(String plname, Playlist playlist) throws Exception {
         return playlistDAO.editUpdatePlaylist(plname, playlist);
+    }
+
+    public ObservableList<Category> getAllCategories() throws Exception {
+        return songDAO.getAllCategories();
+    }
+
+    public Category createCategory(String name) throws Exception {
+        return songDAO.createCategory(name);
     }
 }
 

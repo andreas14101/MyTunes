@@ -1,31 +1,29 @@
 package GUI.Controller;
 
+import BE.Category;
 import GUI.Model.SongModel;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.IOException;
-import java.time.Duration;
 
 public class SongViewController extends BaseController {
+    @FXML
+    private ComboBox categoryCB;
     @FXML
     private Button cancelBtn;
     @FXML
     private Button saveBtn;
     @FXML
     private TextField artistTxt;
-
+    private ObservableList<Category> test;
     @FXML
     private TextField songTitleTxt;
     @FXML
@@ -37,6 +35,7 @@ public class SongViewController extends BaseController {
     public void setup() {
 
         model = getModel().getSongModel();
+        setCategories();
 
         if (model.shouldEditSong() == true) {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
@@ -45,6 +44,18 @@ public class SongViewController extends BaseController {
         }
     }
 
+    private void setCategories(){
+        try{
+            //System.out.println("Categories in view: " + model.getObservableCategories());
+            //categoryCB.setItems(model.getObservableCategories());
+            test = model.getObservableCategories();
+            System.out.println(test);
+            categoryCB.setItems(test);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     //Handles the Save button in the new song window.
     @FXML
@@ -67,6 +78,7 @@ public class SongViewController extends BaseController {
         stage.close();
     }
 
+    //Closes the window if Cancel is pressed.
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();

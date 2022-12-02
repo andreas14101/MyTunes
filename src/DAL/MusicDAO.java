@@ -1,7 +1,9 @@
 package DAL;
 
+import BE.Category;
 import BE.Playlist;
 import BE.Song;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.Duration;
@@ -223,5 +225,67 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.executeUpdate();
         }
+    }
+
+    @Override
+    public ObservableList<Category> getAllCategories() throws Exception {
+        //Make a list called allSongs
+        ArrayList<Category> allCategories = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "SELECT * FROM Category;";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //Loop through rows from the database result set
+            while (rs.next()) {
+                //Map DB row to Song Object
+                int id = rs.getInt("ID");
+                String name = rs.getString("Category");
+
+                Category category = new Category(id, name);
+                allCategories.add(category);
+            }
+            System.out.println("Categories in DAO" + allCategories);
+            return allCategories;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not get categories from database");
+        }
+    }
+
+    @Override
+    public Category createCategory(String name) throws Exception {
+        //SQL Statement and initializing id variable.
+        String sql = "INSERT INTO Songs (Category) VALUES (?)";
+        int id = 0;
+
+        //Establish connection with a try with resources, and creating prepared statement.
+        try (Connection conn = databaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, RETURN_GENERATED_KEYS)) {
+
+            //Bind parameters to the SQL statement.
+            stmt.setString(1, name);
+
+            //Run statement on DB.
+            stmt.executeUpdate();
+
+            //Get the new ID from DB.
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not create category" + ex);
+        }
+
+        //Generating and returning the new song.
+        return new Category(id, name);
     }
 }

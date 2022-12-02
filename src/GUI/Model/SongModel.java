@@ -1,18 +1,21 @@
 package GUI.Model;
 
+import BE.Category;
 import BE.Song;
 import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.function.Predicate;
-
 public class SongModel {
     private ObservableList<Song> songsToBeViewed, filteredSongs;
+    private ObservableList<Category> categoriesToBeViewed;
 
     private MusicManager musicManager;
 
     private Song selectedSong;
+
+    private Category selectedCategory;
+
     private boolean shouldEdit = false;
 
     public SongModel() throws Exception {
@@ -20,10 +23,17 @@ public class SongModel {
         musicManager = new MusicManager();
         songsToBeViewed = FXCollections.observableArrayList();
         songsToBeViewed.addAll(musicManager.getAllSongs());
+        categoriesToBeViewed = FXCollections.observableArrayList();
+        categoriesToBeViewed = musicManager.getAllCategories();
+
     }
 
     public ObservableList<Song> getObservableSongs() {
         return songsToBeViewed;
+    }
+
+    public ObservableList<Category> getObservableCategories() throws Exception {
+        return categoriesToBeViewed;
     }
 
     public void deleteSong(Song s) throws Exception {
@@ -33,6 +43,10 @@ public class SongModel {
 
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         songsToBeViewed.add(musicManager.createSong(title, artist, length, category, pathToFile));
+    }
+
+    public void createCategory(String name) throws Exception {
+        categoriesToBeViewed.add(musicManager.createCategory(name));
     }
 
     public ObservableList<Song> filteredSongs(String search) {
@@ -52,6 +66,10 @@ public class SongModel {
 
     public Song getSelectedSong() {
         return selectedSong;
+    }
+
+    public Category getSelectedCategory(){
+        return selectedCategory;
     }
 
     public void setSelectedSong(Song selectedSong) {
