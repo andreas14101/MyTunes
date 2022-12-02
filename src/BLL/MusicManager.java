@@ -61,5 +61,13 @@ public class MusicManager {
     public List<Song> getSongsFromPlaylist(int id) throws Exception {
         return songDAO.getSongsOnPlaylist(id);
     }
+
+    public void addSongToPlaylist(int sId, int plId) {
+        songDAO.addSongToPlayList(sId,plId);
+    }
+
+    public void removeSongFromPlaylist(int sId, int plId) {
+        songDAO.removeSongFromPlayList(sId,plId);
+    }
 }
 

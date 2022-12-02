@@ -85,4 +85,12 @@ public class SongModel {
             return false;
         }
     }
+
+    public void addSongToPlaylist(int sId, int plId) {
+        musicManager.addSongToPlaylist(sId, plId);
+    }
+
+    public void removeSongFromPlaylist(int sId, int plId) {
+        musicManager.removeSongFromPlaylist(sId, plId);
+    }
 }

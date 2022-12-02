@@ -321,4 +321,38 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
         //Generating and returning the new song.
         return new Category(id, name);
     }
+
+    public void addSongToPlayList(int sId, int plId){
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "INSERT INTO SongPlaylistLink(playlistID,songID) VALUES("+plId+","+sId+");";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        }
+    }
+
+    public void removeSongFromPlayList(int sId, int plId) {
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "DELETE FROM SongPlaylistLink WHERE playlistID = "+plId+" AND songID = "+sId+";";
+
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        }
+    }
 }
