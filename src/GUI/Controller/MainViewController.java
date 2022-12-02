@@ -43,28 +43,14 @@ public class MainViewController extends BaseController implements Initializable 
 
     //all of the instance variables. Available everywhere in the class
     public TextField filterSearch;
-    public Slider timeSlider;
-    public TableView songsTable;
-    public TableView playlistTable;
-    public Slider volumeSlider;
-    public TableColumn songTitleColumn;
-    public TableColumn songArtistColumn;
-    public TableColumn songCategoryColumn;
-    public TableColumn songTimeColumn;
-    public Button CloseBtn;
-    public Button searchBtn;
-    public TableColumn playlistNameColumn;
-    public TableColumn playlistSongsAmountColumn;
-    public TableColumn playlistTimeColumn;
-
-    public Button playBtn;
-    public Button forwardBtn;
+    public Slider timeSlider, volumeSlider;
+    public TableView songsTable, playlistTable;
+    public TableColumn songTitleColumn, songArtistColumn, songCategoryColumn, songTimeColumn;
+    public TableColumn playlistNameColumn, playlistSongsAmountColumn, playlistTimeColumn;
+    public Button CloseBtn, searchBtn, playBtn, forwardBtn, backBtn;
     public Label currentSongPlaying;
-    public Button backBtn;
-
     private SongModel musicModel;
     private PlaylistModel playlistModel;
-
 
     private File directory;
     private File[] files;
@@ -99,7 +85,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         playlistTable.getColumns().addAll();
         playlistTable.setItems(playlistModel.getObservablePlaylists());
-
     }
 
     public void updatePLList() {
@@ -113,7 +98,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         boolean isPlaying = false;
         songs = new ArrayList<File>();
-        directory = new File("DataSongs");
+        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
         files = directory.listFiles();  //stores files in directory
 
         if (files != null) {
@@ -133,14 +118,6 @@ public class MainViewController extends BaseController implements Initializable 
                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
             }
         });
-
-        //Controlling timeslider
-        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            }
-        });
-
         //Display the song on the label
         currentSongPlaying.setText(songs.get(songNumber).getName());
 
@@ -183,8 +160,6 @@ public class MainViewController extends BaseController implements Initializable 
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
-
-
     }
 
     public void handleMovePlaylistUp(ActionEvent actionEvent) {

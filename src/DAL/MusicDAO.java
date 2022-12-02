@@ -15,10 +15,10 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
 
     private MyDatabaseConnector databaseConnector;
 
+    //Constructor for the class
     public MusicDAO() {
         databaseConnector = new MyDatabaseConnector();
     }
-
 
     @Override
     public List<Playlist> getAllPlaylists() throws Exception {
@@ -65,6 +65,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
         String time = "0";
         try (Connection conn = databaseConnector.getConnection()) {
 
+            //Statement is a precompiled SQL statement
             PreparedStatement ps = conn.prepareStatement(sql, RETURN_GENERATED_KEYS);
 
             ps.setString(1, Title);
@@ -75,6 +76,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
+            //Gets the next key on the collum index 1(id for playlists) sets id to the new value
             if (rs.next()) {
                 id = rs.getInt(1);
 
@@ -89,14 +91,14 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
 
     @Override
     public Playlist editUpdatePlaylist(String plname, Playlist playlist) throws Exception {
-
-
+        //editing in the playlist
         String Title = plname;
         int id = playlist.getId();
         String sql = "UPDATE Playlists SET Title = (?) WHERE Id =" + id + ";";
 
         try (Connection conn = databaseConnector.getConnection()) {
 
+            //executing the PrepairedStatement in SQL
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, Title);
             ps.executeUpdate();
@@ -120,6 +122,8 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
         }
     }
 
+
+    //Moving on to the Song part of the database
     @Override
     public List<Song> getAllSongs() throws Exception {
         //Make a list called allSongs
@@ -155,6 +159,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
         }
     }
 
+    //Both creates and returns a new song
     @Override
     public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         //SQL Statement and initializing id variable.

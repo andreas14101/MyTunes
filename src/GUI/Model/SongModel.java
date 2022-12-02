@@ -36,6 +36,7 @@ public class SongModel {
     }
 
     public ObservableList<Song> filteredSongs(String search) {
+        //filter function
         filteredSongs = FXCollections.observableArrayList();
         for (int i = 0; i < songsToBeViewed.size(); i++) {
             if (songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)) {
