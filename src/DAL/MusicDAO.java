@@ -229,4 +229,42 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
             ps.executeUpdate();
         }
     }
+    public List<Song> getSongsOnPlaylist(int id) throws Exception {
+        //Make a list called allSongs
+        ArrayList<Song> allSongs = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String to be fed through to the database
+            String sql = "SELECT * FROM SongPlaylistLink JOIN Songs on SongPlaylistLink.songID = Songs.Id WHERE playlistID = "+ id +";";
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+
+
+
+
+            //Loop through rows from the database result set
+            while (rs.next()) {
+                //Map DB row to Song Object
+                int songId = rs.getInt("Id");
+                String title = rs.getString("Title");
+                Duration time = Duration.ofSeconds(rs.getInt("Time"));
+                String timeOutput = time.toMinutesPart() + ":" + time.toSecondsPart();
+                String artist = rs.getString("Artist");
+                String category = rs.getString("Category");
+                String pathToFile = rs.getString("PathToFile");
+
+                Song song = new Song(songId, title, artist, timeOutput, category, pathToFile);
+                allSongs.add(song);
+            }
+            return allSongs;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not get songs from database");
+        }
+    }
+
 }

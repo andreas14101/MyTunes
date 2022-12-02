@@ -3,16 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="MyDatabaseConnector added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/BE/Playlist.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/BE/Playlist.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/BE/Song.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/BE/Song.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/BLL/MusicManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/BLL/MusicManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/DAL/ICRUDSongs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/DAL/ICRUDSongs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/DAL/MusicDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/DAL/MusicDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Controller/MainViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Controller/MainViewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/SongModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/SongModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BE/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BE/Playlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BE/Song.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BE/Song.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/PlaylistModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/PlaylistModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BLL/MusicManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLL/MusicManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DAL/ICRUDSongs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/ICRUDSongs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAL/MusicDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/MusicDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAL/MyDatabaseConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/MyDatabaseConnector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Model/PlaylistModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/PlaylistModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +98,6 @@
       <workItem from="1669802560166" duration="4213000" />
       <workItem from="1669878611784" duration="2014000" />
       <workItem from="1669880784944" duration="9146000" />
-      <workItem from="1669919865448" duration="8221000" />
     </task>
     <task id="LOCAL-00001" summary="MyDatabaseConnector added">
       <created>1669709514943</created>
