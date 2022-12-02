@@ -205,6 +205,14 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
+        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+
+        int sId = s.getId();
+        int plId = pl.getId();
+
+        musicModel.removeSongFromPlaylist(sId, plId);
+        updateSongsInPlaylist();
     }
 
     public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
@@ -245,7 +253,14 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
+        int sId = s.getId();
+        int plId = pl.getId();
+
+        musicModel.addSongToPlaylist(sId, plId);
+        updateSongsInPlaylist();
     }
 
     public void handleEditSong(ActionEvent actionEvent) throws Exception {

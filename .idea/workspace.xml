@@ -7,13 +7,12 @@
       <change beforePath="$PROJECT_DIR$/out/production/MyTunes/DAL/ICRUDSongs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/DAL/ICRUDSongs.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyTunes/DAL/MusicDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/DAL/MusicDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Controller/MainViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Controller/MainViewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/PlaylistModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/PlaylistModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/SongModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyTunes/GUI/Model/SongModel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BLL/MusicManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BLL/MusicManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAL/ICRUDSongs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/ICRUDSongs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAL/MusicDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/MusicDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Model/PlaylistModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/PlaylistModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/SongModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
