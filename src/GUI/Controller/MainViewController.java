@@ -44,7 +44,7 @@ import java.util.function.Predicate;
 
 public class MainViewController extends BaseController implements Initializable {
 
-    //all of the instance variables. Available everywhere in the class
+    //all the instance variables. Available everywhere in the class
     public TextField filterSearch;
     public Slider timeSlider;
     public TableView songsTable;
@@ -134,13 +134,29 @@ public class MainViewController extends BaseController implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        songs = new ArrayList<>();
+
+        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+        String filepath = s.getFilePath();
+        //directory = new File(filepath);
+        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
+
+        files = directory.listFiles();  //stores files in directory
+
+        if (files != null) {
+            for (File file : files) {
+                songs.add(file);
+            }
+        }
+        media = new Media(songs.get(songNumber).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
         boolean isPlaying = false;
          //controlling volumenslider
          volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-        @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-        mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-        }
-        });
+             @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+             }
+         });
 
         //Controlling timeslider
         timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -262,7 +278,8 @@ public class MainViewController extends BaseController implements Initializable 
                  Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
                  musicModel.setSelectedSong(selectedSong);
                  musicModel.shouldEditSong();
-                 FXMLLoader loader = new FXMLLoader();
+                 FXMLLoader loader;
+                 loader = new FXMLLoader();
                  loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
                  AnchorPane pane = (AnchorPane) loader.load();
 
@@ -311,24 +328,6 @@ public class MainViewController extends BaseController implements Initializable 
              }
 
              public void playSong() {
-                 songs = new ArrayList<>();
-
-                 Song s = (Song) songsTable.getFocusModel().getFocusedItem();
-                 String filepath = s.getFilePath();
-                 //directory = new File(filepath);
-                 directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
-
-                 files = directory.listFiles();  //stores files in directory
-
-                 if (files != null) {
-                     for (File file : files) {
-                         songs.add(file);
-                     }
-                 }
-                 media = new Media(songs.get(songNumber).toURI().toString());
-                 mediaPlayer = new MediaPlayer(media);
-
-
                  //begin to track the progress
                  beginTimer();
                  //play and pause the song
