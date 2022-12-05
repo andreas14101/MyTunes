@@ -295,7 +295,7 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
     @Override
     public Category createCategory(String name) throws Exception {
         //SQL Statement and initializing id variable.
-        String sql = "INSERT INTO Songs (Category) VALUES (?)";
+        String sql = "INSERT INTO Category (Category) VALUES (?)";
         int id = 0;
 
         //Establish connection with a try with resources, and creating prepared statement.
@@ -321,6 +321,16 @@ public class MusicDAO implements ICRUDPlaylist, ICRUDSongs {
 
         //Generating and returning the new song.
         return new Category(id, name);
+    }
+
+    @Override
+    public void deleteCategory(Category category) throws Exception {
+        int id = category.getId();
+        String sql = "DELETE FROM Category WHERE Id = " + id + ";";
+        try (Connection conn = databaseConnector.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+        }
     }
 
     public void addSongToPlayList(int sId, int plId){

@@ -6,14 +6,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 
 import java.io.File;
+import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
@@ -124,5 +130,27 @@ public class SongViewController extends BaseController {
             e.printStackTrace();
         }
 
+    }
+
+    @FXML
+    private void handleMoreCategoriesBtn(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUI/View/NewCategoryView.fxml"));
+        AnchorPane pane = (AnchorPane) loader.load();
+
+        CategoryViewController controller = loader.getController();
+        controller.setModel(super.getModel());
+        controller.setup();
+
+        // Create the dialog stage
+        Stage dialogWindow = new Stage();
+        dialogWindow.setTitle("New Category");
+        dialogWindow.initModality(Modality.WINDOW_MODAL);
+        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+        Scene scene = new Scene(pane);
+        dialogWindow.setScene(scene);
+        dialogWindow.showAndWait();
+
+        setCategoryCB();
     }
 }

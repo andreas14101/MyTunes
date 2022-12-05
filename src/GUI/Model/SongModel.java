@@ -23,8 +23,7 @@ public class SongModel {
         musicManager = new MusicManager();
         songsToBeViewed = FXCollections.observableArrayList();
         songsToBeViewed.addAll(musicManager.getAllSongs());
-        categoriesToBeViewed = FXCollections.observableArrayList();
-        categoriesToBeViewed.addAll(musicManager.getAllCategories());
+        getObservableCategories();
 
     }
 
@@ -33,12 +32,23 @@ public class SongModel {
     }
 
     public ObservableList<Category> getObservableCategories() throws Exception {
+        categoriesToBeViewed = FXCollections.observableArrayList();
+        categoriesToBeViewed.addAll(musicManager.getAllCategories());
         return categoriesToBeViewed;
     }
 
     public void deleteSong(Song s) throws Exception {
         musicManager.deleteSong(s);
         songsToBeViewed.remove(s);
+    }
+
+    /**
+     * Deletes the chosen category. Called from a Controller, calls MusicManager in BLL.
+     * @param c
+     * @throws Exception
+     */
+    public void deleteCategory(Category c)throws Exception{
+        musicManager.deleteCategory(c);
     }
 
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
