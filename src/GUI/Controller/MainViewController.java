@@ -104,9 +104,7 @@ public class MainViewController extends BaseController implements Initializable 
             Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
             playlistModel = getModel().getPlaylistModel();
 
-
             titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
-
 
             songsInsidePlaylist.getColumns().addAll();
             songsInsidePlaylist.setItems(playlistModel.getSongsOnPL(pl.getId()));
@@ -234,7 +232,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+        Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
 
         int sId = s.getId();
         int plId = pl.getId();
@@ -288,8 +286,20 @@ public class MainViewController extends BaseController implements Initializable 
         int sId = s.getId();
         int plId = pl.getId();
 
-        musicModel.addSongToPlaylist(sId, plId);
-        updateSongsInPlaylist();
+        for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
+            Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
+            if (SiP.getId() == sId){
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in playlist", ButtonType.CANCEL);
+                alert.showAndWait();
+                break;
+            }
+            else musicModel.addSongToPlaylist(sId, plId);
+            updateSongsInPlaylist();
+            break;
+        }
+
+
+
     }
 
     public void handleEditSong(ActionEvent actionEvent) throws IOException {
