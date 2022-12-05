@@ -95,9 +95,9 @@
             </HBox>
             <HBox prefHeight="284.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0" styleClass="column-header-background, table-view, table-cell, table-row-cell, button">
+                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="titleColumn" prefWidth="160.800018286705" text="Title" />
+                      <TableColumn fx:id="titleColumn" prefWidth="160.800018286705" text="Title" styleClass="button" />
                     </columns>
                      <HBox.margin>
                         <Insets left="10.0" />

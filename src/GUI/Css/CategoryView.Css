@@ -1,0 +1,34 @@
+.background{
+    -fx-background-image: url(/GUI/ImageAssets/backgroundPlaylistView.png);
+}
+.button{
+    -fx-background-color: #00d0d9;
+    -fx-text-fill: black;
+}
+.label {
+    -fx-text-fill: black;
+}
+
+.table-view .column-header-background .filler{
+    -fx-background-color: Transparent;
+    -fx-text-fill: black;
+}
+
+.table-view {
+    -fx-background-color: Transparent;
+}
+.table-view .table-cell{
+    -fx-background-color: rgba(43, 225, 234, 0.22);
+    -fx-text-fill: #313131;
+}
+.table-row-cell:hover {
+    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9);
+    -fx-text-fill: black;
+}
+.table-row-cell:selected {
+    -fx-background-color: #00d0d9;
+    -fx-text-fill: black;
+}
+.table-view .label {
+    -fx-text-fill: black;
+}

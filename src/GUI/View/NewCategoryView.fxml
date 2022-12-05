@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="328.0" prefWidth="510.0" styleClass="background" stylesheets="/GUI/Css/PlaylistView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CategoryViewController">
+<AnchorPane prefHeight="328.0" prefWidth="510.0" styleClass="background" stylesheets="/GUI/Css/CategoryView.Css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CategoryViewController">
     <children>
         <GridPane layoutX="12.0" layoutY="12.0" prefHeight="290.0" prefWidth="479.0">
             <columnConstraints>
@@ -38,7 +38,7 @@
                <children>
                   <TableView fx:id="categoriesTable" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="categoryColumn" prefWidth="199.0" text="Categories:" />
+                      <TableColumn fx:id="categoryColumn" prefWidth="199.0" text="Categories:" styleClass="button" />
                     </columns>
                   </TableView>
                </children></HBox>
