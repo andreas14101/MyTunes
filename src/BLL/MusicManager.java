@@ -61,6 +61,10 @@ public class MusicManager {
         return songDAO.createCategory(name);
     }
 
+    public void deleteCategory(Category category) throws Exception {
+        songDAO.deleteCategory(category);
+    }
+
     public List<Song> getSongsFromPlaylist(int id) throws Exception {
         return songDAO.getSongsOnPlaylist(id);
     }
