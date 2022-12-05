@@ -95,7 +95,7 @@
             </HBox>
             <HBox prefHeight="284.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0" styleClass="column-header-background, table-view, table-cell, table-row-cell, button">
                     <columns>
                       <TableColumn prefWidth="35.99993896484375" text="Nr." />
                       <TableColumn prefWidth="124.80001983642578" text="Song name" />

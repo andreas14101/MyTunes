@@ -39,7 +39,7 @@ public class SongViewController extends BaseController {
 
         model = getModel().getSongModel();
         setCategoryCB();
-        
+
         if(model.getShouldEdit() == true)
         {
             edit();
