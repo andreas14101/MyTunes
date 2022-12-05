@@ -62,7 +62,8 @@ public class SongModel {
     }
 
 
-     /* sends a new song to BLL as the start of the create new song process
+     /**
+      * sends a new song to BLL as the start of the create new song process
      */
 
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
