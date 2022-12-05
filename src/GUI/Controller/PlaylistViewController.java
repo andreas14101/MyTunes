@@ -9,9 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class PlaylistViewController extends BaseController {
-
     private PlaylistModel playlistModel;
+    @FXML
     private Button cxlBtn;
+    @FXML
     private TextField playlistName;
 
     private boolean shouldEditPlaylist;
@@ -19,14 +20,11 @@ public class PlaylistViewController extends BaseController {
     @Override
     public void setup() {
         playlistModel = getModel().getPlaylistModel();
+        createNew();
 
         if(playlistModel.getShouldEditPlaylist() == true)
         {
             edit();
-        }
-        else
-        {
-            createNew();
         }
         setShouldEditPlaylist();
     }
@@ -61,6 +59,7 @@ public class PlaylistViewController extends BaseController {
      */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
+        playlistModel.setShouldEdit(false);
         Stage stage = (Stage) cxlBtn.getScene().getWindow();
         stage.close();
     }

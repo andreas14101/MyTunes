@@ -45,14 +45,11 @@ public class SongViewController extends BaseController {
 
         model = getModel().getSongModel();
         setCategoryCB();
+        createNew();
 
         if(model.getShouldEdit() == true)
         {
             edit();
-        }
-        else
-        {
-            createNew();
         }
         setShouldEdit();
     }
@@ -135,6 +132,7 @@ public class SongViewController extends BaseController {
      */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
+        model.setShouldEdit(false);
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
         stage.close();
     }

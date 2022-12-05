@@ -28,6 +28,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("MyTunes");
         primaryStage.setScene(new Scene(root));
+
         primaryStage.show();
 
     }
