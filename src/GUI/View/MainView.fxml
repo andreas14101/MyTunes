@@ -123,12 +123,12 @@
          <children>
             <HBox prefHeight="58.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistUp" text="⬆">
+                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMoveSongUp" text="⬆">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistDown" text="⬇" />
+                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMoveSongDown" text="⬇" />
                   <Button fx:id="deleteSongFromPlaylistBtn" mnemonicParsing="false" onAction="#handleDeleteSongOnPlaylist" text="Delete">
                      <HBox.margin>
                         <Insets left="10.0" />
