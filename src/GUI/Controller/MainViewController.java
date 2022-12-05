@@ -45,27 +45,45 @@ import java.util.function.Predicate;
 public class MainViewController extends BaseController implements Initializable {
 
     //all of the instance variables. Available everywhere in the class
-    public TextField filterSearch;
-    public Slider timeSlider;
-    public TableView songsTable;
-    public TableView playlistTable;
-    public Slider volumeSlider;
-    public TableColumn songTitleColumn;
-    public TableColumn songArtistColumn;
-    public TableColumn songCategoryColumn;
-    public TableColumn songTimeColumn;
-    public Button CloseBtn;
-    public Button searchBtn;
-    public TableColumn playlistNameColumn;
-    public TableColumn playlistSongsAmountColumn;
-    public TableColumn playlistTimeColumn;
+   @FXML
+    private TextField filterSearch;
+   @FXML
+    private Slider timeSlider;
+    @FXML
+    private TableView songsTable;
+    @FXML
+    private TableView playlistTable;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
+    private TableColumn songTitleColumn;
+    @FXML
+    private TableColumn songArtistColumn;
+    @FXML
+    private TableColumn songCategoryColumn;
+    @FXML
+    private TableColumn songTimeColumn;
+    @FXML
+    private Button CloseBtn;
+    @FXML
+    private Button searchBtn;
+    @FXML
+    private TableColumn playlistNameColumn;
+    @FXML
+    private TableColumn playlistSongsAmountColumn;
+    @FXML
+    private TableColumn playlistTimeColumn;
 
-    public Button playBtn;
-    public Button forwardBtn;
-    public Label currentSongPlaying;
-    public Button backBtn;
-
-    public TableView songsInsidePlaylist;
+    @FXML
+    private Button playBtn;
+    @FXML
+    private Button forwardBtn;
+    @FXML
+    private Label currentSongPlaying;
+    @FXML
+    private Button backBtn;
+    @FXML
+    private TableView songsInsidePlaylist;
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
