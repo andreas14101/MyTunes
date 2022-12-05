@@ -51,11 +51,17 @@ public class SongViewController extends BaseController {
         setShouldEdit();
     }
 
+    /**
+     * sets the shouldEdit boolean to match the value of the shouldEdit boolean from the model
+     */
     private void setShouldEdit()
     {
         shouldEdit = model.getShouldEdit();
     }
 
+    /**
+     * sets the textfields text to match the selected songs information when editing a song
+     */
     private void edit()
     {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
@@ -63,6 +69,9 @@ public class SongViewController extends BaseController {
             fileTxt.setText(model.getSelectedSong().getFilePath());
     }
 
+    /**
+     * clears the textfields when creating a new song
+     */
     private void createNew()
     {
         songTitleTxt.clear();
@@ -72,7 +81,7 @@ public class SongViewController extends BaseController {
 
     //Handles the Save button in the new song window.
     @FXML
-    public void handleSave(ActionEvent actionEvent) throws Exception {
+    private void handleSave(ActionEvent actionEvent) throws Exception {
         if (shouldEdit == false)
         {
             String title = songTitleTxt.getText();
@@ -114,6 +123,10 @@ public class SongViewController extends BaseController {
         }
     }
 
+    /**
+     * closes the window when the button is clicked
+     * @param actionEvent
+     */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();

@@ -112,12 +112,18 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
+    /**
+     * sets the lable text when the tableview are empty
+     */
     private void placeholders() {
         songsInsidePlaylist.setPlaceholder(new Label("No songs on playlist"));
         songsTable.setPlaceholder(new Label("No songs added yet"));
         playlistTable.setPlaceholder(new Label("No playlist created yet"));
     }
 
+    /**
+     * updates the songs in playlist tableview
+     */
     private void updateSongsInPlaylist() {
         try {
             Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
@@ -134,6 +140,9 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * Updates the playlist tableview
+     */
     private void updatePlaylist() {
         playlistModel = getModel().getPlaylistModel();
 
@@ -146,6 +155,9 @@ public class MainViewController extends BaseController implements Initializable 
         playlistTable.setItems(playlistModel.getObservablePlaylists());
     }
 
+    /**
+     * updates the songs tableview
+     */
     private void updateSongList() {
         musicModel = getModel().getSongModel();
 
@@ -202,6 +214,11 @@ public class MainViewController extends BaseController implements Initializable 
     */
     }
 
+    /**
+     * opens a new window to show a detailed view when adding a new song
+     * @param event
+     * @throws IOException
+     */
     public void handleNewSong(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
@@ -221,7 +238,11 @@ public class MainViewController extends BaseController implements Initializable 
         dialogWindow.showAndWait();
     }
 
-
+    /**
+     * opens a new window to create a new playList in
+     * @param event
+     * @throws IOException
+     */
     public void handleNewPlaylist(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
@@ -249,6 +270,10 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleMovePlaylistDown(ActionEvent actionEvent) {
     }
 
+    /**
+     * delets a song from a playlist
+     * @param actionEvent
+     */
     public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
@@ -260,6 +285,11 @@ public class MainViewController extends BaseController implements Initializable 
         updateSongsInPlaylist();
     }
 
+    /**
+     * opens a window where you can edit the name of the playlist
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
         Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         if (selectedPlaylist != null) {
@@ -287,6 +317,11 @@ public class MainViewController extends BaseController implements Initializable 
         //return selectedPlaylist;
     }
 
+    /**
+     * delets the selected playlist
+     * @param actionEvent
+     * @throws Exception
+     */
     public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
 
@@ -298,6 +333,10 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * adds the selected song to the selected playlist
+     * @param actionEvent
+     */
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
@@ -321,6 +360,11 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
+    /**
+     * opens a new window where you can edit the selected song
+     * @param actionEvent
+     * @throws IOException
+     */
     public void handleEditSong(ActionEvent actionEvent) throws IOException {
         Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
         musicModel.setSelectedSong(selectedSong);
@@ -343,6 +387,11 @@ public class MainViewController extends BaseController implements Initializable 
         dialogWindow.showAndWait();
     }
 
+    /**
+     * deletes the selected song
+     * @param actionEvent
+     * @throws Exception
+     */
     public void handleDeleteSong(ActionEvent actionEvent) throws Exception {
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
@@ -354,11 +403,19 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * closes the window when the button is pressed
+     * @param actionEvent
+     */
     public void handleClose(ActionEvent actionEvent) {
         Stage stage = (Stage) CloseBtn.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * on the first click of the button it searches through the song table to fit the query on the second click of the button it clears the search query
+     * @param actionEvent
+     */
     public void handleSearch(ActionEvent actionEvent) {
         if (searchBtn.getText().equals("Search")) {
             if (filterSearch.getText() != null) {
@@ -373,6 +430,9 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * on the first click of the button plays selected song on the second click pauses the song
+     */
     public void playSong() {
         //begin to track the progress
         beginTimer();
@@ -390,6 +450,9 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
+    /**
+     * goes to the next song in either the songs tableview or the next song in the playlist
+     */
     public void nextSong() {
         if (songNumber < songs.size() - 1) {
             songNumber++;
@@ -400,6 +463,9 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * switches the song
+     */
     public void shiftSong() {
         mediaPlayer.stop();
         media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
@@ -410,6 +476,9 @@ public class MainViewController extends BaseController implements Initializable 
         playSong();
     }
 
+    /**
+     * starts the current song over if the duration is >= 7 seconds of playing it else it goes back to the previous song on the list
+     */
     public void previosOrRestartSong() {
         //if more than 7 seconds has passed, the song is restartet, else it is the previos song
         double current = mediaPlayer.getCurrentTime().toSeconds();
@@ -430,6 +499,9 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * begins a timer to track the time a song has been playing
+     */
     public void beginTimer() {
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -454,6 +526,9 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
+    /**
+     * stops and resets the timer
+     */
     public void cancelTimer() {
         timer.cancel();
 
@@ -475,6 +550,11 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.seek(Duration.seconds(newTimeOnSong));
     }
 
+    /**
+     * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
+     * @param event
+     * @throws InterruptedException
+     */
     public void handleCat(ActionEvent event) throws InterruptedException {
         Desktop desktop = Desktop.getDesktop();
         if (desktop.isSupported(Desktop.Action.BROWSE)) {
@@ -486,6 +566,10 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    /**
+     * shows the songs in a playlist in the songs in playlist tableview
+     * @param mouseEvent
+     */
     public void handlePlaylistUpdate(MouseEvent mouseEvent) {
         updateSongsInPlaylist();
     }
