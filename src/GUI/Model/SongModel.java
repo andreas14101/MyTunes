@@ -132,14 +132,29 @@ public class SongModel {
         shouldEdit = value;
     }
 
+    /**
+     *  calls BLL so you can add the selected song to the selected playlist
+     * @param sId
+     * @param plId
+     */
     public void addSongToPlaylist(int sId, int plId) {
         musicManager.addSongToPlaylist(sId, plId);
     }
 
+    /**
+     * calls Bll so you can delete the selected song from the selected playlist
+     * @param sId
+     * @param plId
+     */
     public void removeSongFromPlaylist(int sId, int plId) {
         musicManager.removeSongFromPlaylist(sId, plId);
     }
 
+    /**
+     * updates the selected song
+     * @param updatedSong
+     * @throws Exception
+     */
     public void songUpdate(Song updatedSong) throws Exception {
         // Call BLL
         // Update song in DB
