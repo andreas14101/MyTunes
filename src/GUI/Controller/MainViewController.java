@@ -68,6 +68,7 @@ public class MainViewController extends BaseController implements Initializable 
     public TableView songsInsidePlaylist;
     public TableColumn titleColumn;
 
+
     private SongModel musicModel;
     private PlaylistModel playlistModel;
 
@@ -288,16 +289,14 @@ public class MainViewController extends BaseController implements Initializable 
 
         for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
             Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
-            if (SiP.getId() == sId){
+            if (SiP.getId() == sId) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in playlist", ButtonType.CANCEL);
                 alert.showAndWait();
                 break;
-            }
-            else musicModel.addSongToPlaylist(sId, plId);
+            } else musicModel.addSongToPlaylist(sId, plId);
             updateSongsInPlaylist();
             break;
         }
-
 
 
     }
@@ -469,5 +468,57 @@ public class MainViewController extends BaseController implements Initializable 
 
     public void handlePlaylistUpdate(MouseEvent mouseEvent) {
         updateSongsInPlaylist();
+    }
+
+    /**
+     * Moves the current highlighted song UP in the playlist,
+     * so the user is able to sort their playlist according to their wishes.
+     *
+     * @param actionEvent
+     */
+    public void handleMoveSongUp(ActionEvent actionEvent) {
+        //Get focused song
+        Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+        int index = songsInsidePlaylist.getSelectionModel().getFocusedIndex();
+
+        //Move focused song up if it is not at the top
+        if (index > 0) {
+            songsInsidePlaylist.getItems().set(index, songsInsidePlaylist.getItems().get(index - 1));
+            songsInsidePlaylist.getItems().set(index - 1, s);
+
+            //Keep the item you moved selected
+            songsInsidePlaylist.getSelectionModel().select(index - 1);
+        } else {
+            //Show error if at top and the user tries to move it up
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Song already at top of playlist", ButtonType.CANCEL);
+            alert.showAndWait();
+        }
+
+    }
+
+    /**
+     * Moves the current highlighted song DOWN in the playlist,
+     * so the user is able to sort their playlist according to their wishes.
+     *
+     * @param actionEvent
+     */
+    public void handleMoveSongDown(ActionEvent actionEvent) {
+        //Get focused song
+        Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+        int index = songsInsidePlaylist.getSelectionModel().getFocusedIndex();
+
+        //Move focused song down if it is not at the bottom
+        if (index < songsInsidePlaylist.getItems().size() - 1) {
+            songsInsidePlaylist.getItems().set(index, songsInsidePlaylist.getItems().get(index + 1));
+            songsInsidePlaylist.getItems().set(index + 1, s);
+
+            //Keep the item you moved selected
+            songsInsidePlaylist.getSelectionModel().select(index + 1);
+        } else {
+            //Show error if at bottom and the user tries to move it down
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Song already at bottom of playlist", ButtonType.CANCEL);
+            alert.showAndWait();
+        }
+
     }
 }
