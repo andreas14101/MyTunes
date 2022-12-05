@@ -47,20 +47,23 @@ public class PlaylistModel {
         this.selectedPlaylist = selectedPlaylist;
     }
 
-    public Boolean shouldEditPlaylist() {
-        if (shouldEdit == false && selectedPlaylist != null) {
-            shouldEdit = true;
-        } else {
-            shouldEdit = false;
-        }
+    public Boolean getShouldEditPlaylist() {
         return shouldEdit;
     }
 
+    public void setShouldEdit(boolean value)
+    {
+        shouldEdit = value;
+    }
+
     public void editPlaylist(String plname, Playlist pl) throws Exception {
-        playlistsToBeViewed.add(musicManager.editPlaylist(plname, pl));
-        playlistsToBeViewed.remove(selectedPlaylist);
+        // Call BLL
+        // Update playlist in DB
+        musicManager.editPlaylist(plname,pl);
 
-
+        // Update tableView
+        playlistsToBeViewed.clear();
+        playlistsToBeViewed.addAll(musicManager.getAllPlaylists());
     }
 
     public ObservableList<Song> getSongsOnPL(int id) throws Exception {

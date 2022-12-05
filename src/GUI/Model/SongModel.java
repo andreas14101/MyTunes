@@ -76,14 +76,13 @@ public class SongModel {
         this.selectedSong = selectedSong;
     }
 
-    public Boolean shouldEditSong() {
-        if (shouldEdit == false && selectedSong != null) {
-            shouldEdit = true;
-            return true;
-        } else {
-            shouldEdit = false;
-            return false;
-        }
+    public Boolean getShouldEdit() {
+        return shouldEdit;
+    }
+
+    public void setShouldEdit(boolean value)
+    {
+        shouldEdit = value;
     }
 
     public void addSongToPlaylist(int sId, int plId) {
@@ -95,6 +94,12 @@ public class SongModel {
     }
 
     public void songUpdate(Song updatedSong) throws Exception {
+        // Call BLL
+        // Update song in DB
         musicManager.editSong(updatedSong);
+
+        // Update TableView
+        songsToBeViewed.clear();
+        songsToBeViewed.addAll(musicManager.getAllSongs());
     }
 }

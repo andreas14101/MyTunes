@@ -6,30 +6,7 @@
     -fx-background-color: #00d0d9;
     -fx-text-fill: black;
 }
-.list-view{
-    -fx-background-color: linear-gradient(to top right, lightblue,tomato);
-    -fx-text-fill: black;
-}
-.list-view .list-cell:hover {
-    -fx-background-color: linear-gradient(to top right, #fc0009, #00d0d9);
-    -fx-text-fill: black;
-}
-
-.list-view .list-cell:selected {
-    -fx-background-color: #00d0d9;
-    -fx-text-fill: black;
-}
-
-.list-view .list-cell {
-    -fx-background-color: rgba(43, 225, 234, 0.22);
-    -fx-text-fill: #313131;
-}
-
 .label {
-    -fx-text-fill: black;
-}
-
-.list-view .label{
     -fx-text-fill: black;
 }
 
