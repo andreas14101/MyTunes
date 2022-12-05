@@ -74,7 +74,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                <children>
-                  <ComboBox fx:id="CategoryCB" prefWidth="150.0" styleClass="button">
+                  <ComboBox fx:id="categoryCB" prefWidth="150.0" styleClass="button">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

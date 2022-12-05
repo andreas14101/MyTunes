@@ -24,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -32,6 +33,7 @@ import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -62,7 +64,8 @@ public class MainViewController extends BaseController implements Initializable 
     public Button forwardBtn;
     public Label currentSongPlaying;
     public Button backBtn;
-    public ListView songsOnPL;
+
+    public TableView songsInsidePlaylist;
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
@@ -90,7 +93,7 @@ public class MainViewController extends BaseController implements Initializable 
         try {
             playlistModel = getModel().getPlaylistModel();
             Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-            songsOnPL.setItems(playlistModel.getSongsOnPL(pl.getId()));
+            songsInsidePlaylist.setItems(playlistModel.getSongsOnPL(pl.getId()));
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -121,6 +124,13 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.setItems(musicModel.getObservableSongs());
     }
 
+    public void updatePLList() {
+        playlistTable.getColumns().removeAll();
+
+        playlistTable.getColumns().addAll();
+        playlistTable.setItems(playlistModel.getObservablePlaylists());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -132,279 +142,308 @@ public class MainViewController extends BaseController implements Initializable 
         }
         });
 
-         //Controlling timeslider
-         timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-        @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-        }
+        //Controlling timeslider
+        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            }
         });
-
          //Display the song on the label
          //currentSongPlaying.setText(songs.get(songNumber).getName());
     }
 
-    public void handleNewSong(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
-        AnchorPane pane = (AnchorPane) loader.load();
+             public void handleNewSong(ActionEvent event) throws IOException {
+                 FXMLLoader loader = new FXMLLoader();
+                 loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
+                 AnchorPane pane = (AnchorPane) loader.load();
 
-        SongViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
+                 SongViewController controller = loader.getController();
+                 controller.setModel(super.getModel());
+                 controller.setup();
 
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New song");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
-    }
-
-
-    public void handleNewPlaylist(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
-        AnchorPane pane = (AnchorPane) loader.load();
-
-        PlaylistViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
-
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New playlist");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
+                 // Create the dialog stage
+                 Stage dialogWindow = new Stage();
+                 dialogWindow.setTitle("New song");
+                 dialogWindow.initModality(Modality.WINDOW_MODAL);
+                 dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+                 Scene scene = new Scene(pane);
+                 dialogWindow.setScene(scene);
+                 dialogWindow.showAndWait();
+             }
 
 
-    }
+             public void handleNewPlaylist(ActionEvent event) throws IOException {
+                 FXMLLoader loader = new FXMLLoader();
+                 loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
+                 AnchorPane pane = (AnchorPane) loader.load();
 
-    public void handleMovePlaylistUp(ActionEvent actionEvent) {
-    }
+                 PlaylistViewController controller = loader.getController();
+                 controller.setModel(super.getModel());
+                 controller.setup();
 
-    public void handleMovePlaylistDown(ActionEvent actionEvent) {
-    }
-
-    public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
-    }
-
-    public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
-        Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-        if (selectedPlaylist != null) {
-            playlistModel.setSelectedPlaylist(selectedPlaylist);
-        }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
-        AnchorPane pane = (AnchorPane) loader.load();
-
-        PlaylistViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
-
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New playlist");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
-
-        //return selectedPlaylist;
-    }
-
-    public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
-        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.YES) {
-            playlistModel.deletePlaylist(pl);
-        }
-    }
-
-    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
-
-    }
-
-    public void handleEditSong(ActionEvent actionEvent) throws Exception {
-        musicModel.shouldEditSong();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
-        AnchorPane pane = (AnchorPane) loader.load();
-
-        SongViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
-
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New song");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
-    }
-
-    public void handleDeleteSong(ActionEvent actionEvent) throws Exception {
-        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait();
-
-        if (alert.getResult() == ButtonType.YES) {
-            musicModel.deleteSong(s);
-        }
-    }
-
-    public void handleClose(ActionEvent actionEvent) {
-        Stage stage = (Stage) CloseBtn.getScene().getWindow();
-        stage.close();
-    }
-
-    public void handleSearch(ActionEvent actionEvent) {
-        if (searchBtn.getText().equals("Search")) {
-            if (filterSearch.getText() != null) {
-                String search = filterSearch.getText().toLowerCase();
-                songsTable.setItems(musicModel.filteredSongs(search));
-            }
-            searchBtn.setText("Clear");
-        } else if (searchBtn.getText().equals("Clear")) {
-            filterSearch.setText("");
-            songsTable.setItems(musicModel.getObservableSongs());
-            searchBtn.setText("Search");
-        }
-    }
-
-    public void playSong() {
-        songs = new ArrayList<>();
-
-        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
-        String filepath = s.getFilePath();
-        //directory = new File(filepath);
-        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
-
-        files = directory.listFiles();  //stores files in directory
-
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-            }
-        }
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+                 // Create the dialog stage
+                 Stage dialogWindow = new Stage();
+                 dialogWindow.setTitle("New playlist");
+                 dialogWindow.initModality(Modality.WINDOW_MODAL);
+                 dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+                 Scene scene = new Scene(pane);
+                 dialogWindow.setScene(scene);
+                 dialogWindow.showAndWait();
 
 
+             }
 
-        //begin to track the progress
-        beginTimer();
-        //play and pause the song
-        //if song is playing, then set button to pause
-        if (isPlaying) {
-            playBtn.setText("Play");
-            mediaPlayer.pause();
-            isPlaying = false;
-        } else {
-            playBtn.setText("Pause");
-            isPlaying = true;
-            mediaPlayer.play();
-        }
+             public void handleMovePlaylistUp(ActionEvent actionEvent) {
+             }
 
-    }
+             public void handleMovePlaylistDown(ActionEvent actionEvent) {
+             }
 
-    public void nextSong() {
-        if (songNumber < songs.size() - 1) {
-            songNumber++;
-            shiftSong();
-        } else {
-            songNumber = 0;
-            shiftSong();
-        }
-    }
+             public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
+                 Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+                 Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
-    public void shiftSong() {
-        mediaPlayer.stop();
-        media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
-        mediaPlayer = new MediaPlayer(media);   //sets the song
+                 int sId = s.getId();
+                 int plId = pl.getId();
 
-        currentSongPlaying.setText(songs.get(songNumber).getName());
-        isPlaying = false;
-        playSong();
-    }
+                 musicModel.removeSongFromPlaylist(sId, plId);
+                 updateSongsInPlaylist();
+             }
 
-    public void previosOrRestartSong() {
-        //if more than 7 seconds has passed, the song is restartet, else it is the previos song
-        double current = mediaPlayer.getCurrentTime().toSeconds();
-        if (current >= 7.0) {
-            mediaPlayer.seek(Duration.seconds(0));
-            isPlaying = false;
-            playSong();
-        } else {
-            //look for witch song the previous is
-            if (songNumber > 0) {
-                songNumber--;
-                shiftSong();
-            } else {
-                songNumber = songs.size() - 1;
-                shiftSong();
-            }
+             public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
+                 Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+                 if (selectedPlaylist != null) {
+                     playlistModel.setSelectedPlaylist(selectedPlaylist);
+                 }
 
-        }
-    }
+                 FXMLLoader loader = new FXMLLoader();
+                 loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
+                 AnchorPane pane = (AnchorPane) loader.load();
 
-    public void beginTimer() {
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            //Timertask is the task to be executed.
-            @Override
-            public void run() {
-                double end = media.getDuration().toSeconds();
-                double current = mediaPlayer.getCurrentTime().toSeconds();
-                int endTot = (int) Math.round(end);
-                double howFar = current / end;
+                 PlaylistViewController controller = loader.getController();
+                 controller.setModel(super.getModel());
+                 controller.setup();
 
-                System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
-                timeSlider.setValue(Math.round(howFar * 100 * 100) / 100);
-                if (howFar == 1) {
-                    nextSong();
-                    cancelTimer();
-                }
-            }
-        };
-        //executes the timertask after 1000 milliSeconds = 1 second
-        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+                 // Create the dialog stage
+                 Stage dialogWindow = new Stage();
+                 dialogWindow.setTitle("New playlist");
+                 dialogWindow.initModality(Modality.WINDOW_MODAL);
+                 dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+                 Scene scene = new Scene(pane);
+                 dialogWindow.setScene(scene);
+                 dialogWindow.showAndWait();
 
-    }
+                 //return selectedPlaylist;
+             }
 
-    public void cancelTimer() {
-        timer.cancel();
+             public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
+                 Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
 
-    }
+                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+                 alert.showAndWait();
 
-    public void timeChanged(MouseDragEvent mouseDragEvent) {
-        double howfarNew = Math.round(timeSlider.getValue()) / 100;
-        /**
-         (current/end)*100=howfar%
-         (100 second far/ 200 second end)=0.5 howFarTo1
-         end*(howfar%/100)) = current
-         current/howfar% = end
-         (howfarnew/100) * end = current
-         */
+                 if (alert.getResult() == ButtonType.YES) {
+                     playlistModel.deletePlaylist(pl);
+                 }
+             }
 
-        double end = media.getDuration().toSeconds();
-        double newTimeOnSong = end * howfarNew;
-        System.out.println(newTimeOnSong);
-        mediaPlayer.seek(Duration.seconds(newTimeOnSong));
-    }
+             public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+                 Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+                 Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
-    public void handlePlaylistUpdate(MouseEvent mouseEvent) {
-        updateSongsInPlaylist();
-    }
+                 int sId = s.getId();
+                 int plId = pl.getId();
+
+                 musicModel.addSongToPlaylist(sId, plId);
+                 updateSongsInPlaylist();
+             }
+
+             public void handleEditSong(ActionEvent actionEvent) throws IOException {
+                 Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+                 musicModel.setSelectedSong(selectedSong);
+                 musicModel.shouldEditSong();
+                 FXMLLoader loader = new FXMLLoader();
+                 loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
+                 AnchorPane pane = (AnchorPane) loader.load();
+
+                 SongViewController controller = loader.getController();
+                 controller.setModel(super.getModel());
+                 controller.setup();
+
+                 // Create the dialog stage
+                 Stage dialogWindow = new Stage();
+                 dialogWindow.setTitle("Edit song");
+                 dialogWindow.initModality(Modality.WINDOW_MODAL);
+                 dialogWindow.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+                 Scene scene = new Scene(pane);
+                 dialogWindow.setScene(scene);
+                 dialogWindow.showAndWait();
+             }
+
+             public void handleDeleteSong(ActionEvent actionEvent) throws Exception {
+                 Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+
+                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+                 alert.showAndWait();
+
+                 if (alert.getResult() == ButtonType.YES) {
+                     musicModel.deleteSong(s);
+                 }
+             }
+
+             public void handleClose(ActionEvent actionEvent) {
+                 Stage stage = (Stage) CloseBtn.getScene().getWindow();
+                 stage.close();
+             }
+
+             public void handleSearch(ActionEvent actionEvent) {
+                 if (searchBtn.getText().equals("Search")) {
+                     if (filterSearch.getText() != null) {
+                         String search = filterSearch.getText().toLowerCase();
+                         songsTable.setItems(musicModel.filteredSongs(search));
+                     }
+                     searchBtn.setText("Clear");
+                 } else if (searchBtn.getText().equals("Clear")) {
+                     filterSearch.setText("");
+                     songsTable.setItems(musicModel.getObservableSongs());
+                     searchBtn.setText("Search");
+                 }
+             }
+
+             public void playSong() {
+                 songs = new ArrayList<>();
+
+                 Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+                 String filepath = s.getFilePath();
+                 //directory = new File(filepath);
+                 directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
+
+                 files = directory.listFiles();  //stores files in directory
+
+                 if (files != null) {
+                     for (File file : files) {
+                         songs.add(file);
+                     }
+                 }
+                 media = new Media(songs.get(songNumber).toURI().toString());
+                 mediaPlayer = new MediaPlayer(media);
+
+
+                 //begin to track the progress
+                 beginTimer();
+                 //play and pause the song
+                 //if song is playing, then set button to pause
+                 if (isPlaying) {
+                     playBtn.setText("Play");
+                     mediaPlayer.pause();
+                     isPlaying = false;
+                 } else {
+                     playBtn.setText("Pause");
+                     isPlaying = true;
+                     mediaPlayer.play();
+                 }
+
+             }
+
+             public void nextSong() {
+                 if (songNumber < songs.size() - 1) {
+                     songNumber++;
+                     shiftSong();
+                 } else {
+                     songNumber = 0;
+                     shiftSong();
+                 }
+             }
+
+             public void shiftSong() {
+                 mediaPlayer.stop();
+                 media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
+                 mediaPlayer = new MediaPlayer(media);   //sets the song
+
+                 currentSongPlaying.setText(songs.get(songNumber).getName());
+                 isPlaying = false;
+                 playSong();
+             }
+
+             public void previosOrRestartSong() {
+                 //if more than 7 seconds has passed, the song is restartet, else it is the previos song
+                 double current = mediaPlayer.getCurrentTime().toSeconds();
+                 if (current >= 7.0) {
+                     mediaPlayer.seek(Duration.seconds(0));
+                     isPlaying = false;
+                     playSong();
+                 } else {
+                     //look for witch song the previous is
+                     if (songNumber > 0) {
+                     } else {
+                         //look for witch song the previos is
+                         if (songNumber > 0) {
+                             songNumber--;
+                             shiftSong();
+                         } else {
+                             songNumber = songs.size() - 1;
+                             shiftSong();
+                         }
+                     }
+                 }
+             }
+                 public void beginTimer() {
+                     timer = new Timer();
+                     timerTask = new TimerTask() {
+                         //Timertask is the task to be executed.
+                         @Override
+                         public void run() {
+                             double end = media.getDuration().toSeconds();
+                             double current = mediaPlayer.getCurrentTime().toSeconds();
+                             int endTot = (int) Math.round(end);
+                             double howFar = current / end;
+
+                             System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
+                             timeSlider.setValue(Math.round(howFar * 100 * 100) / 100);
+                             if (howFar == 1) {
+                                 nextSong();
+                                 cancelTimer();
+                             }
+                         }
+                     };
+                     //executes the timertask after 1000 milliSeconds = 1 second
+                     timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+
+                 }
+                 public void cancelTimer() {
+                     timer.cancel();
+
+                 }
+
+                 public void timeChanged (MouseDragEvent mouseDragEvent){
+                     double howfarNew = Math.round(timeSlider.getValue()) / 100;
+                     /**
+                      (current/end)*100=howfar%
+                      (100 second far/ 200 second end)=0.5 howFarTo1
+                      end*(howfar%/100)) = current
+                      current/howfar% = end
+                      (howfarnew/100) * end = current
+                      */
+
+                     double end = media.getDuration().toSeconds();
+                     double newTimeOnSong = end * howfarNew;
+                     System.out.println(newTimeOnSong);
+                     mediaPlayer.seek(Duration.seconds(newTimeOnSong));
+                 }
+
+                 public void handleCat (ActionEvent event) throws InterruptedException {
+                     Desktop desktop = Desktop.getDesktop();
+                     if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                         try {
+                             desktop.browse(URI.create("https://www.nyan.cat/index.php?cat=original"));
+                         } catch (IOException e) {
+                             throw new RuntimeException(e);
+                         }
+                     }
+                 }
+
+                 public void handlePlaylistUpdate (MouseEvent mouseEvent)
+                 {
+                     updateSongsInPlaylist();
+                 }
 }
