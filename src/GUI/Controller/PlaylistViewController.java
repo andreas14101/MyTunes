@@ -27,6 +27,7 @@ public class PlaylistViewController extends BaseController {
 
     public void handleSave(ActionEvent actionEvent) throws Exception {
 
+        //TODO Find out what this does
         if (playlistModel.shouldEditPlaylist() == false) {
             String plname = playlistName.getText();
             playlistModel.createNewPlaylist(plname);

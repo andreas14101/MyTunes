@@ -15,6 +15,7 @@ public class SongModel {
     private Song selectedSong;
     private boolean shouldEdit = false;
 
+    //Constructor
     public SongModel() throws Exception {
 
         musicManager = new MusicManager();
@@ -36,7 +37,7 @@ public class SongModel {
     }
 
     public ObservableList<Song> filteredSongs(String search) {
-        //filter function
+        //filter function. Searching in both title, artist and categories
         filteredSongs = FXCollections.observableArrayList();
         for (int i = 0; i < songsToBeViewed.size(); i++) {
             if (songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)) {
@@ -51,7 +52,10 @@ public class SongModel {
         return filteredSongs;
     }
 
+    //looks at the song the user has selected.
     public Song getSelectedSong() {
+        //TODO needs to be a used method.
+        //System.out.println("choosen song: " + selectedSong.getTitle());
         return selectedSong;
     }
 

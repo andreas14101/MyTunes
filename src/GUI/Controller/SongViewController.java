@@ -4,9 +4,11 @@ import GUI.Model.SongModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -20,12 +22,13 @@ import java.time.Duration;
 
 public class SongViewController extends BaseController {
     @FXML
+    private Button chooseFileBtn;
+    @FXML
     private Button cancelBtn;
     @FXML
     private Button saveBtn;
     @FXML
     private TextField artistTxt;
-
     @FXML
     private TextField songTitleTxt;
     @FXML
@@ -38,6 +41,7 @@ public class SongViewController extends BaseController {
 
         model = getModel().getSongModel();
 
+        //TODO Never used the .getSelectedSong()
         if (model.shouldEditSong() == true) {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
             artistTxt.setText(model.getSelectedSong().getArtist());
@@ -71,5 +75,18 @@ public class SongViewController extends BaseController {
     private void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
         stage.close();
+    }
+
+    //choose a new file, without the user having to copt the filepath.
+    public void chooseFile(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select song");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Files", "*"));
+        Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            fileTxt.setText(String.valueOf(selectedFile));
+        }
     }
 }

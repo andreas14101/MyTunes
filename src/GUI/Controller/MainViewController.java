@@ -123,26 +123,8 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-         boolean isPlaying = false;
-         songs = new ArrayList<File>();
 
-        //ToDo here needs to be a kind og getFilePath på selected song
-        String filepath = songs.get(0).getPath();
-        directory = new File(filepath);
-        //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
-
-        files = directory.listFiles();  //stores files in directory
-
-         if (files != null) {
-         for (File file : files) {
-         songs.add(file);
-         System.out.println(file);
-         }
-         }
-         media = new Media(songs.get(songNumber).toURI().toString());
-         mediaPlayer = new MediaPlayer(media);
-
-
+        boolean isPlaying = false;
          //controlling volumenslider
          volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
         @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -157,7 +139,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
 
          //Display the song on the label
-         currentSongPlaying.setText(songs.get(songNumber).getName());
+         //currentSongPlaying.setText(songs.get(songNumber).getName());
     }
 
     public void handleNewSong(ActionEvent event) throws IOException {
@@ -302,6 +284,25 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void playSong() {
+        songs = new ArrayList<>();
+
+        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+        String filepath = s.getFilePath();
+        //directory = new File(filepath);
+        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
+
+        files = directory.listFiles();  //stores files in directory
+
+        if (files != null) {
+            for (File file : files) {
+                songs.add(file);
+            }
+        }
+        media = new Media(songs.get(songNumber).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+
+
+
         //begin to track the progress
         beginTimer();
         //play and pause the song
@@ -346,7 +347,7 @@ public class MainViewController extends BaseController implements Initializable 
             isPlaying = false;
             playSong();
         } else {
-            //look for witch song the previos is
+            //look for witch song the previous is
             if (songNumber > 0) {
                 songNumber--;
                 shiftSong();
@@ -364,8 +365,8 @@ public class MainViewController extends BaseController implements Initializable 
             //Timertask is the task to be executed.
             @Override
             public void run() {
-                double current = mediaPlayer.getCurrentTime().toSeconds();
                 double end = media.getDuration().toSeconds();
+                double current = mediaPlayer.getCurrentTime().toSeconds();
                 int endTot = (int) Math.round(end);
                 double howFar = current / end;
 
