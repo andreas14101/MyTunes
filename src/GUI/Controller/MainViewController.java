@@ -229,6 +229,7 @@ public class MainViewController extends BaseController implements Initializable 
         Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         if (selectedPlaylist != null) {
             playlistModel.setSelectedPlaylist(selectedPlaylist);
+            playlistModel.setShouldEdit(true);
         }
 
         FXMLLoader loader = new FXMLLoader();
@@ -276,7 +277,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void handleEditSong(ActionEvent actionEvent) throws IOException {
         Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
         musicModel.setSelectedSong(selectedSong);
-        musicModel.shouldEditSong();
+        musicModel.setShouldEdit(true);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();

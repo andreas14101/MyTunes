@@ -34,13 +34,14 @@ public class SongViewController extends BaseController {
 
     private SongModel model;
 
+    private boolean shouldEdit;
+
     @Override
     public void setup() {
 
         model = getModel().getSongModel();
 
-
-        if(model.shouldEditSong() == true)
+        if(model.getShouldEdit() == true)
         {
             edit();
         }
@@ -48,6 +49,12 @@ public class SongViewController extends BaseController {
         {
             createNew();
         }
+        setShouldEdit();
+    }
+
+    private void setShouldEdit()
+    {
+        shouldEdit = model.getShouldEdit();
     }
 
     private void edit()
@@ -68,7 +75,7 @@ public class SongViewController extends BaseController {
     //Handles the Save button in the new song window.
     @FXML
     public void handleSave(ActionEvent actionEvent) throws Exception {
-        if (model.shouldEditSong() == false)
+        if (shouldEdit == false)
         {
             String title = songTitleTxt.getText();
             String artist = artistTxt.getText();
@@ -98,6 +105,9 @@ public class SongViewController extends BaseController {
             model.getSelectedSong().setTitle(title);
             model.getSelectedSong().setFilePath(pathToFile);
             model.songUpdate(model.getSelectedSong());
+
+            // Resets shouldEdit boolean in songModel
+            model.setShouldEdit(false);
 
             // Closes the window
             Stage stage = (Stage) saveBtn.getScene().getWindow();

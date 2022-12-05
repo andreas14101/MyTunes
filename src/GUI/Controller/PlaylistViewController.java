@@ -13,12 +13,38 @@ public class PlaylistViewController extends BaseController {
     public Button cxlBtn;
     public TextField playlistName;
 
+    private boolean shouldEditPlaylist;
 
     @Override
     public void setup() {
         playlistModel = getModel().getPlaylistModel();
+
+        if(playlistModel.getShouldEditPlaylist() == true)
+        {
+            edit();
+        }
+        else
+        {
+            createNew();
+        }
+        setShouldEditPlaylist();
+    }
+
+    private void setShouldEditPlaylist()
+    {
+        shouldEditPlaylist = playlistModel.getShouldEditPlaylist();
+    }
+
+    private void edit()
+    {
         playlistName.setText(playlistModel.getSelectedPlaylist().getTitle());
     }
+
+    private void createNew()
+    {
+        playlistName.clear();
+    }
+
 
     public void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cxlBtn.getScene().getWindow();
@@ -27,7 +53,7 @@ public class PlaylistViewController extends BaseController {
 
     public void handleSave(ActionEvent actionEvent) throws Exception {
 
-        if (playlistModel.shouldEditPlaylist() == false) {
+        if (shouldEditPlaylist == false) {
             String plname = playlistName.getText();
             playlistModel.createNewPlaylist(plname);
             Stage stage = (Stage) cxlBtn.getScene().getWindow();
@@ -36,6 +62,7 @@ public class PlaylistViewController extends BaseController {
             String plname = playlistName.getText();
             Playlist pl = playlistModel.getSelectedPlaylist();
             playlistModel.editPlaylist(plname, pl);
+            playlistModel.setShouldEdit(false);
             Stage stage = (Stage) cxlBtn.getScene().getWindow();
             stage.close();
         }
