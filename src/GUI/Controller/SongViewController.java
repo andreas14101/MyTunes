@@ -1,25 +1,23 @@
 package GUI.Controller;
 
-import BE.Song;
+import BE.Category;
 import GUI.Model.SongModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.IOException;
-import java.time.Duration;
 
 public class SongViewController extends BaseController {
+    @FXML
+    private ComboBox categoryCB;
     @FXML
     private Button cancelBtn;
     @FXML
@@ -38,7 +36,7 @@ public class SongViewController extends BaseController {
     public void setup() {
 
         model = getModel().getSongModel();
-
+        setCategoryCB();
 
         if(model.shouldEditSong() == true)
         {
@@ -64,7 +62,6 @@ public class SongViewController extends BaseController {
         fileTxt.clear();
     }
 
-
     //Handles the Save button in the new song window.
     @FXML
     public void handleSave(ActionEvent actionEvent) throws Exception {
@@ -72,6 +69,7 @@ public class SongViewController extends BaseController {
         {
             String title = songTitleTxt.getText();
             String artist = artistTxt.getText();
+            String category = categoryCB.getValue().toString();
             String pathToFile = fileTxt.getText();
 
             //Takes the duration of the file given, and maps it to an int in seconds,
@@ -81,7 +79,7 @@ public class SongViewController extends BaseController {
             int length = af.getAudioHeader().getTrackLength();
 
             //Sends the info to the model layer.
-            model.createSong(title, artist, String.valueOf(length), "TEST", pathToFile);
+            model.createSong(title, artist, String.valueOf(length), category, pathToFile);
 
             //Closes window
             Stage stage = (Stage) saveBtn.getScene().getWindow();
@@ -109,5 +107,22 @@ public class SongViewController extends BaseController {
     private void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
         stage.close();
+    }
+
+    /**
+     * Sets categories in the dropdown menu for categories
+     */
+    private void setCategoryCB() {
+        try {
+            //Create list and add categories.
+            ObservableList<Category> list = FXCollections.observableArrayList();
+            list = model.getObservableCategories();
+
+            //Load categories to combobox
+            categoryCB.setItems(list);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
