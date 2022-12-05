@@ -64,7 +64,8 @@ public class MainViewController extends BaseController implements Initializable 
     public Button forwardBtn;
     public Label currentSongPlaying;
     public Button backBtn;
-    public ListView songsOnPL;
+
+    public TableView songsInsidePlaylist;
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
@@ -92,7 +93,7 @@ public class MainViewController extends BaseController implements Initializable 
         try {
             playlistModel = getModel().getPlaylistModel();
             Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-            songsOnPL.setItems(playlistModel.getSongsOnPL(pl.getId()));
+            songsInsidePlaylist.setItems(playlistModel.getSongsOnPL(pl.getId()));
 
         } catch (Exception ex) {
             ex.printStackTrace();

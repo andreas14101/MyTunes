@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="SongsInPlaylist" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -81,7 +82,7 @@
             </Label>
             <HBox prefHeight="260.0" prefWidth="210.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="playlistTable" onMouseClicked="#handlePlaylistUpdate" prefHeight="323.0" prefWidth="179.0">
+                  <TableView fx:id="playlistTable" prefHeight="323.0" prefWidth="179.0">
                     <columns>
                       <TableColumn fx:id="playlistNameColumn" prefWidth="67.20000553131104" styleClass="button" text="Name" />
                       <TableColumn fx:id="playlistSongsAmountColumn" prefWidth="45.60000991821289" styleClass="button" text="Songs" />
@@ -95,18 +96,14 @@
             </HBox>
             <HBox prefHeight="284.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
-                    <columns>
-                      <TableColumn prefWidth="35.99993896484375" text="Nr." />
-                      <TableColumn prefWidth="124.80001983642578" text="Song name" />
-                    </columns>
+                  <ListView prefHeight="278.0" prefWidth="136.0">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="15.0" />
                      </HBox.margin>
-                  </TableView>
+                  </ListView>
                </children>
             </HBox>
-            <Label text="Songs in playlist " GridPane.columnIndex="1">
+            <Label text="Songs on playlist " GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
@@ -173,7 +170,7 @@
                <children>
                   <Button fx:id="leftArrowBtn" mnemonicParsing="false" onAction="#handleAddSongToPlaylist" prefHeight="26.0" prefWidth="38.0" text="⬅">
                      <HBox.margin>
-                        <Insets left="17.0" top="30.0" />
+                        <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -293,6 +290,6 @@
             </HBox>
          </children>
       </GridPane>
-      <Button fx:id="catBtn" layoutX="640.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleCat" styleClass="catButton" text="Button" />
+      <Button fx:id="catBtn" layoutX="640.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleCat" text="Button" styleClass="catButton" />
    </children>
 </AnchorPane>
