@@ -66,15 +66,11 @@ public class PlaylistModel {
         playlistsToBeViewed.addAll(musicManager.getAllPlaylists());
     }
 
-    public ObservableList<String> getSongsOnPL(int id) throws Exception {
+    public ObservableList<Song> getSongsOnPL(int id) throws Exception {
         songsOnPL = FXCollections.observableArrayList();
         songsOnPL.addAll(musicManager.getSongsFromPlaylist(id));
-        songsOnList = FXCollections.observableArrayList();
-        for (int i = 0; i < songsOnPL.size(); i++) {
-            String SoL = i+1 + ": " + songsOnPL.get(i).getTitle();
+        return songsOnPL;
 
-            songsOnList.add(SoL);
-        }
-        return songsOnList;
+
     }
 }
