@@ -66,6 +66,7 @@ public class MainViewController extends BaseController implements Initializable 
     public Button backBtn;
 
     public TableView songsInsidePlaylist;
+    public TableColumn titleColumn;
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
@@ -87,13 +88,25 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
+
     }
 
     private void updateSongsInPlaylist() {
         try {
-            playlistModel = getModel().getPlaylistModel();
             Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+            playlistModel = getModel().getPlaylistModel();
+
+
+            titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+
+
+
+            songsInsidePlaylist.getColumns().addAll();
             songsInsidePlaylist.setItems(playlistModel.getSongsOnPL(pl.getId()));
+
+
+
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
