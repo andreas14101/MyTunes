@@ -88,7 +88,15 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
+        placeholders();
 
+
+    }
+
+    private void placeholders() {
+        songsInsidePlaylist.setPlaceholder(new Label("No songs on playlist"));
+        songsTable.setPlaceholder(new Label("No songs added yet"));
+        playlistTable.setPlaceholder(new Label("No playlist created yet"));
     }
 
     private void updateSongsInPlaylist() {
@@ -100,12 +108,8 @@ public class MainViewController extends BaseController implements Initializable 
             titleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
 
 
-
             songsInsidePlaylist.getColumns().addAll();
             songsInsidePlaylist.setItems(playlistModel.getSongsOnPL(pl.getId()));
-
-
-
 
 
         } catch (Exception ex) {
@@ -344,12 +348,11 @@ public class MainViewController extends BaseController implements Initializable 
         beginTimer();
         //play and pause the song
         //if song is playing, then set button to pause
-        if (isPlaying){
+        if (isPlaying) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
-        }
-        else{
+        } else {
             playBtn.setText("Pause");
             isPlaying = true;
             mediaPlayer.play();
@@ -358,16 +361,16 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void nextSong() {
-        if (songNumber < songs.size()-1){
+        if (songNumber < songs.size() - 1) {
             songNumber++;
             shiftSong();
-        }
-        else {
+        } else {
             songNumber = 0;
             shiftSong();
         }
     }
-    public void shiftSong(){
+
+    public void shiftSong() {
         mediaPlayer.stop();
         media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
         mediaPlayer = new MediaPlayer(media);   //sets the song
@@ -380,37 +383,37 @@ public class MainViewController extends BaseController implements Initializable 
     public void previosOrRestartSong() {
         //if more than 7 seconds has passed, the song is restartet, else it is the previos song
         double current = mediaPlayer.getCurrentTime().toSeconds();
-        if (current >= 7.0){
+        if (current >= 7.0) {
             mediaPlayer.seek(Duration.seconds(0));
             isPlaying = false;
             playSong();
-        }else{
+        } else {
             //look for witch song the previos is
-            if (songNumber > 0){
+            if (songNumber > 0) {
                 songNumber--;
                 shiftSong();
-            }
-            else {
-                songNumber = songs.size()-1;
+            } else {
+                songNumber = songs.size() - 1;
                 shiftSong();
             }
 
         }
     }
-    public void beginTimer(){
+
+    public void beginTimer() {
         timer = new Timer();
-        timerTask = new TimerTask(){
+        timerTask = new TimerTask() {
             //Timertask is the task to be executed.
             @Override
             public void run() {
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 double end = media.getDuration().toSeconds();
                 int endTot = (int) Math.round(end);
-                double howFar = current/end;
+                double howFar = current / end;
 
-                System.out.println(Math.round(howFar * 100*100)/100+ " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: "+ Math.round(current)+ "\t Total Duration: " + endTot);
-                timeSlider.setValue(Math.round(howFar * 100 * 100)/100);
-                if (howFar == 1){
+                System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
+                timeSlider.setValue(Math.round(howFar * 100 * 100) / 100);
+                if (howFar == 1) {
                     nextSong();
                     cancelTimer();
                 }
@@ -420,13 +423,14 @@ public class MainViewController extends BaseController implements Initializable 
         timer.scheduleAtFixedRate(timerTask, 1000, 1000);
 
     }
-    public void cancelTimer(){
+
+    public void cancelTimer() {
         timer.cancel();
 
     }
 
     public void timeChanged(MouseDragEvent mouseDragEvent) {
-        double howfarNew = Math.round(timeSlider.getValue())/100;
+        double howfarNew = Math.round(timeSlider.getValue()) / 100;
         /**
          (current/end)*100=howfar%
          (100 second far/ 200 second end)=0.5 howFarTo1
@@ -443,10 +447,8 @@ public class MainViewController extends BaseController implements Initializable 
 
     public void handleCat(ActionEvent event) throws InterruptedException {
         Desktop desktop = Desktop.getDesktop();
-        if(desktop.isSupported(Desktop.Action.BROWSE))
-        {
-            try
-            {
+        if (desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
                 desktop.browse(URI.create("https://www.nyan.cat/index.php?cat=original"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -454,8 +456,7 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-    public void handlePlaylistUpdate(MouseEvent mouseEvent)
-    {
+    public void handlePlaylistUpdate(MouseEvent mouseEvent) {
         updateSongsInPlaylist();
     }
 }
