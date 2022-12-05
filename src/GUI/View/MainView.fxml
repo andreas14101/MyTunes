@@ -95,10 +95,9 @@
             </HBox>
             <HBox prefHeight="284.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0" styleClass="column-header-background, table-view, table-cell, table-row-cell, button">
                     <columns>
-                      <TableColumn prefWidth="35.99993896484375" text="Nr." />
-                      <TableColumn prefWidth="124.80001983642578" text="Song name" />
+                      <TableColumn fx:id="titleColumn" prefWidth="160.800018286705" text="Title" />
                     </columns>
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -124,12 +123,12 @@
          <children>
             <HBox prefHeight="58.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistUp" text="⬆">
+                  <Button fx:id="upArrowBtn" mnemonicParsing="false" onAction="#handleMoveSongUp" text="⬆">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMovePlaylistDown" text="⬇" />
+                  <Button fx:id="downArrowBtn" mnemonicParsing="false" onAction="#handleMoveSongDown" text="⬇" />
                   <Button fx:id="deleteSongFromPlaylistBtn" mnemonicParsing="false" onAction="#handleDeleteSongOnPlaylist" text="Delete">
                      <HBox.margin>
                         <Insets left="10.0" />

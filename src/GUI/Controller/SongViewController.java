@@ -38,13 +38,15 @@ public class SongViewController extends BaseController {
 
     private SongModel model;
 
+    private boolean shouldEdit;
+
     @Override
     public void setup() {
 
         model = getModel().getSongModel();
         setCategoryCB();
 
-        if(model.shouldEditSong() == true)
+        if(model.getShouldEdit() == true)
         {
             edit();
         }
@@ -52,8 +54,20 @@ public class SongViewController extends BaseController {
         {
             createNew();
         }
+        setShouldEdit();
     }
 
+    /**
+     * sets the shouldEdit boolean to match the value of the shouldEdit boolean from the model
+     */
+    private void setShouldEdit()
+    {
+        shouldEdit = model.getShouldEdit();
+    }
+
+    /**
+     * sets the textfields text to match the selected songs information when editing a song
+     */
     private void edit()
     {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
@@ -61,6 +75,9 @@ public class SongViewController extends BaseController {
             fileTxt.setText(model.getSelectedSong().getFilePath());
     }
 
+    /**
+     * clears the textfields when creating a new song
+     */
     private void createNew()
     {
         songTitleTxt.clear();
@@ -70,8 +87,8 @@ public class SongViewController extends BaseController {
 
     //Handles the Save button in the new song window.
     @FXML
-    public void handleSave(ActionEvent actionEvent) throws Exception {
-        if (model.shouldEditSong() == false)
+    private void handleSave(ActionEvent actionEvent) throws Exception {
+        if (shouldEdit == false)
         {
             String title = songTitleTxt.getText();
             String artist = artistTxt.getText();
@@ -103,12 +120,19 @@ public class SongViewController extends BaseController {
             model.getSelectedSong().setFilePath(pathToFile);
             model.songUpdate(model.getSelectedSong());
 
+            // Resets shouldEdit boolean in songModel
+            model.setShouldEdit(false);
+
             // Closes the window
             Stage stage = (Stage) saveBtn.getScene().getWindow();
             stage.close();
         }
     }
 
+    /**
+     * closes the window when the button is clicked
+     * @param actionEvent
+     */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
