@@ -103,16 +103,16 @@ public class MainViewController extends BaseController implements Initializable 
         updateSongList();
         updatePlaylist();
         placeholders();
-        //mediaPlayermetod();
+        mediaPlayermetod();
     }
 
     private void mediaPlayermetod() {
+        /*
         musicModel = getModel().getSongModel();
         songs = new ArrayList<>();
         allSongs = new ArrayList<>();
         allSongsFilepaths = new ArrayList<>();
 
-        /*
         if (musicModel.getSongsList() != null) {
             //add filepaths to the arraylist
             allSongsFilepaths.add(musicModel.getSongsList().get(0).getFilePath());
@@ -470,7 +470,7 @@ public class MainViewController extends BaseController implements Initializable 
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
-        } else {
+        } else if(isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null){
             playBtn.setText("Pause");
             isPlaying = true;
 
@@ -484,6 +484,9 @@ public class MainViewController extends BaseController implements Initializable 
                 
             }
             mediaPlayer.play();
+        }
+        else{
+            System.out.println("Ingen sange valgt (¬‿¬)");
         }
     }
 
