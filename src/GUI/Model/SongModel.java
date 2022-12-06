@@ -6,9 +6,15 @@ import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SongModel {
     private ObservableList<Song> songsToBeViewed, filteredSongs;
+    private ArrayList<Song> songs;
+
     private ObservableList<Category> categoriesToBeViewed;
+
 
     private MusicManager musicManager;
 
@@ -26,9 +32,14 @@ public class SongModel {
         songsToBeViewed.addAll(musicManager.getAllSongs());
         categoriesToBeViewed = FXCollections.observableArrayList();
         categoriesToBeViewed.addAll(musicManager.getAllCategories());
+        songs = new ArrayList<>();
+        songs.addAll(musicManager.getAllSongs());
 
     }
 
+    public ArrayList<Song> getSongsList() {
+        return songs;
+    }
     public ObservableList<Song> getObservableSongs() {
         return songsToBeViewed;
     }

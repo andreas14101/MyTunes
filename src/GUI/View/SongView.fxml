@@ -90,7 +90,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="fileTxt" editable="false" prefHeight="26.0" prefWidth="359.0" />
+                        <TextField fx:id="fileTxt" prefHeight="26.0" prefWidth="359.0" />
                         <Button fx:id="chooseFileBtn" mnemonicParsing="false" onAction="#chooseFile" prefHeight="26.0" prefWidth="41.0" styleClass="button" text="Choose File">
                            <HBox.margin>
                               <Insets left="10.0" />

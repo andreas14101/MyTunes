@@ -110,7 +110,7 @@ public class SongViewController extends BaseController {
             stage.close();
         }
 
-        //choose a new file, without the user having to copt the filepath.
+        //choose a new file, without the user having to copy the filepath.
         public void chooseFile (ActionEvent actionEvent){
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select song");

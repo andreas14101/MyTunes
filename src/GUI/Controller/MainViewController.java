@@ -2,14 +2,11 @@ package GUI.Controller;
 
 import BE.Playlist;
 import BE.Song;
-import GUI.Model.MyTunesModel;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -24,23 +21,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Predicate;
 
 public class MainViewController extends BaseController implements Initializable {
 
@@ -78,7 +72,8 @@ public class MainViewController extends BaseController implements Initializable 
     private MediaPlayer mediaPlayer;
     private Media media;
     private ArrayList<File> songs;
-
+    private List<Song> allSongs;
+    private List<String> allSongsFilepaths;
     private int songNumber;
     private Timer timer;
     private TimerTask timerTask;
@@ -87,6 +82,68 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
+        mediaPlayermetod();
+    }
+
+    private void mediaPlayermetod() {
+        musicModel = getModel().getSongModel();
+        songs = new ArrayList<>();
+        allSongs = new ArrayList<>();
+        allSongsFilepaths = new ArrayList<>();
+
+        //Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+        //String filepath = s.getFilePath();
+        //directory = new File(filepath);
+
+
+        if(musicModel.getSongsList() != null) {
+            System.out.println("entered the if");
+            for (Song song : musicModel.getSongsList()) {
+                System.out.println("entered the for-loop");
+                allSongs.add(song);
+                directory = new File(song.getFilePath());
+                System.out.println("Filepath: " + song.getFilePath());
+                files = directory.listFiles();
+                if (files != null) {
+                    System.out.println("entered the last statement");
+                    for (File file : files) {
+                        System.out.println("is this printing?");
+                        songs.add(file);
+                        System.out.println(file.getName() + file + "ingen fejl her");
+                    }
+                }
+            }
+        }
+
+        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
+        //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\lastSummer.mp3");
+
+        files = directory.listFiles();  //stores files in directory
+
+        if (files != null) {
+            for (File file : files) {
+                songs.add(file);
+                System.out.println(file.getName() + file + "\t\t\t der er fejl her");
+            }
+        }
+        media = new Media(songs.get(songNumber).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        boolean isPlaying = false;
+        //controlling volumenslider
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
+        });
+
+        //Controlling timeslider
+        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            }
+        });
+        //Display the song on the label
+        //currentSongPlaying.setText(songs.get(songNumber).getName());
     }
 
     private void updateSongsInPlaylist() {
@@ -133,39 +190,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        songs = new ArrayList<>();
-
-        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
-        String filepath = s.getFilePath();
-        //directory = new File(filepath);
-        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
-
-        files = directory.listFiles();  //stores files in directory
-
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-            }
-        }
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        boolean isPlaying = false;
-         //controlling volumenslider
-         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-             @Override public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-             }
-         });
-
-        //Controlling timeslider
-        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            }
-        });
-         //Display the song on the label
-         //currentSongPlaying.setText(songs.get(songNumber).getName());
     }
 
              public void handleNewSong(ActionEvent event) throws IOException {
@@ -386,7 +410,7 @@ public class MainViewController extends BaseController implements Initializable 
                      }
                  }
              }
-                 public void beginTimer() {
+             public void beginTimer() {
                      timer = new Timer();
                      timerTask = new TimerTask() {
                          //Timertask is the task to be executed.
