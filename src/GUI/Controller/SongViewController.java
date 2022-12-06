@@ -49,6 +49,7 @@ public class SongViewController extends BaseController {
     public void setup() {
 
         model = getModel().getSongModel();
+        setCategoryCB();
 
         if (model.getShouldEdit() == true) {
 
@@ -159,15 +160,15 @@ public class SongViewController extends BaseController {
     private void setCategoryCB() {
         try {
             //Create list and add categories.
-            ObservableList<Category> list = FXCollections.observableArrayList();
-            list = model.getObservableCategories();
-
+            ObservableList<Category> cList = FXCollections.observableArrayList(model.getObservableCategories());
+            //cList = model.getObservableCategories();
+            System.out.println(cList);
             //Load categories to combobox
-            categoryCB.setItems(list);
+            categoryCB.getItems().clear();
+            categoryCB.setItems(cList);
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     @FXML

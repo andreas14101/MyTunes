@@ -81,10 +81,8 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private TableColumn titleColumn;
 
-
     private SongModel musicModel;
     private PlaylistModel playlistModel;
-
 
     private File directory;
     private File[] files;
