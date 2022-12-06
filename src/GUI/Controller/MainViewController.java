@@ -103,6 +103,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
+        placeholders();
         //mediaPlayermetod();
     }
 
@@ -166,7 +167,6 @@ public class MainViewController extends BaseController implements Initializable 
         });
         //Display the song on the label
         //currentSongPlaying.setText(songs.get(songNumber).getName());
-        placeholders();
 
     }
 
@@ -228,12 +228,6 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.setItems(musicModel.getObservableSongs());
     }
 
-    private void updatePLList() {
-        playlistTable.getColumns().removeAll();
-
-        playlistTable.getColumns().addAll();
-        playlistTable.setItems(playlistModel.getObservablePlaylists());
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -306,6 +300,8 @@ public class MainViewController extends BaseController implements Initializable 
 
         musicModel.removeSongFromPlaylist(sId, plId);
         updateSongsInPlaylist();
+
+
     }
 
     /**
@@ -372,12 +368,11 @@ public class MainViewController extends BaseController implements Initializable 
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
 
         //Save the id's of the two into two variables
-
         int sId = s.getId();
         int plId = pl.getId();
 
         //Boolean which indicates whether the song is present on the playlist or not
-        boolean songpresent = false;
+        boolean songPresent = false;
 
         //For loop which goes through all songs inside the playlist
         for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
@@ -391,15 +386,17 @@ public class MainViewController extends BaseController implements Initializable 
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in Playlist", ButtonType.CANCEL);
                 alert.showAndWait();
                 //Change boolean which indicates whether the song is present or not to true.
-                songpresent = true;
+                songPresent = true;
             }
 
         }
         //If song is not present add it to the playlist.
-        if (!songpresent) {
+        if (!songPresent) {
             musicModel.addSongToPlaylist(sId, plId);
             updateSongsInPlaylist();
+
         }
+
     }
 
 

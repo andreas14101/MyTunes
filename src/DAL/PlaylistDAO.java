@@ -1,6 +1,7 @@
 package DAL;
 
 import BE.Playlist;
+import BE.Song;
 
 import java.sql.*;
 import java.time.Duration;
@@ -20,6 +21,7 @@ public class PlaylistDAO implements ICRUDPlaylist{
     public List<Playlist> getAllPlaylists() throws Exception {
         //Make a list called allPlaylists
         ArrayList<Playlist> allPlaylists = new ArrayList<>();
+        ArrayList<Playlist> allPlaylist2 = new ArrayList<>();
 
         //Try with resources on the databaseConnector
         try (Connection conn = databaseConnector.getConnection()) {
@@ -42,14 +44,42 @@ public class PlaylistDAO implements ICRUDPlaylist{
                 Playlist pl = new Playlist(id, title, timeOutput, numSongs);
                 allPlaylists.add(pl);
             }
-            return allPlaylists;
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new Exception("Could not get playlists from database");
+        }
+        try (Connection conn2 = databaseConnector.getConnection()) {
+            for (int i = 0; i < allPlaylists.size(); i++) {
+
+                int plID = allPlaylists.get(i).getId();
+                String plTitle = allPlaylists.get(i).getTitle();
+                int numSongsOnPL = 0;
+                int timeOnPL = 0;
+                String sql2 = "SELECT * FROM SongPlaylistLink JOIN Songs on SongPlaylistLink.songID = Songs.Id WHERE playlistID = " + plID + ";";
+
+                Statement stmt2 = conn2.createStatement();
+                ResultSet rs2 = stmt2.executeQuery(sql2);
+
+                while (rs2.next()) {
+
+                    timeOnPL = timeOnPL + rs2.getInt("Time");
+                    numSongsOnPL++;
+                }
+                Duration actTimeOnPL = Duration.ofSeconds(timeOnPL);
+                String actTimeOnPL2 = actTimeOnPL.toMinutesPart() + ":" + actTimeOnPL.toSecondsPart();
+                Playlist pl2 = new Playlist(plID, plTitle, actTimeOnPL2, numSongsOnPL);
+                allPlaylist2.add(pl2);
+
+            }
+            return allPlaylist2;
 
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception("Could not get playlists from database");
         }
     }
-
     @Override
     public Playlist createNewPlaylist(String plname) throws Exception {
 
