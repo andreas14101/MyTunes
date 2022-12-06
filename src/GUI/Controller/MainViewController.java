@@ -17,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -103,7 +102,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-        //mediaPlayermetod();
+        mediaPlayermetod();
     }
 
     private void mediaPlayermetod() {
@@ -116,12 +115,28 @@ public class MainViewController extends BaseController implements Initializable 
         //String filepath = s.getFilePath();
         //directory = new File(filepath);
 
+        if (musicModel.getSongsList() != null) {
 
+            String thePath2 = "C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\radioactive.mp3";
+            directory = new File(thePath2);
+            media = new Media(directory.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+
+            /*
+            directory = new File(musicModel.getSongsList().get(0).getFilePath());
+            System.out.println("File path to song: " + musicModel.getSongsList().get(0).getTitle() + "\t" + musicModel.getSongsList().get(0).getFilePath());
+            media = new Media(directory.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+             */
+        }
+
+        /**
         if (musicModel.getSongsList() != null) {
             System.out.println("entered the if");
             for (Song song : musicModel.getSongsList()) {
                 System.out.println("entered the for-loop");
                 allSongs.add(song);
+
                 directory = new File(song.getFilePath());
                 System.out.println("Filepath: " + song.getFilePath());
                 files = directory.listFiles();
@@ -135,7 +150,9 @@ public class MainViewController extends BaseController implements Initializable 
                 }
             }
         }
+         */
 
+        /*
         directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
         //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\lastSummer.mp3");
 
@@ -149,6 +166,7 @@ public class MainViewController extends BaseController implements Initializable 
         }
         media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        */
         boolean isPlaying = false;
         //controlling volumenslider
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -585,21 +603,24 @@ public class MainViewController extends BaseController implements Initializable 
     public void cancelTimer() {
         timer.cancel();
     }
-    public void timeChanged(MouseDragEvent mouseDragEvent) {
-        double howfarNew = Math.round(timeSlider.getValue()) / 100;
-        /**
+    /*
+    public void timeChanged() {
+        double howfarNew = Math.round(timeSlider.getValue());
+        System.out.println("Time changed to %:  " + howfarNew);
+
          (current/end)*100=howfar%
          (100 second far/ 200 second end)=0.5 howFarTo1
          end*(howfar%/100)) = current
          current/howfar% = end
          (howfarnew/100) * end = current
-         */
-        double end = media.getDuration().toSeconds();
-                     double newTimeOnSong = end * howfarNew;
-                     System.out.println(newTimeOnSong);
-                     mediaPlayer.seek(Duration.seconds(newTimeOnSong));
-                 }
 
+        playSong();
+        double end = media.getDuration().toSeconds();
+        double newTimeOnSong = end * (howfarNew/100);
+        System.out.println(Math.round(newTimeOnSong));
+        mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
+    }
+    */
     /**
      * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
      * @param event
@@ -678,5 +699,15 @@ public class MainViewController extends BaseController implements Initializable 
             alert.showAndWait();
         }
 
+    }
+
+    public void timeChanged(MouseEvent dragEvent) {
+        double howfarNew = Math.round(timeSlider.getValue());
+        System.out.println("Time changed to %:  " + howfarNew);
+        //playSong();
+        double end = media.getDuration().toSeconds();
+        double newTimeOnSong = end * (howfarNew/100);
+        System.out.println(Math.round(newTimeOnSong) + " \tnew second number");
+        mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
     }
 }
