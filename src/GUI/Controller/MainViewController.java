@@ -111,62 +111,20 @@ public class MainViewController extends BaseController implements Initializable 
         allSongs = new ArrayList<>();
         allSongsFilepaths = new ArrayList<>();
 
-        //Song s = (Song) songsTable.getFocusModel().getFocusedItem();
-        //String filepath = s.getFilePath();
-        //directory = new File(filepath);
-
-        if (musicModel.getSongsList() != null) {
-
-            String thePath2 = "C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\radioactive.mp3";
-            directory = new File(thePath2);
-            media = new Media(directory.toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-
-            /*
-            directory = new File(musicModel.getSongsList().get(0).getFilePath());
-            System.out.println("File path to song: " + musicModel.getSongsList().get(0).getTitle() + "\t" + musicModel.getSongsList().get(0).getFilePath());
-            media = new Media(directory.toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-             */
-        }
-
-        /**
-        if (musicModel.getSongsList() != null) {
-            System.out.println("entered the if");
-            for (Song song : musicModel.getSongsList()) {
-                System.out.println("entered the for-loop");
-                allSongs.add(song);
-
-                directory = new File(song.getFilePath());
-                System.out.println("Filepath: " + song.getFilePath());
-                files = directory.listFiles();
-                if (files != null) {
-                    System.out.println("entered the last statement");
-                    for (File file : files) {
-                        System.out.println("is this printing?");
-                        songs.add(file);
-                        System.out.println(file.getName() + file + "ingen fejl her");
-                    }
-                }
-            }
-        }
-         */
-
         /*
-        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
-        //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\lastSummer.mp3");
-
-        files = directory.listFiles();  //stores files in directory
-
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-                System.out.println(file.getName() + file + "\t\t\t der er fejl her");
-            }
+        if (musicModel.getSongsList() != null) {
+            //add filepaths to the arraylist
+            allSongsFilepaths.add(musicModel.getSongsList().get(0).getFilePath());
+            allSongsFilepaths.add(musicModel.getSongsList().get(1).getFilePath());
+            songs.add(new File(musicModel.getSongsList().get(0).getFilePath()));
+            songs.add(new File(musicModel.getSongsList().get(1).getFilePath()));
+            allSongs.add(musicModel.getSongsList().get(0));
+            allSongs.add(musicModel.getSongsList().get(1));
         }
-        media = new Media(songs.get(songNumber).toURI().toString());
+        directory = new File(allSongsFilepaths.get(0));
+        media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        */
+         */
         boolean isPlaying = false;
         //controlling volumenslider
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -413,10 +371,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-
-
-
-
     /**
      * opens a new window where you can edit the selected song
      *
@@ -504,20 +458,32 @@ public class MainViewController extends BaseController implements Initializable 
 
 
     public void playSong() {
+
+
         //begin to track the progress
         beginTimer();
         //play and pause the song
         //if song is playing, then set button to pause
-        if (isPlaying) {
+        if (isPlaying == true && mediaPlayer != null) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
         } else {
             playBtn.setText("Pause");
             isPlaying = true;
+
+            if(songsTable.getSelectionModel().getSelectedItem() != null) {
+                Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+
+                System.out.println("The selected song is: " + selectedSong.getTitle() + "\t af " + selectedSong.getArtist());
+                directory = new File(selectedSong.getFilePath());
+                media = new Media(directory.getAbsoluteFile().toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+            }
             mediaPlayer.play();
         }
     }
+
 
     /**
      * goes to the next song in either the songs tableview or the next song in the playlist
@@ -539,7 +505,7 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.stop();
         media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
         mediaPlayer = new MediaPlayer(media);   //sets the song
-        currentSongPlaying.setText(songs.get(songNumber).getName());
+        currentSongPlaying.setText(allSongs.get(songNumber).getTitle());
         isPlaying = false;
         playSong();
     }
@@ -603,24 +569,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void cancelTimer() {
         timer.cancel();
     }
-    /*
-    public void timeChanged() {
-        double howfarNew = Math.round(timeSlider.getValue());
-        System.out.println("Time changed to %:  " + howfarNew);
 
-         (current/end)*100=howfar%
-         (100 second far/ 200 second end)=0.5 howFarTo1
-         end*(howfar%/100)) = current
-         current/howfar% = end
-         (howfarnew/100) * end = current
-
-        playSong();
-        double end = media.getDuration().toSeconds();
-        double newTimeOnSong = end * (howfarNew/100);
-        System.out.println(Math.round(newTimeOnSong));
-        mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
-    }
-    */
     /**
      * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
      * @param event
@@ -698,9 +647,16 @@ public class MainViewController extends BaseController implements Initializable 
             Alert alert = new Alert(Alert.AlertType.ERROR, "Song already at bottom of playlist", ButtonType.CANCEL);
             alert.showAndWait();
         }
-
     }
 
+    /**
+     * (current/end)*100=howfar%
+     * (100 second far/ 200 second end)=0.5 howFarTo1
+     * end*(howfar%/100)) = current
+     * current/howfar% = end
+     * (howfarnew/100) * end = current
+     * @param dragEvent
+     */
     public void timeChanged(MouseEvent dragEvent) {
         double howfarNew = Math.round(timeSlider.getValue());
         System.out.println("Time changed to %:  " + howfarNew);
