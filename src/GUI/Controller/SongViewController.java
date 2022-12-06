@@ -49,6 +49,7 @@ public class SongViewController extends BaseController {
     public void setup() {
 
         model = getModel().getSongModel();
+
         if (model.getShouldEdit() == true) {
 
             if (model.getShouldEdit() == true) {
@@ -86,7 +87,11 @@ public class SongViewController extends BaseController {
         fileTxt.clear();
     }
 
-    //Handles the Save button in the new song window.
+    /**
+     * handles save button in new/edit song window.
+     * @param actionEvent - Button pressed
+     * @throws Exception
+     */
     @FXML
     private void handleSave(ActionEvent actionEvent) throws Exception {
         if (model.getShouldEdit() == false) {
