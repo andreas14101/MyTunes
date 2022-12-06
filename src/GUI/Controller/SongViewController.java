@@ -165,6 +165,11 @@ public class SongViewController extends BaseController {
 
     }
 
+    /**
+     * opens a new window so you can add more categories or delete existing ones
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void handleMoreCategoriesBtn(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
