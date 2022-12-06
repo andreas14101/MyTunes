@@ -103,7 +103,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-        mediaPlayermetod();
+        //mediaPlayermetod();
     }
 
     private void mediaPlayermetod() {
