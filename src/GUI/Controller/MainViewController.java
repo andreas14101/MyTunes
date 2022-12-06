@@ -171,7 +171,7 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.setItems(musicModel.getObservableSongs());
     }
 
-    public void updatePLList() {
+    private void updatePLList() {
         playlistTable.getColumns().removeAll();
 
         playlistTable.getColumns().addAll();
@@ -220,7 +220,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param event
      * @throws IOException
      */
-    public void handleNewSong(ActionEvent event) throws IOException {
+    @FXML
+    private void handleNewSong(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
@@ -244,7 +245,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param event
      * @throws IOException
      */
-    public void handleNewPlaylist(ActionEvent event) throws IOException {
+    @FXML
+    private void handleNewPlaylist(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
@@ -265,17 +267,12 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
-    public void handleMovePlaylistUp(ActionEvent actionEvent) {
-    }
-
-    public void handleMovePlaylistDown(ActionEvent actionEvent) {
-    }
-
     /**
      * delets a song from a playlist
      * @param actionEvent
      */
-    public void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
+    @FXML
+    private void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
 
@@ -291,7 +288,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      * @throws IOException
      */
-    public void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
+    @FXML
+    private void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
         Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         if (selectedPlaylist != null) {
             playlistModel.setSelectedPlaylist(selectedPlaylist);
@@ -323,7 +321,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      * @throws Exception
      */
-    public void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
@@ -338,7 +337,8 @@ public class MainViewController extends BaseController implements Initializable 
      * adds the selected song to the selected playlist
      * @param actionEvent
      */
-    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+    @FXML
+    private void handleAddSongToPlaylist(ActionEvent actionEvent) {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
@@ -364,7 +364,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      * @throws IOException
      */
-    public void handleEditSong(ActionEvent actionEvent) throws IOException {
+    @FXML
+    private void handleEditSong(ActionEvent actionEvent) throws IOException {
         Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
         musicModel.setSelectedSong(selectedSong);
         musicModel.setShouldEdit(true);
@@ -391,7 +392,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      * @throws Exception
      */
-    public void handleDeleteSong(ActionEvent actionEvent) throws Exception {
+    @FXML
+    private void handleDeleteSong(ActionEvent actionEvent) throws Exception {
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "?", ButtonType.YES, ButtonType.NO);
@@ -406,7 +408,8 @@ public class MainViewController extends BaseController implements Initializable 
      * closes the window when the button is pressed
      * @param actionEvent
      */
-    public void handleClose(ActionEvent actionEvent) {
+    @FXML
+    private void handleClose(ActionEvent actionEvent) {
         Stage stage = (Stage) CloseBtn.getScene().getWindow();
         stage.close();
     }
@@ -415,7 +418,8 @@ public class MainViewController extends BaseController implements Initializable 
      * on the first click of the button it searches through the song table to fit the query on the second click of the button it clears the search query
      * @param actionEvent
      */
-    public void handleSearch(ActionEvent actionEvent) {
+    @FXML
+    private void handleSearch(ActionEvent actionEvent) {
         if (searchBtn.getText().equals("Search")) {
             if (filterSearch.getText() != null) {
                 String search = filterSearch.getText().toLowerCase();
@@ -554,7 +558,8 @@ public class MainViewController extends BaseController implements Initializable 
      * @param event
      * @throws InterruptedException
      */
-    public void handleCat(ActionEvent event) throws InterruptedException {
+    @FXML
+    private void handleCat(ActionEvent event) throws InterruptedException {
         Desktop desktop = Desktop.getDesktop();
         if (desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
@@ -569,7 +574,8 @@ public class MainViewController extends BaseController implements Initializable 
      * shows the songs in a playlist in the songs in playlist tableview
      * @param mouseEvent
      */
-    public void handlePlaylistUpdate(MouseEvent mouseEvent) {
+    @FXML
+    private void handlePlaylistUpdate(MouseEvent mouseEvent) {
         updateSongsInPlaylist();
     }
 
@@ -579,7 +585,8 @@ public class MainViewController extends BaseController implements Initializable 
      *
      * @param actionEvent
      */
-    public void handleMoveSongUp(ActionEvent actionEvent) {
+    @FXML
+    private void handleMoveSongUp(ActionEvent actionEvent) {
         //Get focused song
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
         int index = songsInsidePlaylist.getSelectionModel().getFocusedIndex();
@@ -605,7 +612,8 @@ public class MainViewController extends BaseController implements Initializable 
      *
      * @param actionEvent
      */
-    public void handleMoveSongDown(ActionEvent actionEvent) {
+    @FXML
+    private void handleMoveSongDown(ActionEvent actionEvent) {
         //Get focused song
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
         int index = songsInsidePlaylist.getSelectionModel().getFocusedIndex();
