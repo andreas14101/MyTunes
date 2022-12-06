@@ -103,7 +103,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-        mediaPlayermetod();
+        //mediaPlayermetod();
     }
 
     private void mediaPlayermetod() {
@@ -365,17 +365,38 @@ public class MainViewController extends BaseController implements Initializable 
      *
      * @param actionEvent
      */
+
     @FXML
     private void handleAddSongToPlaylist(ActionEvent actionEvent) {
-        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+
+        Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
+        Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
+
 
         int sId = s.getId();
         int plId = pl.getId();
+        boolean songpresent = false;
 
-        musicModel.addSongToPlaylist(sId, plId);
-        updateSongsInPlaylist();
+        for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
+
+            Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
+            int SiPID = SiP.getId();
+
+            if (SiPID == sId) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in Playlist", ButtonType.CANCEL);
+                alert.showAndWait();
+                songpresent = true;
+            }
+
+        }
+        if (!songpresent) {
+            musicModel.addSongToPlaylist(sId, plId);
+            updateSongsInPlaylist();
+        }
     }
+
+
+
 
 
     /**

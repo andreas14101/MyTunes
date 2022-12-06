@@ -3,9 +3,7 @@ package BLL;
 import BE.Category;
 import BE.Playlist;
 import BE.Song;
-import DAL.ICRUDPlaylist;
-import DAL.ICRUDSongs;
-import DAL.MusicDAO;
+import DAL.*;
 
 import java.util.List;
 
@@ -17,8 +15,8 @@ public class MusicManager {
     private Playlist selectedPlaylist;
 
     public MusicManager() {
-        songDAO = new MusicDAO();
-        playlistDAO = new MusicDAO();
+        songDAO = new SongDAO();
+        playlistDAO = new PlaylistDAO();
     }
 
     public List<Song> getAllSongs() throws Exception {
