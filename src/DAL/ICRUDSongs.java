@@ -18,6 +18,8 @@ public interface ICRUDSongs {
 
     public Category createCategory(String name) throws Exception;
 
+    public void deleteCategory(Category category) throws Exception;
+
     public List<Song> getSongsOnPlaylist(int id) throws Exception;
 
     void addSongToPlayList(int sId, int plId);

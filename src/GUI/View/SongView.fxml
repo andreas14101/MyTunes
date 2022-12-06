@@ -79,7 +79,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Button fx:id="moreCategoriesBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="54.0" styleClass="button" text="More Category">
+                  <Button fx:id="moreCategoriesBtn" mnemonicParsing="false" onAction="#handleMoreCategoriesBtn" prefHeight="26.0" prefWidth="54.0" styleClass="button" text="More Category">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>

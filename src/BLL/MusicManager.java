@@ -33,9 +33,8 @@ public class MusicManager {
         return songDAO.createSong(title, artist, length, category, pathToFile);
     }
 
-    public void editSong(Song updatedSong) throws Exception
-    {
-       songDAO.editUpdateSong(updatedSong);
+    public void editSong(Song updatedSong) throws Exception {
+        songDAO.editUpdateSong(updatedSong);
     }
 
     public List<Playlist> getAllPlaylists() throws Exception {
@@ -62,16 +61,20 @@ public class MusicManager {
         return songDAO.createCategory(name);
     }
 
+    public void deleteCategory(Category category) throws Exception {
+        songDAO.deleteCategory(category);
+    }
+
     public List<Song> getSongsFromPlaylist(int id) throws Exception {
         return songDAO.getSongsOnPlaylist(id);
     }
 
     public void addSongToPlaylist(int sId, int plId) {
-        songDAO.addSongToPlayList(sId,plId);
+        songDAO.addSongToPlayList(sId, plId);
     }
 
     public void removeSongFromPlaylist(int sId, int plId) {
-        songDAO.removeSongFromPlayList(sId,plId);
+        songDAO.removeSongFromPlayList(sId, plId);
     }
 }
 

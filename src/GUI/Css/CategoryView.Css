@@ -1,7 +1,6 @@
 .background{
-    -fx-background-image: url(/GUI/ImageAssets/backgroundMainView.png);
+    -fx-background-image: url(/GUI/ImageAssets/backgroundPlaylistView.png);
 }
-
 .button{
     -fx-background-color: #00d0d9;
     -fx-text-fill: black;
@@ -32,10 +31,4 @@
 }
 .table-view .label {
     -fx-text-fill: black;
-}
-
-.catButton
-{
-    -fx-background-color: transparent;
-    -fx-text-fill: transparent;
 }
