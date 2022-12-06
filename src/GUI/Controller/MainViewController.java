@@ -367,26 +367,34 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      */
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
-
+        //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
 
+        //Save the id's of the two into two variables
         int sId = s.getId();
         int plId = pl.getId();
+
+        //Boolean which indicates whether the song is present on the playlist or not
         boolean songpresent = false;
 
+        //For loop which goes through all songs inside the playlist
         for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
 
+            //Get the songs in the playlist and their id's
             Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
             int SiPID = SiP.getId();
 
+            //if the song id and one of the id's from the songs in the playlist match, display a warning.
             if (SiPID == sId) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in Playlist", ButtonType.CANCEL);
                 alert.showAndWait();
+                //Change boolean which indicates whether the song is present or not to true.
                 songpresent = true;
             }
 
         }
+        //If song is not present add it to the playlist.
         if (!songpresent) {
             musicModel.addSongToPlaylist(sId, plId);
             updateSongsInPlaylist();
