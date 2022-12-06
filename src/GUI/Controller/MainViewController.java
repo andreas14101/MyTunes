@@ -367,27 +367,34 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      */
     public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
 
         int sId = s.getId();
         int plId = pl.getId();
+        boolean songpresent = false;
 
-        for (int i = 1; i == songsInsidePlaylist.getItems().size(); i++) {
+        for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
+
             Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
             int SiPID = SiP.getId();
+
             if (SiPID == sId) {
-                Alert alert = new Alert(Alert.AlertType.WARNING,"Song already in Playlist" , ButtonType.CANCEL);
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in Playlist", ButtonType.CANCEL);
                 alert.showAndWait();
+                songpresent = true;
             }
-            else {
-                musicModel.addSongToPlaylist(sId, plId);
-                updateSongsInPlaylist();
-            }
+
         }
-
-
+        if (!songpresent) {
+            musicModel.addSongToPlaylist(sId, plId);
+            updateSongsInPlaylist();
+        }
     }
+
+
+
 
 
     /**
