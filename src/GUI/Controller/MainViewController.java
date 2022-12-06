@@ -102,7 +102,8 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-        mediaPlayermetod();
+        placeholders();
+        //mediaPlayermetod();
     }
 
     private void mediaPlayermetod() {
@@ -142,7 +143,6 @@ public class MainViewController extends BaseController implements Initializable 
         });
         //Display the song on the label
         //currentSongPlaying.setText(songs.get(songNumber).getName());
-        placeholders();
 
     }
 
@@ -204,12 +204,6 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.setItems(musicModel.getObservableSongs());
     }
 
-    private void updatePLList() {
-        playlistTable.getColumns().removeAll();
-
-        playlistTable.getColumns().addAll();
-        playlistTable.setItems(playlistModel.getObservablePlaylists());
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -282,6 +276,8 @@ public class MainViewController extends BaseController implements Initializable 
 
         musicModel.removeSongFromPlaylist(sId, plId);
         updateSongsInPlaylist();
+
+
     }
 
     /**
@@ -342,33 +338,41 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      */
 
-    @FXML
-    private void handleAddSongToPlaylist(ActionEvent actionEvent) {
-
+    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+        //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
 
-
+        //Save the id's of the two into two variables
         int sId = s.getId();
         int plId = pl.getId();
-        boolean songpresent = false;
 
+        //Boolean which indicates whether the song is present on the playlist or not
+        boolean songPresent = false;
+
+        //For loop which goes through all songs inside the playlist
         for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
 
+            //Get the songs in the playlist and their id's
             Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
             int SiPID = SiP.getId();
 
+            //if the song id and one of the id's from the songs in the playlist match, display a warning.
             if (SiPID == sId) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in Playlist", ButtonType.CANCEL);
                 alert.showAndWait();
-                songpresent = true;
+                //Change boolean which indicates whether the song is present or not to true.
+                songPresent = true;
             }
 
         }
-        if (!songpresent) {
+        //If song is not present add it to the playlist.
+        if (!songPresent) {
             musicModel.addSongToPlaylist(sId, plId);
             updateSongsInPlaylist();
+
         }
+
     }
 
     /**

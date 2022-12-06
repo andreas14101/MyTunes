@@ -81,7 +81,7 @@ public class SongDAO implements ICRUDSongs{
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new Exception("Could not create movie" + ex);
+            throw new Exception("Could not create Song" + ex);
         }
 
         //Changes the given seconds and changes it into duration and then to a readable String, in the format we want.
