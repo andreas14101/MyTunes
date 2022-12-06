@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class MyDatabaseConnector {
 
-    private SQLServerDataSource dataSource;
+    private SQLServerDataSource dataSource; //variable for creating a connection to the DB
 
     public MyDatabaseConnector() {
         dataSource = new SQLServerDataSource();

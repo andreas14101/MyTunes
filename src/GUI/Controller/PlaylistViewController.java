@@ -71,7 +71,6 @@ public class PlaylistViewController extends BaseController {
      */
     @FXML
     private void handleSave(ActionEvent actionEvent) throws Exception {
-
         if (shouldEditPlaylist == false) {
             String plname = playlistName.getText();
             playlistModel.createNewPlaylist(plname);

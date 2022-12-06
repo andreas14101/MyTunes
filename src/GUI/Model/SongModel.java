@@ -6,9 +6,15 @@ import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SongModel {
     private ObservableList<Song> songsToBeViewed, filteredSongs;
+    private ArrayList<Song> songs;
+
     private ObservableList<Category> categoriesToBeViewed;
+
 
     private MusicManager musicManager;
 
@@ -18,13 +24,22 @@ public class SongModel {
 
     private boolean shouldEdit = false;
 
+    //Constructor
     public SongModel() throws Exception {
 
         musicManager = new MusicManager();
         songsToBeViewed = FXCollections.observableArrayList();
         songsToBeViewed.addAll(musicManager.getAllSongs());
+        categoriesToBeViewed = FXCollections.observableArrayList();
+        categoriesToBeViewed.addAll(musicManager.getAllCategories());
+        songs = new ArrayList<>();
+        songs.addAll(musicManager.getAllSongs());
         getObservableCategories();
 
+    }
+
+    public ArrayList<Song> getSongsList() {
+        return songs;
     }
 
     /**
@@ -85,6 +100,7 @@ public class SongModel {
      * @return return the songs who's title contains the search string
      */
     public ObservableList<Song> filteredSongs(String search) {
+        //filter function. Searching in both title, artist and categories
         filteredSongs = FXCollections.observableArrayList();
         for (int i = 0; i < songsToBeViewed.size(); i++) {
             if (songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)) {
@@ -99,11 +115,14 @@ public class SongModel {
         return filteredSongs;
     }
 
+    //looks at the song the user has selected.
     /**
      * gets the selected song
      * @return selectedSong object
      */
     public Song getSelectedSong() {
+        //TODO needs to be a used method.
+        //System.out.println("choosen song: " + selectedSong.getTitle());
         return selectedSong;
     }
 

@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 
 public class PlaylistModel {
 
-
     private Playlist selectedPlaylist;
     private boolean shouldEdit = false;
 
@@ -109,6 +108,7 @@ public class PlaylistModel {
      * @throws Exception
      */
     public ObservableList<Song> getSongsOnPL(int id) throws Exception {
+
         songsOnPL = FXCollections.observableArrayList();
         songsOnPL.addAll(musicManager.getSongsFromPlaylist(id));
         return songsOnPL;

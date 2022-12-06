@@ -2,12 +2,10 @@ package GUI.Controller;
 
 import BE.Playlist;
 import BE.Song;
-import GUI.Model.MyTunesModel;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,30 +22,27 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.text.TabExpander;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Predicate;
 
 public class MainViewController extends BaseController implements Initializable {
 
     //all of the instance variables. Available everywhere in the class
-   @FXML
+    @FXML
     private TextField filterSearch;
-   @FXML
+    @FXML
     private Slider timeSlider;
     @FXML
     private TableView songsTable;
@@ -73,7 +68,6 @@ public class MainViewController extends BaseController implements Initializable 
     private TableColumn playlistSongsAmountColumn;
     @FXML
     private TableColumn playlistTimeColumn;
-
     @FXML
     private Button playBtn;
     @FXML
@@ -99,7 +93,8 @@ public class MainViewController extends BaseController implements Initializable 
     private MediaPlayer mediaPlayer;
     private Media media;
     private ArrayList<File> songs;
-
+    private List<Song> allSongs;
+    private List<String> allSongsFilepaths;
     private int songNumber;
     private Timer timer;
     private TimerTask timerTask;
@@ -108,8 +103,70 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-        placeholders();
+        mediaPlayermetod();
+    }
 
+    private void mediaPlayermetod() {
+        musicModel = getModel().getSongModel();
+        songs = new ArrayList<>();
+        allSongs = new ArrayList<>();
+        allSongsFilepaths = new ArrayList<>();
+
+        //Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+        //String filepath = s.getFilePath();
+        //directory = new File(filepath);
+
+
+        if (musicModel.getSongsList() != null) {
+            System.out.println("entered the if");
+            for (Song song : musicModel.getSongsList()) {
+                System.out.println("entered the for-loop");
+                allSongs.add(song);
+                directory = new File(song.getFilePath());
+                System.out.println("Filepath: " + song.getFilePath());
+                files = directory.listFiles();
+                if (files != null) {
+                    System.out.println("entered the last statement");
+                    for (File file : files) {
+                        System.out.println("is this printing?");
+                        songs.add(file);
+                        System.out.println(file.getName() + file + "ingen fejl her");
+                    }
+                }
+            }
+        }
+
+        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
+        //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\lastSummer.mp3");
+
+        files = directory.listFiles();  //stores files in directory
+
+        if (files != null) {
+            for (File file : files) {
+                songs.add(file);
+                System.out.println(file.getName() + file + "\t\t\t der er fejl her");
+            }
+        }
+        media = new Media(songs.get(songNumber).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        boolean isPlaying = false;
+        //controlling volumenslider
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
+            }
+        });
+
+        //Controlling timeslider
+        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            }
+        });
+        //Display the song on the label
+        //currentSongPlaying.setText(songs.get(songNumber).getName());
+        placeholders();
 
     }
 
@@ -180,43 +237,11 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-     /* boolean isPlaying = false;
-        songs = new ArrayList<File>();
-        directory = new File("DataSongs");
-        files = directory.listFiles();  //stores files in directory
-
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-                System.out.println(file);
-            }
-        }
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-
-
-        //controlling volumenslider
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-            }
-        });
-
-        //Controlling timeslider
-        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-            }
-        });
-
-        //Display the song on the label
-        currentSongPlaying.setText(songs.get(songNumber).getName());
-    */
     }
 
     /**
      * opens a new window to show a detailed view when adding a new song
+     *
      * @param event
      * @throws IOException
      */
@@ -242,6 +267,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * opens a new window to create a new playList in
+     *
      * @param event
      * @throws IOException
      */
@@ -250,7 +276,6 @@ public class MainViewController extends BaseController implements Initializable 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
-
         PlaylistViewController controller = loader.getController();
         controller.setModel(super.getModel());
         controller.setup();
@@ -269,13 +294,13 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * delets a song from a playlist
+     *
      * @param actionEvent
      */
     @FXML
     private void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
-
         int sId = s.getId();
         int plId = pl.getId();
 
@@ -285,6 +310,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * opens a window where you can edit the name of the playlist
+     *
      * @param actionEvent
      * @throws IOException
      */
@@ -295,7 +321,6 @@ public class MainViewController extends BaseController implements Initializable 
             playlistModel.setSelectedPlaylist(selectedPlaylist);
             playlistModel.setShouldEdit(true);
         }
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
         AnchorPane pane = (AnchorPane) loader.load();
@@ -318,12 +343,14 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * delets the selected playlist
+     *
      * @param actionEvent
      * @throws Exception
      */
     @FXML
     private void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
@@ -335,6 +362,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * adds the selected song to the selected playlist
+     *
      * @param actionEvent
      */
     @FXML
@@ -345,22 +373,14 @@ public class MainViewController extends BaseController implements Initializable 
         int sId = s.getId();
         int plId = pl.getId();
 
-        for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
-            Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
-            if (SiP.getId() == sId) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in playlist", ButtonType.CANCEL);
-                alert.showAndWait();
-                break;
-            } else musicModel.addSongToPlaylist(sId, plId);
-            updateSongsInPlaylist();
-            break;
-        }
-
-
+        musicModel.addSongToPlaylist(sId, plId);
+        updateSongsInPlaylist();
     }
+
 
     /**
      * opens a new window where you can edit the selected song
+     *
      * @param actionEvent
      * @throws IOException
      */
@@ -389,6 +409,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * deletes the selected song
+     *
      * @param actionEvent
      * @throws Exception
      */
@@ -404,8 +425,10 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+
     /**
      * closes the window when the button is pressed
+     *
      * @param actionEvent
      */
     @FXML
@@ -414,8 +437,10 @@ public class MainViewController extends BaseController implements Initializable 
         stage.close();
     }
 
+
     /**
      * on the first click of the button it searches through the song table to fit the query on the second click of the button it clears the search query
+     *
      * @param actionEvent
      */
     @FXML
@@ -433,9 +458,12 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+
     /**
      * on the first click of the button plays selected song on the second click pauses the song
      */
+
+
     public void playSong() {
         //begin to track the progress
         beginTimer();
@@ -450,7 +478,6 @@ public class MainViewController extends BaseController implements Initializable 
             isPlaying = true;
             mediaPlayer.play();
         }
-
     }
 
     /**
@@ -473,7 +500,6 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.stop();
         media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
         mediaPlayer = new MediaPlayer(media);   //sets the song
-
         currentSongPlaying.setText(songs.get(songNumber).getName());
         isPlaying = false;
         playSong();
@@ -490,15 +516,18 @@ public class MainViewController extends BaseController implements Initializable 
             isPlaying = false;
             playSong();
         } else {
-            //look for witch song the previos is
+            //look for witch song the previous is
             if (songNumber > 0) {
-                songNumber--;
-                shiftSong();
             } else {
-                songNumber = songs.size() - 1;
-                shiftSong();
+                //look for witch song the previos is
+                if (songNumber > 0) {
+                    songNumber--;
+                    shiftSong();
+                } else {
+                    songNumber = songs.size() - 1;
+                    shiftSong();
+                }
             }
-
         }
     }
 
@@ -511,8 +540,8 @@ public class MainViewController extends BaseController implements Initializable 
             //Timertask is the task to be executed.
             @Override
             public void run() {
-                double current = mediaPlayer.getCurrentTime().toSeconds();
                 double end = media.getDuration().toSeconds();
+                double current = mediaPlayer.getCurrentTime().toSeconds();
                 int endTot = (int) Math.round(end);
                 double howFar = current / end;
 
@@ -534,9 +563,7 @@ public class MainViewController extends BaseController implements Initializable 
      */
     public void cancelTimer() {
         timer.cancel();
-
     }
-
     public void timeChanged(MouseDragEvent mouseDragEvent) {
         double howfarNew = Math.round(timeSlider.getValue()) / 100;
         /**
@@ -546,12 +573,11 @@ public class MainViewController extends BaseController implements Initializable 
          current/howfar% = end
          (howfarnew/100) * end = current
          */
-
         double end = media.getDuration().toSeconds();
-        double newTimeOnSong = end * howfarNew;
-        System.out.println(newTimeOnSong);
-        mediaPlayer.seek(Duration.seconds(newTimeOnSong));
-    }
+                     double newTimeOnSong = end * howfarNew;
+                     System.out.println(newTimeOnSong);
+                     mediaPlayer.seek(Duration.seconds(newTimeOnSong));
+                 }
 
     /**
      * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.

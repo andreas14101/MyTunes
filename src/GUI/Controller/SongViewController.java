@@ -10,6 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.TextField;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +28,7 @@ import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
+    private Button chooseFileBtn;
     private ComboBox categoryCB;
     @FXML
     private Button cancelBtn;
@@ -30,7 +36,6 @@ public class SongViewController extends BaseController {
     private Button saveBtn;
     @FXML
     private TextField artistTxt;
-
     @FXML
     private TextField songTitleTxt;
     @FXML
@@ -44,14 +49,14 @@ public class SongViewController extends BaseController {
     public void setup() {
 
         model = getModel().getSongModel();
-        setCategoryCB();
-        createNew();
+        if (model.getShouldEdit() == true) {
 
-        if(model.getShouldEdit() == true)
-        {
-            edit();
+            if (model.getShouldEdit() == true) {
+                edit();
+            } else {
+                createNew();
+            }
         }
-        setShouldEdit();
     }
 
     /**
@@ -70,8 +75,7 @@ public class SongViewController extends BaseController {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
             artistTxt.setText(model.getSelectedSong().getArtist());
             fileTxt.setText(model.getSelectedSong().getFilePath());
-    }
-
+        }
     /**
      * clears the textfields when creating a new song
      */
@@ -85,46 +89,53 @@ public class SongViewController extends BaseController {
     //Handles the Save button in the new song window.
     @FXML
     private void handleSave(ActionEvent actionEvent) throws Exception {
-        if (shouldEdit == false)
-        {
-            String title = songTitleTxt.getText();
-            String artist = artistTxt.getText();
-            String category = categoryCB.getValue().toString();
-            String pathToFile = fileTxt.getText();
+        if (model.getShouldEdit() == false) {
+                String title = songTitleTxt.getText();
+                String artist = artistTxt.getText();
+                String category = categoryCB.getValue().toString();
+                String pathToFile = fileTxt.getText();
 
-            //Takes the duration of the file given, and maps it to an int in seconds,
-            //will be converted to the correct visual value later.
-            File file = new File(pathToFile);
-            AudioFile af = AudioFileIO.getDefaultAudioFileIO().readFile(file);
-            int length = af.getAudioHeader().getTrackLength();
+                //Takes the duration of the file given, and maps it to an int in seconds,
+                //will be converted to the correct visual value later.
+                File file = new File(pathToFile);
+                AudioFile af = AudioFileIO.getDefaultAudioFileIO().readFile(file);
+                int length = af.getAudioHeader().getTrackLength();
+                //Sends the info to the model layer.
+                model.createSong(title, artist, String.valueOf(length), category, pathToFile);
 
-            //Sends the info to the model layer.
-            model.createSong(title, artist, String.valueOf(length), category, pathToFile);
+                //Closes window
+                Stage stage = (Stage) saveBtn.getScene().getWindow();
+                stage.close();
+            } else {
+                String title = songTitleTxt.getText();
+                String artist = artistTxt.getText();
+                String pathToFile = fileTxt.getText();
 
-            //Closes window
-            Stage stage = (Stage) saveBtn.getScene().getWindow();
-            stage.close();
+                //Updates the selected song
+                model.getSelectedSong().setArtist(artist);
+                model.getSelectedSong().setTitle(title);
+                model.getSelectedSong().setFilePath(pathToFile);
+                model.songUpdate(model.getSelectedSong());
+
+                // Closes the window
+                Stage stage = (Stage) saveBtn.getScene().getWindow();
+                stage.close();
+            }
         }
-        else
-        {
-            String title = songTitleTxt.getText();
-            String artist = artistTxt.getText();
-            String pathToFile = fileTxt.getText();
 
-            //Updates the selected song
-            model.getSelectedSong().setArtist(artist);
-            model.getSelectedSong().setTitle(title);
-            model.getSelectedSong().setFilePath(pathToFile);
-            model.songUpdate(model.getSelectedSong());
 
-            // Resets shouldEdit boolean in songModel
-            model.setShouldEdit(false);
-
-            // Closes the window
-            Stage stage = (Stage) saveBtn.getScene().getWindow();
-            stage.close();
+        //choose a new file, without the user having to copy the filepath.
+        public void chooseFile (ActionEvent actionEvent){
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select song");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Files", "*"));
+            Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
+            File selectedFile = fileChooser.showOpenDialog(stage);
+            if (selectedFile != null) {
+                fileTxt.setText(String.valueOf(selectedFile));
+            }
         }
-    }
 
     /**
      * closes the window when the button is clicked

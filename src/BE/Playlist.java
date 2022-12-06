@@ -1,14 +1,13 @@
 package BE;
 
 public class Playlist {
-
     private int id;
     private String title;
-
 
     private int numberOfSongs;
     private String timeLength;
 
+    //Constructor for a playlist
     public Playlist(int id, String title, String timeLength, int numberOfSongs) {
         this.id = id;
         this.title = title;
