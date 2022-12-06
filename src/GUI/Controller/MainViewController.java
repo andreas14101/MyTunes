@@ -462,8 +462,6 @@ public class MainViewController extends BaseController implements Initializable 
 
 
     public void playSong() {
-
-
         //begin to track the progress
         beginTimer();
         //play and pause the song
@@ -483,6 +481,7 @@ public class MainViewController extends BaseController implements Initializable 
                 directory = new File(selectedSong.getFilePath());
                 media = new Media(directory.getAbsoluteFile().toURI().toString());
                 mediaPlayer = new MediaPlayer(media);
+                
             }
             mediaPlayer.play();
         }

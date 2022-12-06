@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="">
+    <list default="true" id="024fd108-5b73-43ab-8a4f-e903e77f184d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/DAL/Provedata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAL/PlaylistDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/PlaylistDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAL/SongDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/SongDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/SongViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/SongViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +78,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="02a70709-8dcf-4175-80a6-96b57c283682" name="Changes" comment="" />
+      <changelist id="024fd108-5b73-43ab-8a4f-e903e77f184d" name="Changes" comment="" />
       <created>1669211996090</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -97,6 +98,7 @@
       <workItem from="1669880784944" duration="9146000" />
       <workItem from="1670223663420" duration="1287000" />
       <workItem from="1670228118620" duration="5334000" />
+      <workItem from="1670348316458" duration="5127000" />
     </task>
     <task id="LOCAL-00001" summary="MyDatabaseConnector added">
       <created>1669709514943</created>

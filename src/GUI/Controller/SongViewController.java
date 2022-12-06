@@ -97,7 +97,7 @@ public class SongViewController extends BaseController {
         if (model.getShouldEdit() == false) {
                 String title = songTitleTxt.getText();
                 String artist = artistTxt.getText();
-                String category = categoryCB.getValue().toString();
+                //String category = categoryCB.getValue().toString();
                 String pathToFile = fileTxt.getText();
 
                 //Takes the duration of the file given, and maps it to an int in seconds,
@@ -106,7 +106,7 @@ public class SongViewController extends BaseController {
                 AudioFile af = AudioFileIO.getDefaultAudioFileIO().readFile(file);
                 int length = af.getAudioHeader().getTrackLength();
                 //Sends the info to the model layer.
-                model.createSong(title, artist, String.valueOf(length), category, pathToFile);
+                model.createSong(title, artist, String.valueOf(length), "category", pathToFile);
 
                 //Closes window
                 Stage stage = (Stage) saveBtn.getScene().getWindow();
