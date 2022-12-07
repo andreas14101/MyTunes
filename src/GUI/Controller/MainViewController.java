@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.ExceptionHandler;
 import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
@@ -97,6 +98,7 @@ public class MainViewController extends BaseController implements Initializable 
     private TimerTask timerTask;
     private double end;
     private double current;
+    private ExceptionHandler exceptionHandler;
 
     @Override
     public void setup() {
@@ -104,6 +106,7 @@ public class MainViewController extends BaseController implements Initializable 
         placeholders();
         mediaPlayermetod();
         currentSongPlaying.setText("(none) is currently playing");
+        exceptionHandler = new ExceptionHandler();
         try {
             updatePlaylist();
         } catch (Exception ex) {
@@ -175,7 +178,7 @@ public class MainViewController extends BaseController implements Initializable 
 
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            exceptionHandler.displayError(ex);
         }
     }
 

@@ -18,7 +18,6 @@ public class MyDatabaseConnector {
         dataSource.setUser("CSe22A_27");
         dataSource.setPassword("CSe22A_27");
         dataSource.setTrustServerCertificate(true);
-
     }
 
     public Connection getConnection() throws SQLServerException {
@@ -30,11 +29,7 @@ public class MyDatabaseConnector {
         MyDatabaseConnector databaseConnector = new MyDatabaseConnector();
 
         try (Connection connection = databaseConnector.getConnection()) {
-
             System.out.println("Is it open? " + !connection.isClosed());
-
         } //Connection gets closed here
     }
-
-
 }
