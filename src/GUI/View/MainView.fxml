@@ -250,7 +250,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label" styleClass="currentlyplayingLable">
+                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" styleClass="currentlyplayingLable" text="Label">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -259,7 +259,7 @@
             </HBox>
             <HBox prefHeight="43.0" prefWidth="197.0" GridPane.rowIndex="1">
                <children>
-                  <Slider fx:id="timeSlider" max="100.0" onDragDetected="#timeChanged" prefHeight="14.0" prefWidth="211.0" />
+                  <Slider fx:id="timeSlider" max="100.0" prefHeight="14.0" prefWidth="211.0" />
                </children>
             </HBox>
          </children>

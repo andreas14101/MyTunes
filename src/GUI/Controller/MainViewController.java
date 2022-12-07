@@ -4,9 +4,12 @@ import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -87,6 +90,7 @@ public class MainViewController extends BaseController implements Initializable 
     private File[] files;
 
     boolean isPlaying;
+    boolean isPaused = false;
     private MediaPlayer mediaPlayer;
     private Media media;
     private ArrayList<File> songs;
@@ -466,16 +470,19 @@ public class MainViewController extends BaseController implements Initializable 
      * on the first click of the button plays selected song on the second click pauses the song
      */
     public void playSong() {
+
         //play and pause the song
         //if song is playing, then set button to pause
         if (isPlaying == true && mediaPlayer != null) {
             playBtn.setText("Play");
             mediaPlayer.pause();
+            isPaused = true;
             isPlaying = false;
-        } else if (isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null) {
+        }
+        else if (isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null) {
             playBtn.setText("Pause");
             isPlaying = true;
-
+            isPaused = false;
             if(songsTable.getSelectionModel().getSelectedItem() != null || songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
                 Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
 
@@ -485,11 +492,13 @@ public class MainViewController extends BaseController implements Initializable 
                 mediaPlayer = new MediaPlayer(media);
 
                 currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
-                timeMove();
+                timeMoveAuto();
+                timeSkip();
             }
 
             mediaPlayer.play();
-        } else {
+        }
+        else {
             System.out.println("Ingen sange valgt (¬‿¬)");
         }
     }
@@ -549,21 +558,33 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * tracks the time of the song that is currently playing and if you want to skip around in it, it moves the time along
      */
-    public void timeMove()
+    public void timeMoveAuto()
     {
-        mediaPlayer.currentCountProperty().addListener(ov -> {
-            if(!timeSlider.isValueChanging()) {
-                double total = mediaPlayer.getTotalDuration().toMillis();
-                double current = mediaPlayer.getCurrentTime().toMillis();
-
-                timeSlider.setMax(total);
-                timeSlider.setValue(current);
+      mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+          @Override
+          public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+              if(!timeSlider.isValueChanging())
+              {
+                  double total = mediaPlayer.getTotalDuration().toSeconds();
+                  double current = mediaPlayer.getCurrentTime().toSeconds();
+                  timeSlider.setMax(total);
+                  timeSlider.setValue(current);
+              }
+          }
+      });
+    }
+    public void timeSkip()
+    {
+        timeSlider.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mediaPlayer.seek(Duration.seconds(timeSlider.getValue()));
             }
         });
     }
-    
+
     /**
-     * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
+     * Nayn cat Easter egg press the button and get taken to the standard browser of you computer on the given url.
      *
      * @param event
      * @throws InterruptedException
@@ -654,11 +675,10 @@ public class MainViewController extends BaseController implements Initializable 
      */
     public void timeChanged(MouseEvent dragEvent) {
         double howfarNew = Math.round(timeSlider.getValue());
-        System.out.println("Time changed to %:  " + howfarNew);
-        //playSong();
         double end = media.getDuration().toSeconds();
         double newTimeOnSong = end * (howfarNew / 100);
         System.out.println(Math.round(newTimeOnSong) + " \tnew second number");
         mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
     }
+
 }
