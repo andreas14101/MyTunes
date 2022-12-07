@@ -487,7 +487,7 @@ public class MainViewController extends BaseController implements Initializable 
                 mediaPlayer = new MediaPlayer(media);
 
                 currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
-                
+
             }
 
             mediaPlayer.play();
