@@ -17,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -103,52 +102,30 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         updatePlaylist();
-        //mediaPlayermetod();
+        placeholders();
+        mediaPlayermetod();
     }
 
     private void mediaPlayermetod() {
+        /*
         musicModel = getModel().getSongModel();
         songs = new ArrayList<>();
         allSongs = new ArrayList<>();
         allSongsFilepaths = new ArrayList<>();
 
-        //Song s = (Song) songsTable.getFocusModel().getFocusedItem();
-        //String filepath = s.getFilePath();
-        //directory = new File(filepath);
-
-
         if (musicModel.getSongsList() != null) {
-            System.out.println("entered the if");
-            for (Song song : musicModel.getSongsList()) {
-                System.out.println("entered the for-loop");
-                allSongs.add(song);
-                directory = new File(song.getFilePath());
-                System.out.println("Filepath: " + song.getFilePath());
-                files = directory.listFiles();
-                if (files != null) {
-                    System.out.println("entered the last statement");
-                    for (File file : files) {
-                        System.out.println("is this printing?");
-                        songs.add(file);
-                        System.out.println(file.getName() + file + "ingen fejl her");
-                    }
-                }
-            }
+            //add filepaths to the arraylist
+            allSongsFilepaths.add(musicModel.getSongsList().get(0).getFilePath());
+            allSongsFilepaths.add(musicModel.getSongsList().get(1).getFilePath());
+            songs.add(new File(musicModel.getSongsList().get(0).getFilePath()));
+            songs.add(new File(musicModel.getSongsList().get(1).getFilePath()));
+            allSongs.add(musicModel.getSongsList().get(0));
+            allSongs.add(musicModel.getSongsList().get(1));
         }
-
-        directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music");
-        //directory = new File("C:\\Users\\aneho\\OneDrive\\Dokumenter\\Music\\lastSummer.mp3");
-
-        files = directory.listFiles();  //stores files in directory
-
-        if (files != null) {
-            for (File file : files) {
-                songs.add(file);
-                System.out.println(file.getName() + file + "\t\t\t der er fejl her");
-            }
-        }
-        media = new Media(songs.get(songNumber).toURI().toString());
+        directory = new File(allSongsFilepaths.get(0));
+        media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+         */
         boolean isPlaying = false;
         //controlling volumenslider
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -166,7 +143,6 @@ public class MainViewController extends BaseController implements Initializable 
         });
         //Display the song on the label
         //currentSongPlaying.setText(songs.get(songNumber).getName());
-        placeholders();
 
     }
 
@@ -228,12 +204,6 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.setItems(musicModel.getObservableSongs());
     }
 
-    private void updatePLList() {
-        playlistTable.getColumns().removeAll();
-
-        playlistTable.getColumns().addAll();
-        playlistTable.setItems(playlistModel.getObservablePlaylists());
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -306,6 +276,8 @@ public class MainViewController extends BaseController implements Initializable 
 
         musicModel.removeSongFromPlaylist(sId, plId);
         updateSongsInPlaylist();
+
+
     }
 
     /**
@@ -366,38 +338,42 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      */
 
-    @FXML
-    private void handleAddSongToPlaylist(ActionEvent actionEvent) {
-
+    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+        //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
 
-
+        //Save the id's of the two into two variables
         int sId = s.getId();
         int plId = pl.getId();
-        boolean songpresent = false;
 
+        //Boolean which indicates whether the song is present on the playlist or not
+        boolean songPresent = false;
+
+        //For loop which goes through all songs inside the playlist
         for (int i = 0; i < songsInsidePlaylist.getItems().size(); i++) {
 
+            //Get the songs in the playlist and their id's
             Song SiP = (Song) songsInsidePlaylist.getItems().get(i);
             int SiPID = SiP.getId();
 
+            //if the song id and one of the id's from the songs in the playlist match, display a warning.
             if (SiPID == sId) {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Song already in Playlist", ButtonType.CANCEL);
                 alert.showAndWait();
-                songpresent = true;
+                //Change boolean which indicates whether the song is present or not to true.
+                songPresent = true;
             }
 
         }
-        if (!songpresent) {
+        //If song is not present add it to the playlist.
+        if (!songPresent) {
             musicModel.addSongToPlaylist(sId, plId);
             updateSongsInPlaylist();
+
         }
+
     }
-
-
-
-
 
     /**
      * opens a new window where you can edit the selected song
@@ -490,16 +466,30 @@ public class MainViewController extends BaseController implements Initializable 
         beginTimer();
         //play and pause the song
         //if song is playing, then set button to pause
-        if (isPlaying) {
+        if (isPlaying == true && mediaPlayer != null) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
-        } else {
+        } else if(isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null){
             playBtn.setText("Pause");
             isPlaying = true;
+
+            if(songsTable.getSelectionModel().getSelectedItem() != null) {
+                Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+
+                System.out.println("The selected song is: " + selectedSong.getTitle() + "\t af " + selectedSong.getArtist());
+                directory = new File(selectedSong.getFilePath());
+                media = new Media(directory.getAbsoluteFile().toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+                
+            }
             mediaPlayer.play();
         }
+        else{
+            System.out.println("Ingen sange valgt (¬‿¬)");
+        }
     }
+
 
     /**
      * goes to the next song in either the songs tableview or the next song in the playlist
@@ -521,7 +511,7 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.stop();
         media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
         mediaPlayer = new MediaPlayer(media);   //sets the song
-        currentSongPlaying.setText(songs.get(songNumber).getName());
+        currentSongPlaying.setText(allSongs.get(songNumber).getTitle());
         isPlaying = false;
         playSong();
     }
@@ -585,20 +575,6 @@ public class MainViewController extends BaseController implements Initializable 
     public void cancelTimer() {
         timer.cancel();
     }
-    public void timeChanged(MouseDragEvent mouseDragEvent) {
-        double howfarNew = Math.round(timeSlider.getValue()) / 100;
-        /**
-         (current/end)*100=howfar%
-         (100 second far/ 200 second end)=0.5 howFarTo1
-         end*(howfar%/100)) = current
-         current/howfar% = end
-         (howfarnew/100) * end = current
-         */
-        double end = media.getDuration().toSeconds();
-                     double newTimeOnSong = end * howfarNew;
-                     System.out.println(newTimeOnSong);
-                     mediaPlayer.seek(Duration.seconds(newTimeOnSong));
-                 }
 
     /**
      * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
@@ -677,6 +653,23 @@ public class MainViewController extends BaseController implements Initializable 
             Alert alert = new Alert(Alert.AlertType.ERROR, "Song already at bottom of playlist", ButtonType.CANCEL);
             alert.showAndWait();
         }
+    }
 
+    /**
+     * (current/end)*100=howfar%
+     * (100 second far/ 200 second end)=0.5 howFarTo1
+     * end*(howfar%/100)) = current
+     * current/howfar% = end
+     * (howfarnew/100) * end = current
+     * @param dragEvent
+     */
+    public void timeChanged(MouseEvent dragEvent) {
+        double howfarNew = Math.round(timeSlider.getValue());
+        System.out.println("Time changed to %:  " + howfarNew);
+        //playSong();
+        double end = media.getDuration().toSeconds();
+        double newTimeOnSong = end * (howfarNew/100);
+        System.out.println(Math.round(newTimeOnSong) + " \tnew second number");
+        mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
     }
 }
