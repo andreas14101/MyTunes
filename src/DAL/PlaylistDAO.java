@@ -6,19 +6,88 @@ import BE.Song;
 import java.sql.*;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
-public class PlaylistDAO implements ICRUDPlaylist{
+public class PlaylistDAO implements ICRUDPlaylist {
 
     private MyDatabaseConnector databaseConnector;
 
-    public PlaylistDAO(){
+    public PlaylistDAO() {
         databaseConnector = new MyDatabaseConnector();
     }
-    @Override
+
     public List<Playlist> getAllPlaylists() throws Exception {
+        //Make a list called allPlaylists
+        ArrayList<Playlist> allPlaylists = new ArrayList<>();
+
+        //Try with resources on the databaseConnector
+        try (Connection conn = databaseConnector.getConnection()) {
+            //SQL String which gets all playlists and their respective songs, along with length of the songs.
+            String sql =
+                    "SELECT playlistID, Songs.Time, Playlists.Title\n" +
+                            "FROM SongPlaylistLink \n" +
+                            "JOIN Songs ON SongPlaylistLink.songID = Songs.Id \n" +
+                            "JOIN Playlists ON SongPlaylistLink.playlistID = Playlists.Id\n" +
+                            "ORDER BY playlistID;";
+
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            int lastID = 0;
+            int numSongsOnPL = 0;
+            int timeOnPL = 0;
+            Playlist pl1 = new Playlist(0,"","",0);
+            boolean firstSong = true;
+
+            //Loop through rows from the database result set
+
+            while (rs.next()) {
+
+                //Map DB row to Playlist Object
+                int id = rs.getInt("playlistID");
+                String title = rs.getString("Title");
+                int time = rs.getInt("Time");
+
+                if (firstSong){
+                    lastID = id;
+                    firstSong = false;
+                }
+
+                if (lastID == id) {
+                        numSongsOnPL++;
+                        timeOnPL = time + timeOnPL;
+                    Duration actTimeOnPL = Duration.ofSeconds(timeOnPL);
+                    String actTimeOnPL2 = actTimeOnPL.toMinutesPart() + ":" + actTimeOnPL.toSecondsPart();
+                    pl1 = new Playlist(id, title, actTimeOnPL2, numSongsOnPL);
+                }
+                else {
+
+                    allPlaylists.add(pl1);
+                    numSongsOnPL = 1;
+                    timeOnPL = time;
+                    Duration actTimeOnPL = Duration.ofSeconds(timeOnPL);
+                    String actTimeOnPL2 = actTimeOnPL.toMinutesPart() + ":" + actTimeOnPL.toSecondsPart();
+                    pl1 = new Playlist(id,title,actTimeOnPL2,numSongsOnPL);
+            }
+
+        }
+        return allPlaylists;
+    }
+        catch(
+    SQLException ex)
+
+    {
+        ex.printStackTrace();
+        throw new Exception("Could not get playlists from database");
+    }
+
+}
+
+    public List<Playlist> getAllPlaylists2() throws Exception {
         //Make a list called allPlaylists
         ArrayList<Playlist> allPlaylists = new ArrayList<>();
         ArrayList<Playlist> allPlaylist2 = new ArrayList<>();
@@ -30,6 +99,7 @@ public class PlaylistDAO implements ICRUDPlaylist{
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+
 
             //Loop through rows from the database result set
             while (rs.next()) {
@@ -80,6 +150,7 @@ public class PlaylistDAO implements ICRUDPlaylist{
             throw new Exception("Could not get playlists from database");
         }
     }
+
     @Override
     public Playlist createNewPlaylist(String plname) throws Exception {
 
