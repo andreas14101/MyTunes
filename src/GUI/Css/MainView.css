@@ -43,6 +43,6 @@
 .currentlyplayingLable
 {
     -fx-text-fill: black;
-    -fx-font-size:  20;
+    -fx-font-size:  15;
     -fx-font-style: oblique;
 }
