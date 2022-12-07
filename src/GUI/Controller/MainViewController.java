@@ -7,6 +7,7 @@ import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,39 +44,17 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private TextField filterSearch;
     @FXML
-    private Slider timeSlider;
+    private Slider timeSlider, volumeSlider;
     @FXML
-    private TableView songsTable;
+    private TableView songsTable, playlistTable;
     @FXML
-    private TableView playlistTable;
+    private TableColumn songTitleColumn, songArtistColumn, songCategoryColumn, songTimeColumn;
     @FXML
-    private Slider volumeSlider;
+    private Button CloseBtn, searchBtn, playBtn, forwardBtn, backBtn;
     @FXML
-    private TableColumn songTitleColumn;
-    @FXML
-    private TableColumn songArtistColumn;
-    @FXML
-    private TableColumn songCategoryColumn;
-    @FXML
-    private TableColumn songTimeColumn;
-    @FXML
-    private Button CloseBtn;
-    @FXML
-    private Button searchBtn;
-    @FXML
-    private TableColumn playlistNameColumn;
-    @FXML
-    private TableColumn playlistSongsAmountColumn;
-    @FXML
-    private TableColumn playlistTimeColumn;
-    @FXML
-    private Button playBtn;
-    @FXML
-    private Button forwardBtn;
+    private TableColumn playlistNameColumn, playlistSongsAmountColumn, playlistTimeColumn;
     @FXML
     private Label currentSongPlaying;
-    @FXML
-    private Button backBtn;
     @FXML
     private TableView songsInsidePlaylist;
     @FXML
@@ -83,10 +62,8 @@ public class MainViewController extends BaseController implements Initializable 
 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
-
     private File directory;
     private File[] files;
-
     boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private Media media;
@@ -99,7 +76,6 @@ public class MainViewController extends BaseController implements Initializable 
     private double end;
     private double current;
     private boolean isSomethingChoosen;
-    private long lastTime;
     private ExceptionHandler exceptionHandler;
 
     @Override
@@ -119,26 +95,27 @@ public class MainViewController extends BaseController implements Initializable 
     private void mediaPlayermetod() {
         isSomethingChoosen = false;
 
-        /*
         musicModel = getModel().getSongModel();
         songs = new ArrayList<>();
         allSongs = new ArrayList<>();
         allSongsFilepaths = new ArrayList<>();
 
         if (musicModel.getSongsList() != null) {
-            //add filepaths to the arraylist
-            allSongsFilepaths.add(musicModel.getSongsList().get(0).getFilePath());
-            allSongsFilepaths.add(musicModel.getSongsList().get(1).getFilePath());
-            songs.add(new File(musicModel.getSongsList().get(0).getFilePath()));
-            songs.add(new File(musicModel.getSongsList().get(1).getFilePath()));
-            allSongs.add(musicModel.getSongsList().get(0));
-            allSongs.add(musicModel.getSongsList().get(1));
+            for (int i = 0; musicModel.getSongsList().size() > i; i++) {
+                //add filepaths to the arraylist
+                allSongsFilepaths.add(musicModel.getSongsList().get(i).getFilePath());
+                songs.add(new File(musicModel.getSongsList().get(i).getFilePath()));
+                allSongs.add(musicModel.getSongsList().get(i));
+            }
         }
-        directory = new File(allSongsFilepaths.get(0));
+
+        directory = new File(allSongsFilepaths.get(songNumber));
         media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-         */
-        boolean isPlaying = false;
+        //songsInsidePlaylist.getFocusModel().getFocusedItem();
+
+
+        isSomethingChoosen = true;
         //controlling volumenslider
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -529,19 +506,12 @@ public class MainViewController extends BaseController implements Initializable 
             mediaPlayer.seek(Duration.seconds(0));
             isPlaying = false;
             playSong();
+        } else if (songNumber > 0) {
+            songNumber--;
+            shiftSong();
         } else {
-            //look for witch song the previous is
-            if (songNumber > 0) {
-            } else {
-                //look for witch song the previos is
-                if (songNumber > 0) {
-                    songNumber--;
-                    shiftSong();
-                } else {
-                    songNumber = songs.size() - 1;
-                    shiftSong();
-                }
-            }
+            songNumber = songs.size() - 1;
+            shiftSong();
         }
     }
 
