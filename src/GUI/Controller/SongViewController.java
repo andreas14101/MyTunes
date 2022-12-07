@@ -29,6 +29,7 @@ import java.io.IOException;
 public class SongViewController extends BaseController {
     @FXML
     private Button chooseFileBtn;
+    @FXML
     private ComboBox categoryCB;
     @FXML
     private Button cancelBtn;
@@ -49,6 +50,7 @@ public class SongViewController extends BaseController {
     public void setup() {
 
         model = getModel().getSongModel();
+        setCategoryCB();
 
         if (model.getShouldEdit() == true) {
 
@@ -167,7 +169,6 @@ public class SongViewController extends BaseController {
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     /**
