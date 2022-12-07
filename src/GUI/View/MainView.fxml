@@ -97,7 +97,7 @@
                <children>
                   <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="titleColumn" prefWidth="160.800018286705" styleClass="button" text="Title" />
+                      <TableColumn fx:id="titleColumn" prefWidth="160.8" styleClass="button" text="Title" />
                     </columns>
                      <HBox.margin>
                         <Insets left="10.0" />
