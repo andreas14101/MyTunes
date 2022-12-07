@@ -29,6 +29,7 @@ import java.io.IOException;
 public class SongViewController extends BaseController {
     @FXML
     private Button chooseFileBtn;
+    @FXML
     private ComboBox categoryCB;
     @FXML
     private Button cancelBtn;
@@ -160,12 +161,11 @@ public class SongViewController extends BaseController {
     private void setCategoryCB() {
         try {
             //Create list and add categories.
-            ObservableList<Category> cList = FXCollections.observableArrayList(model.getObservableCategories());
-            //cList = model.getObservableCategories();
-            System.out.println(cList);
+            ObservableList<Category> list = FXCollections.observableArrayList();
+            list = model.getObservableCategories();
+
             //Load categories to combobox
-            categoryCB.getItems().clear();
-            categoryCB.setItems(cList);
+            categoryCB.setItems(list);
         } catch (Exception e){
             e.printStackTrace();
         }
