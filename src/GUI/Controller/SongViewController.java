@@ -117,11 +117,13 @@ public class SongViewController extends BaseController {
                 String title = songTitleTxt.getText();
                 String artist = artistTxt.getText();
                 String pathToFile = fileTxt.getText();
+                String category = categoryCB.getValue().toString();
 
                 //Updates the selected song
                 model.getSelectedSong().setArtist(artist);
                 model.getSelectedSong().setTitle(title);
                 model.getSelectedSong().setFilePath(pathToFile);
+                model.getSelectedSong().setCategory(category);
                 model.songUpdate(model.getSelectedSong());
 
                 // Closes the window
