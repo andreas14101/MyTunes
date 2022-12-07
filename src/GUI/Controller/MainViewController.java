@@ -687,13 +687,11 @@ public class MainViewController extends BaseController implements Initializable 
     public void doubleClick(){
         songsTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                System.out.println("song from songtable: "  + songsTable.getFocusModel().getFocusedItem());
                 slectedSong();
             }
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                System.out.println("song from songtable: "  + songsTable.getFocusModel().getFocusedItem());
                 selectedSongFromPlaylist();
             }
         });
