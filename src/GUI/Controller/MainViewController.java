@@ -458,11 +458,7 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * on the first click of the button plays selected song on the second click pauses the song
      */
-
-
     public void playSong() {
-        //begin to track the progress
-        beginTimer();
         //play and pause the song
         //if song is playing, then set button to pause
         if (isPlaying == true && mediaPlayer != null) {
@@ -481,6 +477,8 @@ public class MainViewController extends BaseController implements Initializable 
                 media = new Media(directory.getAbsoluteFile().toURI().toString());
                 mediaPlayer = new MediaPlayer(media);
                 currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
+                timeMove();
+                
             }
 
             mediaPlayer.play();
@@ -542,40 +540,20 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-    /**
-     * begins a timer to track the time a song has been playing
-     */
-    public void beginTimer() {
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            //Timertask is the task to be executed.
-            @Override
-            public void run() {
-                double end = media.getDuration().toSeconds();
-                double current = mediaPlayer.getCurrentTime().toSeconds();
-                int endTot = (int) Math.round(end);
-                double howFar = current / end;
+    public void timeMove()
+    {
+        mediaPlayer.currentCountProperty().addListener(ov -> {
+            if(!timeSlider.isValueChanging())
+            {
+                double total = mediaPlayer.getTotalDuration().toMillis();
+                double current = mediaPlayer.getCurrentTime().toMillis();
 
-                System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
-                timeSlider.setValue(Math.round(howFar * 100 * 100) / 100);
-                if (howFar == 1) {
-                    nextSong();
-                    cancelTimer();
-                }
+                timeSlider.setMax(total);
+                timeSlider.setValue(current);
             }
-        };
-        //executes the timertask after 1000 milliSeconds = 1 second
-        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
-
+        });
     }
-
-    /**
-     * stops and resets the timer
-     */
-    public void cancelTimer() {
-        timer.cancel();
-    }
-
+    
     /**
      * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
      * @param event
