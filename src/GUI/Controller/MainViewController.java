@@ -97,6 +97,8 @@ public class MainViewController extends BaseController implements Initializable 
     private TimerTask timerTask;
     private double end;
     private double current;
+    private boolean isSomethingChoosen;
+    private long lastTime;
 
     @Override
     public void setup() {
@@ -112,6 +114,8 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     private void mediaPlayermetod() {
+        isSomethingChoosen = false;
+
         /*
         musicModel = getModel().getSongModel();
         songs = new ArrayList<>();
@@ -212,6 +216,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        doubleClick();
     }
 
     /**
@@ -472,29 +477,16 @@ public class MainViewController extends BaseController implements Initializable 
         beginTimer();
         //play and pause the song
         //if song is playing, then set button to pause
-        if (isPlaying == true && mediaPlayer != null) {
+        if (isPlaying == true && isSomethingChoosen == true) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
-        } else if (isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null) {
+        } else if (isPlaying == false && isSomethingChoosen == true) {
             playBtn.setText("Pause");
             isPlaying = true;
-
-            if(songsTable.getSelectionModel().getSelectedItem() != null || songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
-                Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
-
-                System.out.println("The selected song is: " + selectedSong.getTitle() + "\t af " + selectedSong.getArtist());
-                directory = new File(selectedSong.getFilePath());
-                media = new Media(directory.getAbsoluteFile().toURI().toString());
-                mediaPlayer = new MediaPlayer(media);
-
-                currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
-                
-            }
-
             mediaPlayer.play();
         } else {
-            System.out.println("Ingen sange valgt (¬‿¬)");
+            System.out.println("Ingen sange valgt (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o");
         }
     }
 
@@ -568,7 +560,7 @@ public class MainViewController extends BaseController implements Initializable 
                 int endTot = (int) Math.round(end);
                 double howFar = current / end;
 
-                System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
+                //System.out.println(Math.round(howFar * 100 * 100) / 100 + " % \tgennem\t" + currentSongPlaying.getText() + "\t Current time: " + Math.round(current) + "\t Total Duration: " + endTot);
                 timeSlider.setValue(Math.round(howFar * 100 * 100) / 100);
                 if (howFar == 1) {
                     nextSong();
@@ -687,5 +679,42 @@ public class MainViewController extends BaseController implements Initializable 
         double newTimeOnSong = end * (howfarNew / 100);
         System.out.println(Math.round(newTimeOnSong) + " \tnew second number");
         mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
+    }
+
+    public void doubleClick(){
+        songsTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                System.out.println("song from songtable: "  + songsTable.getFocusModel().getFocusedItem());
+                slectedSong();
+            }
+        });
+        songsInsidePlaylist.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                System.out.println("song from songtable: "  + songsTable.getFocusModel().getFocusedItem());
+                selectedSongFromPlaylist();
+            }
+        });
+    }
+
+    public void slectedSong() {
+        Song s = (Song) songsTable.getFocusModel().getFocusedItem();
+        songSelection(s);
+    }
+    public void selectedSongFromPlaylist() {
+        Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+        songSelection(s);
+    }
+    private void songSelection(Song s) {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        isSomethingChoosen = true;
+        isPlaying = false;
+        System.out.println("Choosen song from songtable: " + s.getTitle());
+        directory = new File(s.getFilePath());
+        media = new Media(directory.getAbsoluteFile().toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        currentSongPlaying.setText(s.getTitle() + "");
+        playSong();
     }
 }

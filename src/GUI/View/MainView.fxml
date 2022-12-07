@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="SongsInPlaylist" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
+<AnchorPane fx:id="SongsInPlaylist" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -95,7 +95,7 @@
             </HBox>
             <HBox prefHeight="284.0" prefWidth="121.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="songsInsidePlaylist" onMouseClicked="#selectedSongFromPlaylist" prefHeight="200.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="titleColumn" prefWidth="160.8" styleClass="button" text="Title" />
                     </columns>
@@ -190,7 +190,7 @@
          <children>
             <HBox prefHeight="276.0" prefWidth="239.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsTable" prefHeight="310.0" prefWidth="328.0">
+                  <TableView fx:id="songsTable" onMouseClicked="#slectedSong" prefHeight="310.0" prefWidth="328.0">
                     <columns>
                       <TableColumn fx:id="songTitleColumn" prefWidth="113.60000610351562" styleClass="button" text="Title" />
                       <TableColumn fx:id="songArtistColumn" prefWidth="94.4000244140625" styleClass="button" text="Artist" />
@@ -250,7 +250,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label" styleClass="currentlyplayingLable">
+                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
