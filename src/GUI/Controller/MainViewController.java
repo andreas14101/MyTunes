@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.ExceptionHandler;
 import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
@@ -95,6 +96,9 @@ public class MainViewController extends BaseController implements Initializable 
     private int songNumber;
     private Timer timer;
     private TimerTask timerTask;
+    private double end;
+    private double current;
+    private ExceptionHandler exceptionHandler;
 
     @Override
     public void setup() {
@@ -102,6 +106,7 @@ public class MainViewController extends BaseController implements Initializable 
         placeholders();
         mediaPlayermetod();
         currentSongPlaying.setText("(none) is currently playing");
+        exceptionHandler = new ExceptionHandler();
         try {
             updatePlaylist();
         } catch (Exception ex) {
@@ -173,7 +178,7 @@ public class MainViewController extends BaseController implements Initializable 
 
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            exceptionHandler.displayError(ex);
         }
     }
 
@@ -478,7 +483,7 @@ public class MainViewController extends BaseController implements Initializable 
             playBtn.setText("Pause");
             isPlaying = true;
 
-            if (songsTable.getSelectionModel().getSelectedItem() != null) {
+            if(songsTable.getSelectionModel().getSelectedItem() != null || songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
                 Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
 
                 System.out.println("The selected song is: " + selectedSong.getTitle() + "\t af " + selectedSong.getArtist());
@@ -553,12 +558,16 @@ public class MainViewController extends BaseController implements Initializable 
      */
     public void beginTimer() {
         timer = new Timer();
+        
         timerTask = new TimerTask() {
             //Timertask is the task to be executed.
             @Override
             public void run() {
-                double end = media.getDuration().toSeconds();
-                double current = mediaPlayer.getCurrentTime().toSeconds();
+                if(media != null && mediaPlayer != null){
+                end = media.getDuration().toSeconds();
+                if(mediaPlayer.getCurrentTime() != null){
+                    current = mediaPlayer.getCurrentTime().toSeconds();
+                }
                 int endTot = (int) Math.round(end);
                 double howFar = current / end;
 
@@ -567,6 +576,7 @@ public class MainViewController extends BaseController implements Initializable 
                 if (howFar == 1) {
                     nextSong();
                     cancelTimer();
+                }
                 }
             }
         };
