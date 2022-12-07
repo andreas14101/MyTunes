@@ -39,3 +39,10 @@
     -fx-background-color: transparent;
     -fx-text-fill: transparent;
 }
+
+.currentlyplayingLable
+{
+    -fx-text-fill: black;
+    -fx-font-size:  15;
+    -fx-font-style: oblique;
+}
