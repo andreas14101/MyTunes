@@ -101,9 +101,16 @@ public class MainViewController extends BaseController implements Initializable 
     @Override
     public void setup() {
         updateSongList();
-        updatePlaylist();
         placeholders();
         mediaPlayermetod();
+
+        try {
+            updatePlaylist();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
     }
 
     private void mediaPlayermetod() {
@@ -177,7 +184,7 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Updates the playlist tableview
      */
-    private void updatePlaylist() {
+    private void updatePlaylist() throws Exception {
         playlistModel = getModel().getPlaylistModel();
 
         playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -268,7 +275,7 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      */
     @FXML
-    private void handleDeleteSongOnPlaylist(ActionEvent actionEvent) {
+    private void handleDeleteSongOnPlaylist(ActionEvent actionEvent) throws Exception {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
         int sId = s.getId();
@@ -276,6 +283,7 @@ public class MainViewController extends BaseController implements Initializable 
 
         musicModel.removeSongFromPlaylist(sId, plId);
         updateSongsInPlaylist();
+        updatePlaylist();
 
 
     }
@@ -338,7 +346,7 @@ public class MainViewController extends BaseController implements Initializable 
      * @param actionEvent
      */
 
-    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
+    public void handleAddSongToPlaylist(ActionEvent actionEvent) throws Exception {
         //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
@@ -372,7 +380,7 @@ public class MainViewController extends BaseController implements Initializable 
             updateSongsInPlaylist();
 
         }
-
+        updatePlaylist();
     }
 
     /**
@@ -470,22 +478,21 @@ public class MainViewController extends BaseController implements Initializable 
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
-        } else if(isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null){
+        } else if (isPlaying == false && songsTable.getSelectionModel().getSelectedItem() != null) {
             playBtn.setText("Pause");
             isPlaying = true;
 
-            if(songsTable.getSelectionModel().getSelectedItem() != null) {
+            if (songsTable.getSelectionModel().getSelectedItem() != null) {
                 Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
 
                 System.out.println("The selected song is: " + selectedSong.getTitle() + "\t af " + selectedSong.getArtist());
                 directory = new File(selectedSong.getFilePath());
                 media = new Media(directory.getAbsoluteFile().toURI().toString());
                 mediaPlayer = new MediaPlayer(media);
-                
+
             }
             mediaPlayer.play();
-        }
-        else{
+        } else {
             System.out.println("Ingen sange valgt (¬‿¬)");
         }
     }
@@ -578,6 +585,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * nayn cat easter egg press the button and get taken to the standard browser of you computer on the given url.
+     *
      * @param event
      * @throws InterruptedException
      */
@@ -595,6 +603,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * shows the songs in a playlist in the songs in playlist tableview
+     *
      * @param mouseEvent
      */
     @FXML
@@ -661,6 +670,7 @@ public class MainViewController extends BaseController implements Initializable 
      * end*(howfar%/100)) = current
      * current/howfar% = end
      * (howfarnew/100) * end = current
+     *
      * @param dragEvent
      */
     public void timeChanged(MouseEvent dragEvent) {
@@ -668,7 +678,7 @@ public class MainViewController extends BaseController implements Initializable 
         System.out.println("Time changed to %:  " + howfarNew);
         //playSong();
         double end = media.getDuration().toSeconds();
-        double newTimeOnSong = end * (howfarNew/100);
+        double newTimeOnSong = end * (howfarNew / 100);
         System.out.println(Math.round(newTimeOnSong) + " \tnew second number");
         mediaPlayer.seek(Duration.seconds(Math.round(newTimeOnSong)));
     }
