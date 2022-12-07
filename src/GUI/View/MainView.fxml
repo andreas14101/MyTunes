@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="SongsInPlaylist" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
+<AnchorPane fx:id="SongsInPlaylist" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="757.0" styleClass="background" stylesheets="/GUI/Css/MainView.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.MainViewController">
    <children>
       <GridPane layoutY="2.0" prefHeight="73.0" prefWidth="236.0">
         <columnConstraints>
@@ -97,7 +97,7 @@
                <children>
                   <TableView fx:id="songsInsidePlaylist" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="titleColumn" prefWidth="160.800018286705" styleClass="button" text="Title" />
+                      <TableColumn fx:id="titleColumn" prefWidth="160.8" styleClass="button" text="Title" />
                     </columns>
                      <HBox.margin>
                         <Insets left="10.0" />

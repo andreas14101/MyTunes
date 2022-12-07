@@ -13,24 +13,29 @@ public class PlaylistModel {
 
     private MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
-    private ObservableList<String> songsOnList;
 
     private ObservableList<Song> songsOnPL;
 
     public PlaylistModel() throws Exception {
 
         musicManager = new MusicManager();
+        updatePlaylists();
+
+    }
+
+    private void updatePlaylists() throws Exception {
         playlistsToBeViewed = FXCollections.observableArrayList();
         playlistsToBeViewed.addAll(musicManager.getAllPlaylists());
-
     }
 
     /**
      * gets the playlists that need to be shown in the playlist tableview
      * @return the observableList that contains the playlists that should be viewed
      */
-    public ObservableList<Playlist> getObservablePlaylists() {
+    public ObservableList<Playlist> getObservablePlaylists() throws Exception {
+        updatePlaylists();
         return playlistsToBeViewed;
+
     }
 
     /**
