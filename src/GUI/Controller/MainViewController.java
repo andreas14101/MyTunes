@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.ExceptionHandler;
 import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
@@ -95,6 +96,7 @@ public class MainViewController extends BaseController implements Initializable 
     private int songNumber;
     private Timer timer;
     private TimerTask timerTask;
+    private ExceptionHandler exceptionHandler;
 
     @Override
     public void setup() {
@@ -102,6 +104,7 @@ public class MainViewController extends BaseController implements Initializable 
         updatePlaylist();
         placeholders();
         mediaPlayermetod();
+        exceptionHandler = new ExceptionHandler();
     }
 
     private void mediaPlayermetod() {
@@ -168,7 +171,7 @@ public class MainViewController extends BaseController implements Initializable 
 
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            exceptionHandler.displayError(ex);
         }
     }
 

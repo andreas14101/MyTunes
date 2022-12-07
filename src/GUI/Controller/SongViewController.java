@@ -1,6 +1,7 @@
 package GUI.Controller;
 
 import BE.Category;
+import BE.ExceptionHandler;
 import GUI.Model.SongModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,11 +47,14 @@ public class SongViewController extends BaseController {
 
     private boolean shouldEdit;
 
+    private ExceptionHandler exceptionHandler;
+
     @Override
     public void setup() {
 
         model = getModel().getSongModel();
         setCategoryCB();
+        exceptionHandler = new ExceptionHandler();
 
         if (model.getShouldEdit() == true) {
 
@@ -95,8 +99,9 @@ public class SongViewController extends BaseController {
      * @throws Exception
      */
     @FXML
-    private void handleSave(ActionEvent actionEvent) throws Exception {
-        if (model.getShouldEdit() == false) {
+    private void handleSave(ActionEvent actionEvent){
+        try {
+            if (model.getShouldEdit() == false) {
                 String title = songTitleTxt.getText();
                 String artist = artistTxt.getText();
                 String category = categoryCB.getValue().toString();
@@ -128,7 +133,10 @@ public class SongViewController extends BaseController {
                 Stage stage = (Stage) saveBtn.getScene().getWindow();
                 stage.close();
             }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
+    }
 
 
         //choose a new file, without the user having to copy the filepath.
@@ -167,7 +175,7 @@ public class SongViewController extends BaseController {
             //Load categories to combobox
             categoryCB.setItems(list);
         } catch (Exception e){
-            e.printStackTrace();
+            exceptionHandler.displayError(e);
         }
     }
 
