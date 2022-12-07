@@ -104,6 +104,7 @@ public class MainViewController extends BaseController implements Initializable 
         updatePlaylist();
         placeholders();
         mediaPlayermetod();
+        currentSongPlaying.setText("(none) is currently playing");
     }
 
     private void mediaPlayermetod() {
@@ -481,8 +482,9 @@ public class MainViewController extends BaseController implements Initializable 
                 directory = new File(selectedSong.getFilePath());
                 media = new Media(directory.getAbsoluteFile().toURI().toString());
                 mediaPlayer = new MediaPlayer(media);
-                
+                currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
             }
+
             mediaPlayer.play();
         }
         else{

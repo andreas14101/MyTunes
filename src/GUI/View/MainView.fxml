@@ -250,7 +250,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label">
+                  <Label fx:id="currentSongPlaying" alignment="TOP_CENTER" prefHeight="29.0" prefWidth="208.0" text="Label" styleClass="currentlyplayingLable">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
