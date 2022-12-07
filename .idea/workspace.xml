@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="024fd108-5b73-43ab-8a4f-e903e77f184d" name="Changes" comment="">
+    <list default="true" id="1c580df6-572f-485e-bcb6-c3c4fdf03930" name="Changes" comment="MyDatabaseConnector added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Model/PlaylistModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Model/PlaylistModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/View/MainView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +96,7 @@
       <workItem from="1670223663420" duration="1287000" />
       <workItem from="1670228118620" duration="5334000" />
       <workItem from="1670348316458" duration="5869000" />
-      <workItem from="1670396897782" duration="3848000" />
+      <workItem from="1670396897782" duration="12986000" />
     </task>
     <task id="LOCAL-00001" summary="MyDatabaseConnector added">
       <created>1669709514943</created>
