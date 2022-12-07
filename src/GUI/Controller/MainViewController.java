@@ -68,7 +68,6 @@ public class MainViewController extends BaseController implements Initializable 
     private File directory;
     private File[] files;
     boolean isPlaying;
-    boolean isPaused = false;
     private MediaPlayer mediaPlayer;
     private Media media;
     private ArrayList<File> songs;
@@ -451,7 +450,6 @@ public class MainViewController extends BaseController implements Initializable 
         if (isPlaying == true && isSomethingChoosen == true) {
             playBtn.setText("Play");
             mediaPlayer.pause();
-            isPaused = true;
             isPlaying = false;
         } else if (isPlaying == false && isSomethingChoosen == true) {
             playBtn.setText("Pause");
