@@ -371,7 +371,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
-
         if (alert.getResult() == ButtonType.YES) {
             playlistModel.deletePlaylist(pl);
         }
@@ -517,7 +516,7 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * goes to the next song in either the songs tableview or the next song in the playlist
      */
-    public void nextSong() {
+    public void nextSong(ActionEvent event) {
         allSongsFromDb = musicModel.getSongsList();
         if (songNumber < allSongsFromDb.size()) {
             songNumber++;
@@ -531,7 +530,7 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * switches the song
      */
-    public void shiftSong() {
+    private void shiftSong() {
         allSongsFromDb = musicModel.getSongsList();
         mediaPlayer.stop();
         List<String> filePaths = new ArrayList<>();
@@ -555,7 +554,7 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * starts the current song over if the duration is >= 7 seconds of playing it else it goes back to the previous song on the list
      */
-    public void previousOrRestartSong() {
+    public void previousOrRestartSong(ActionEvent event) {
         allSongsFromDb = musicModel.getSongsList();
         //if more than 7 seconds has passed, the song is restarted, else it is the previous song
         double current = mediaPlayer.getCurrentTime().toSeconds();
