@@ -98,23 +98,22 @@ public class MainViewController extends BaseController implements Initializable 
     private void mediaPlayermetod() {
         isSomethingChoosen = false;
 
-        musicModel = getModel().getSongModel();
-        songs = new ArrayList<>();
-        allSongs = new ArrayList<>();
-        allSongsFilepaths = new ArrayList<>();
-
-        if (musicModel.getSongsList() != null) {
-            for (int i = 0; musicModel.getSongsList().size() > i; i++) {
-                //add filepaths to the arraylist
-                allSongsFilepaths.add(musicModel.getSongsList().get(i).getFilePath());
-                songs.add(new File(musicModel.getSongsList().get(i).getFilePath()));
-                allSongs.add(musicModel.getSongsList().get(i));
+        List<Song> allSongsFromDb = musicModel.getSongsList();
+        List<String> filePaths = new ArrayList<>();
+        if(allSongsFromDb != null)
+        {
+            for (Song s: allSongsFromDb)
+            {
+                filePaths.add(s.getFilePath());
             }
         }
 
-        directory = new File(allSongsFilepaths.get(songNumber));
+        directory = new File(filePaths.get(songNumber));
+        if(directory.exists())
+        {
         media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        }
         //songsInsidePlaylist.getFocusModel().getFocusedItem();
 
 
@@ -189,7 +188,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        doubleClick();
+        normalSelect();
     }
 
     /**
@@ -454,6 +453,8 @@ public class MainViewController extends BaseController implements Initializable 
         } else if (isPlaying == false && isSomethingChoosen == true) {
             playBtn.setText("Pause");
             isPlaying = true;
+            timeMoveAuto();
+            timeSkip();
             mediaPlayer.play();
         } else {
             System.out.println("Ingen sange valgt (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o");
@@ -506,7 +507,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * tracks the time of the song that is currently playing and if you want to skip around in it, it moves the time along
+     * tracks the time of the song that is currently playing
      */
     public void timeMoveAuto()
     {
@@ -613,6 +614,22 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+    public void normalSelect()
+    {
+        songsTable.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 1)
+            {
+                slectedSong();
+            }
+        });
+        songsInsidePlaylist.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 1)
+            {
+                selectedSongFromPlaylist();
+            }
+        });
+    }
+
 
     public void doubleClick(){
         songsTable.setOnMouseClicked(event -> {
@@ -645,7 +662,7 @@ public class MainViewController extends BaseController implements Initializable 
         directory = new File(s.getFilePath());
         media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        currentSongPlaying.setText(s.getTitle() + "");
+        currentSongPlaying.setText(s.getTitle() + "is currently playing");
         playSong();
     }
 }
