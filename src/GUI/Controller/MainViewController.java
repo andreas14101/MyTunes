@@ -39,24 +39,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainViewController extends BaseController implements Initializable {
-
-    //all of the instance variables. Available everywhere in the class
     @FXML
     private TextField filterSearch;
     @FXML
     private Slider timeSlider, volumeSlider;
     @FXML
-    private TableView songsTable, playlistTable;
+    private TableView songsTable, playlistTable, songsInsidePlaylist;
     @FXML
     private TableColumn songTitleColumn, songArtistColumn, songCategoryColumn, songTimeColumn;
     @FXML
-    private Button CloseBtn, searchBtn, playBtn, forwardBtn, backBtn;
-    @FXML
     private TableColumn playlistNameColumn, playlistSongsAmountColumn, playlistTimeColumn;
     @FXML
-    private Label currentSongPlaying;
+    private Button CloseBtn, searchBtn, playBtn, forwardBtn, backBtn, editPlaylistBtn, deleteSongFromPlaylistBtn;
     @FXML
-    private TableView songsInsidePlaylist;
+    private Button deletePlaylistBtn, deleteSongBtn, EditSongBtn, upArrowBtn, downArrowBtn, leftArrowBtn;
+    @FXML
+    private Label currentSongPlaying;
     @FXML
     private TableColumn titleColumn;
 
@@ -84,6 +82,124 @@ public class MainViewController extends BaseController implements Initializable 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        normalSelect();
+        disableButtons();
+        addListenerBtnPlaylists();
+        addListenerBtnSongs();
+        addListenerBtnSongsInPlaylist();
+        addListenerBtnAddSongsToPl();
+        Clicks();
+    }
+
+    /**
+     * Disable buttons that should be usable before a selection in a table have been made
+     */
+    private void disableButtons(){
+        deletePlaylistBtn.setDisable(true);
+        deleteSongBtn.setDisable(true);
+        EditSongBtn.setDisable(true);
+        editPlaylistBtn.setDisable(true);
+        deleteSongFromPlaylistBtn.setDisable(true);
+        upArrowBtn.setDisable(true);
+        downArrowBtn.setDisable(true);
+        leftArrowBtn.setDisable(true);
+    }
+
+    /**
+     * Controls playlist table buttons. Enable or disable edit and delete playlist option,
+     * depending on, if a playlist is selected.
+     */
+    private void addListenerBtnPlaylists(){
+        playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
+            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    deletePlaylistBtn.setDisable(false);
+                    editPlaylistBtn.setDisable(false);
+                } else {
+                    deletePlaylistBtn.setDisable(true);
+                    editPlaylistBtn.setDisable(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Controls Song table buttons. Enable or disable edit and delete song option,
+     * depending on, if a song is selected.
+     */
+    private void addListenerBtnSongs(){
+        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    EditSongBtn.setDisable(false);
+                    deleteSongBtn.setDisable(false);
+                } else {
+                    EditSongBtn.setDisable(true);
+                    deleteSongBtn.setDisable(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Controls Songs in playlist table buttons. Enable or disable delete and move songs in playlist option,
+     * depending on, if a song in a playlist is selected.
+     */
+    private void addListenerBtnSongsInPlaylist(){
+        songsInsidePlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    deleteSongFromPlaylistBtn.setDisable(false);
+                    upArrowBtn.setDisable(false);
+                    downArrowBtn.setDisable(false);
+                } else {
+                    deleteSongFromPlaylistBtn.setDisable(true);
+                    upArrowBtn.setDisable(true);
+                    downArrowBtn.setDisable(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Controls button for adding songs to playlists. Enable or disable add song to playlist option,
+     * depending on, if a song is selected and a playlist is selected.
+     */
+    private void addListenerBtnAddSongsToPl(){
+        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    checkIfPlSelected();
+                } else {
+                    leftArrowBtn.setDisable(true);
+                }
+            }
+        });
+    }
+
+    /**
+     * Used to check if a playlist is selected. It is called in addListenerBtnAddSongToPl() methode, to check both song
+     * and playlist table.
+     */
+    private void checkIfPlSelected(){
+        playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
+            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    leftArrowBtn.setDisable(false);
+                } else {
+                    leftArrowBtn.setDisable(true);
+                }
+            }
+        });
     }
 
     private void mediaPlayermetod() {
@@ -141,8 +257,6 @@ public class MainViewController extends BaseController implements Initializable 
 
             songsInsidePlaylist.getColumns().addAll();
             songsInsidePlaylist.setItems(playlistModel.getSongsOnPL(pl.getId()));
-
-
         } catch (Exception ex) {
             exceptionHandler.displayError(ex);
         }
@@ -157,7 +271,6 @@ public class MainViewController extends BaseController implements Initializable 
         playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
         playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
         playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
-
 
         playlistTable.getColumns().addAll();
         playlistTable.setItems(playlistModel.getObservablePlaylists());
@@ -176,13 +289,6 @@ public class MainViewController extends BaseController implements Initializable 
 
         songsTable.getColumns().addAll();
         songsTable.setItems(musicModel.getObservableSongs());
-    }
-
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //normalSelect();
-        Clicks();
     }
 
     /**
@@ -234,8 +340,6 @@ public class MainViewController extends BaseController implements Initializable 
         Scene scene = new Scene(pane);
         dialogWindow.setScene(scene);
         dialogWindow.showAndWait();
-
-
     }
 
     /**
@@ -253,8 +357,6 @@ public class MainViewController extends BaseController implements Initializable 
         musicModel.removeSongFromPlaylist(sId, plId);
         updateSongsInPlaylist();
         updatePlaylist();
-
-
     }
 
     /**
@@ -300,7 +402,6 @@ public class MainViewController extends BaseController implements Initializable 
     private void handleDeletePlaylist(ActionEvent actionEvent) throws Exception {
         Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
 
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
 
@@ -314,7 +415,6 @@ public class MainViewController extends BaseController implements Initializable 
      *
      * @param actionEvent
      */
-
     public void handleAddSongToPlaylist(ActionEvent actionEvent) throws Exception {
         //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
@@ -347,7 +447,6 @@ public class MainViewController extends BaseController implements Initializable 
         if (!songPresent) {
             musicModel.addSongToPlaylist(sId, plId);
             updateSongsInPlaylist();
-
         }
         updatePlaylist();
     }
@@ -391,14 +490,13 @@ public class MainViewController extends BaseController implements Initializable 
     private void handleDeleteSong(ActionEvent actionEvent) throws Exception {
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "? \nThis will also remove the song in all your playlists.", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
             musicModel.deleteSong(s);
         }
     }
-
 
     /**
      * closes the window when the button is pressed
@@ -410,7 +508,6 @@ public class MainViewController extends BaseController implements Initializable 
         Stage stage = (Stage) CloseBtn.getScene().getWindow();
         stage.close();
     }
-
 
     /**
      * on the first click of the button it searches through the song table to fit the query on the second click of the button it clears the search query
@@ -431,7 +528,6 @@ public class MainViewController extends BaseController implements Initializable 
             searchBtn.setText("Search");
         }
     }
-
 
     /**
      * on the first click of the button plays selected song on the second click pauses the song
@@ -693,4 +789,3 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 }
-
