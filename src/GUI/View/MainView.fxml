@@ -190,7 +190,7 @@
          <children>
             <HBox prefHeight="276.0" prefWidth="239.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="songsTable" onMouseClicked="#slectedSong" prefHeight="310.0" prefWidth="328.0">
+                  <TableView fx:id="songsTable" onMouseClicked="#selectedSong" prefHeight="310.0" prefWidth="328.0">
                     <columns>
                       <TableColumn fx:id="songTitleColumn" prefWidth="113.60000610351562" styleClass="button" text="Title" />
                       <TableColumn fx:id="songArtistColumn" prefWidth="94.4000244140625" styleClass="button" text="Artist" />

@@ -5,11 +5,8 @@ import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -188,7 +185,8 @@ public class MainViewController extends BaseController implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        normalSelect();
+        //normalSelect();
+        Clicks();
     }
 
     /**
@@ -619,7 +617,7 @@ public class MainViewController extends BaseController implements Initializable 
         songsTable.setOnMouseClicked(event -> {
             if(event.getClickCount() == 1)
             {
-                slectedSong();
+                selectedSong();
             }
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
@@ -631,26 +629,38 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
 
-    public void doubleClick(){
+    public void Clicks(){
         songsTable.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 1){
+                selectedSong();
+            }
             if (event.getClickCount() == 2) {
-                slectedSong();
+                currentSongPlaying.setText(selectedSong() + " is currently playing");
+                playSong();
+
             }
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
+            if(event.getClickCount() == 1) {
                 selectedSongFromPlaylist();
+            }
+            if (event.getClickCount() == 2) {
+                currentSongPlaying.setText(selectedSongFromPlaylist() + " is currently playing");
+                playSong();
             }
         });
     }
 
-    public void slectedSong() {
+    public String selectedSong() {
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
         songSelection(s);
+        return s.getTitle();
+
     }
-    public void selectedSongFromPlaylist() {
+    public String selectedSongFromPlaylist() {
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
         songSelection(s);
+        return s.getTitle();
     }
     private void songSelection(Song s) {
         if (mediaPlayer != null) {
@@ -658,12 +668,11 @@ public class MainViewController extends BaseController implements Initializable 
         }
         isSomethingChoosen = true;
         isPlaying = false;
-        System.out.println("Choosen song from songtable: " + s.getTitle());
+        System.out.println("Choosen song from Table: " + s.getTitle());
         directory = new File(s.getFilePath());
         media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-        currentSongPlaying.setText(s.getTitle() + "is currently playing");
-        playSong();
+
     }
 }
 
