@@ -2,7 +2,10 @@ package GUI.Controller;
 
 import BE.Category;
 import BE.ExceptionHandler;
+import BE.Playlist;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,24 +32,14 @@ import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
-    private Button chooseFileBtn;
-    @FXML
     private ComboBox categoryCB;
     @FXML
-    private Button cancelBtn;
+    private Button cancelBtn, saveBtn, chooseFileBtn;
     @FXML
-    private Button saveBtn;
-    @FXML
-    private TextField artistTxt;
-    @FXML
-    private TextField songTitleTxt;
-    @FXML
-    private TextField fileTxt;
+    private TextField artistTxt, songTitleTxt, fileTxt;
 
     private SongModel model;
-
     private boolean shouldEdit;
-
     private ExceptionHandler exceptionHandler;
 
     @Override
@@ -55,6 +48,8 @@ public class SongViewController extends BaseController {
         model = getModel().getSongModel();
         setCategoryCB();
         exceptionHandler = new ExceptionHandler();
+        saveBtn.setDisable(true);
+        enableSaveBtn();
 
         if (model.getShouldEdit() == true) {
 
@@ -64,6 +59,34 @@ public class SongViewController extends BaseController {
                 createNew();
             }
         }
+    }
+
+    private void enableSaveBtn(){
+        categoryCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Category>() {
+            public void changed(ObservableValue<? extends Category> observable, Category oldValue, Category newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    listenerFilepathTXT();
+                } else {
+                    saveBtn.setDisable(true);
+                }
+            }
+        });
+    }
+
+    public boolean listenerFilepathTXT(){
+        boolean output = false;
+        fileTxt.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    saveBtn.setDisable(false);
+                } else {
+                    saveBtn.setDisable(true);
+                }
+            }
+        });
+        return output;
     }
 
     /**
