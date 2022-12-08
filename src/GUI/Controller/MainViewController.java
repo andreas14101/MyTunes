@@ -397,7 +397,7 @@ public class MainViewController extends BaseController implements Initializable 
     private void handleDeleteSong(ActionEvent actionEvent) throws Exception {
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "? \nThis will also remove the song in all your playlists.", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
