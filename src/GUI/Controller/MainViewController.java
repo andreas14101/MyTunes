@@ -67,14 +67,8 @@ public class MainViewController extends BaseController implements Initializable 
     boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private ArrayList<File> songs;
-    private List<Song> allSongs;
-    private List<String> allSongsFilepaths;
+    private List<Song> allSongsFromDb;
     private int songNumber;
-    private Timer timer;
-    private TimerTask timerTask;
-    private double end;
-    private double current;
     private boolean isSomethingChoosen;
     private ExceptionHandler exceptionHandler;
 
@@ -95,24 +89,7 @@ public class MainViewController extends BaseController implements Initializable 
     private void mediaPlayermetod() {
         isSomethingChoosen = false;
 
-        List<Song> allSongsFromDb = musicModel.getSongsList();
-        List<String> filePaths = new ArrayList<>();
-        if(allSongsFromDb != null)
-        {
-            for (Song s: allSongsFromDb)
-            {
-                filePaths.add(s.getFilePath());
-            }
-        }
-
-        directory = new File(filePaths.get(songNumber));
-        if(directory.exists())
-        {
-        media = new Media(directory.getAbsoluteFile().toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        }
-        //songsInsidePlaylist.getFocusModel().getFocusedItem();
-
+        createMedia();
 
         isSomethingChoosen = true;
         //controlling volumenslider
@@ -122,6 +99,25 @@ public class MainViewController extends BaseController implements Initializable 
                 mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
             }
         });
+    }
+
+    private void createMedia()
+    {
+        allSongsFromDb = musicModel.getSongsList();
+        List<String> filePaths = new ArrayList<>();
+        if(allSongsFromDb != null)
+        {
+            for (Song s: allSongsFromDb)
+            {
+                filePaths.add(s.getFilePath());
+            }
+        }
+        directory = new File(filePaths.get(songNumber));
+        if(directory.exists())
+        {
+            media = new Media(directory.getAbsoluteFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        }
     }
 
     /**
@@ -455,7 +451,7 @@ public class MainViewController extends BaseController implements Initializable 
             timeSkip();
             mediaPlayer.play();
         } else {
-            System.out.println("Ingen sange valgt (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o");
+            System.out.println("No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o");
         }
     }
 
@@ -464,7 +460,8 @@ public class MainViewController extends BaseController implements Initializable 
      * goes to the next song in either the songs tableview or the next song in the playlist
      */
     public void nextSong() {
-        if (songNumber < songs.size() - 1) {
+        allSongsFromDb = musicModel.getSongsList();
+        if (songNumber < allSongsFromDb.size()) {
             songNumber++;
             shiftSong();
         } else {
@@ -477,29 +474,45 @@ public class MainViewController extends BaseController implements Initializable 
      * switches the song
      */
     public void shiftSong() {
+        allSongsFromDb = musicModel.getSongsList();
         mediaPlayer.stop();
-        media = new Media(songs.get(songNumber).toURI().toString()); //makes a command, possible for mediaPlayer to read
+        List<String> filePaths = new ArrayList<>();
+        if(allSongsFromDb != null)
+        {
+            for (Song s: allSongsFromDb)
+            {
+                filePaths.add(s.getFilePath());
+            }
+        }
+        directory = new File(filePaths.get(songNumber));
+        if(directory.exists()){
+        media = new Media(directory.getAbsoluteFile().toURI().toString()); //makes a command, possible for mediaPlayer to read
         mediaPlayer = new MediaPlayer(media);   //sets the song
-        currentSongPlaying.setText(allSongs.get(songNumber).getTitle());
+        currentSongPlaying.setText(allSongsFromDb.get(songNumber).getTitle() + " is currently playing");
         isPlaying = false;
-        playSong();
+        playBtn.setText("play");
+        playSong();}
     }
 
     /**
      * starts the current song over if the duration is >= 7 seconds of playing it else it goes back to the previous song on the list
      */
     public void previosOrRestartSong() {
+        allSongsFromDb = musicModel.getSongsList();
         //if more than 7 seconds has passed, the song is restartet, else it is the previos song
         double current = mediaPlayer.getCurrentTime().toSeconds();
         if (current >= 7.0) {
             mediaPlayer.seek(Duration.seconds(0));
             isPlaying = false;
+            playBtn.setText("play");
             playSong();
         } else if (songNumber > 0) {
             songNumber--;
+            playBtn.setText("play");
             shiftSong();
         } else {
-            songNumber = songs.size() - 1;
+            songNumber = allSongsFromDb.size();
+            playBtn.setText("play");
             shiftSong();
         }
     }
@@ -522,6 +535,10 @@ public class MainViewController extends BaseController implements Initializable 
           }
       });
     }
+
+    /**
+     * skips time in the song to match the slider if it gets moved by the user.
+     */
     public void timeSkip() {
         timeSlider.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
