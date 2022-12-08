@@ -71,7 +71,6 @@ public class MainViewController extends BaseController implements Initializable 
     private MediaPlayer mediaPlayer;
     private Media media;
     private List<Song> allSongsFromDb;
-    private ArrayList<File> fileOnThisComputer;
     private int songNumber;
     private boolean isSomethingChoosen;
     private ExceptionHandler exceptionHandler;
@@ -93,9 +92,7 @@ public class MainViewController extends BaseController implements Initializable 
     private void mediaPlayermetod() {
         isSomethingChoosen = false;
 
-        filesOnThisComputer();
-        //songsInsidePlaylist.getFocusModel().getFocusedItem();
-
+        createMedia();
 
         isSomethingChoosen = true;
         //controlling volumenslider
@@ -107,7 +104,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
-    private void filesOnThisComputer()
+    private void createMedia()
     {
         allSongsFromDb = musicModel.getSongsList();
         List<String> filePaths = new ArrayList<>();
@@ -121,7 +118,6 @@ public class MainViewController extends BaseController implements Initializable 
         directory = new File(filePaths.get(songNumber));
         if(directory.exists())
         {
-            fileOnThisComputer.add(directory);
             media = new Media(directory.getAbsoluteFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
         }
