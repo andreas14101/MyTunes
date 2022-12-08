@@ -82,7 +82,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         placeholders();
-        //mediaPlayermetod();
+        mediaPlayermetod();
         currentSongPlaying.setText("(none) is currently playing");
         exceptionHandler = new ExceptionHandler();
         try {
@@ -637,7 +637,6 @@ public class MainViewController extends BaseController implements Initializable 
             if (event.getClickCount() == 2) {
                 currentSongPlaying.setText(selectedSong() + " is currently playing");
                 playSong();
-
             }
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
