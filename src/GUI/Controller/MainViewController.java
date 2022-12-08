@@ -397,7 +397,6 @@ public class MainViewController extends BaseController implements Initializable 
      * on the first click of the button plays selected song on the second click pauses the song
      */
     public void playSong() {
-
         //play and pause the song
         //if song is playing, then set button to pause
         if (isPlaying && isSomethingChosen) {
