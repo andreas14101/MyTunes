@@ -649,6 +649,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void Clicks(){
         songsTable.setOnMouseClicked(event -> {
             if(event.getClickCount() == 1){
+                currentSongPlaying.setText(selectedSong() + " is currently playing");
                 selectedSong();
             }
             if (event.getClickCount() == 2) {
@@ -658,6 +659,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
             if(event.getClickCount() == 1) {
+                currentSongPlaying.setText(selectedSongFromPlaylist() + " is currently playing");
                 selectedSongFromPlaylist();
             }
             if (event.getClickCount() == 2) {
