@@ -28,10 +28,10 @@ public class PlaylistDAO implements ICRUDPlaylist {
             //SQL String which gets all playlists and their respective songs, along with length of the songs.
             String sql =
                     "SELECT playlistID, Songs.Time, Playlists.Title\n" +
-                            "FROM SongPlaylistLink \n" +
-                            "JOIN Songs ON SongPlaylistLink.songID = Songs.Id \n" +
-                            "JOIN Playlists ON SongPlaylistLink.playlistID = Playlists.Id\n" +
-                            "ORDER BY playlistID;";
+                    "FROM SongPlaylistLink \n" +
+                    "JOIN Songs ON SongPlaylistLink.songID = Songs.Id \n" +
+                    "JOIN Playlists ON SongPlaylistLink.playlistID = Playlists.Id\n" +
+                    "ORDER BY playlistID;";
 
 
             Statement stmt = conn.createStatement();
@@ -67,6 +67,7 @@ public class PlaylistDAO implements ICRUDPlaylist {
                 else {
 
                     allPlaylists.add(pl1);
+                    lastID = id;
                     numSongsOnPL = 1;
                     timeOnPL = time;
                     Duration actTimeOnPL = Duration.ofSeconds(timeOnPL);
