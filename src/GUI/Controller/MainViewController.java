@@ -59,7 +59,6 @@ public class MainViewController extends BaseController implements Initializable 
     private SongModel musicModel;
     private PlaylistModel playlistModel;
     private File directory;
-    private File[] files;
     boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private Media media;
@@ -68,6 +67,9 @@ public class MainViewController extends BaseController implements Initializable 
     private boolean isSomethingChoosen;
     private ExceptionHandler exceptionHandler;
 
+    /**
+     * Our setup method which initiates the program
+     */
     @Override
     public void setup() {
         updateSongList();
@@ -94,9 +96,9 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Disable buttons that should be usable before a selection in a table have been made
+     * Disable buttons that shouldn't be usable before a selection in a table has been made
      */
-    private void disableButtons(){
+    private void disableButtons() {
         deletePlaylistBtn.setDisable(true);
         deleteSongBtn.setDisable(true);
         EditSongBtn.setDisable(true);
@@ -108,10 +110,10 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Controls playlist table buttons. Enable or disable edit and delete playlist option,
-     * depending on, if a playlist is selected.
+     * Controls playlist table buttons. Enable or disable the edit and the delete option for playlists,
+     * if a playlist is selected or not.
      */
-    private void addListenerBtnPlaylists(){
+    private void addListenerBtnPlaylists() {
         playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
             public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
                 //If something is selected, buttons will be enabled, else they will be disabled
@@ -127,10 +129,10 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Controls Song table buttons. Enable or disable edit and delete song option,
-     * depending on, if a song is selected.
+     * Controls Song table buttons. Enable or disable the edit and the delete option for songs,
+     if a song is selected or not.
      */
-    private void addListenerBtnSongs(){
+    private void addListenerBtnSongs() {
         songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
             public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
                 //If something is selected, buttons will be enabled, else they will be disabled
@@ -146,10 +148,10 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Controls Songs in playlist table buttons. Enable or disable delete and move songs in playlist option,
-     * depending on, if a song in a playlist is selected.
+     * Controls Songs in playlist table buttons. Enable or disable the move UP/DOWN and the delete option for songs in playlists,
+     * if a song is selected or not.
      */
-    private void addListenerBtnSongsInPlaylist(){
+    private void addListenerBtnSongsInPlaylist() {
         songsInsidePlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
             public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
                 //If something is selected, buttons will be enabled, else they will be disabled
@@ -168,9 +170,9 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Controls button for adding songs to playlists. Enable or disable add song to playlist option,
-     * depending on, if a song is selected and a playlist is selected.
+     * if a song is selected and a playlist is selected.
      */
-    private void addListenerBtnAddSongsToPl(){
+    private void addListenerBtnAddSongsToPl() {
         songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
             public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
                 //If something is selected, buttons will be enabled, else they will be disabled
@@ -187,7 +189,7 @@ public class MainViewController extends BaseController implements Initializable 
      * Used to check if a playlist is selected. It is called in addListenerBtnAddSongToPl() methode, to check both song
      * and playlist table.
      */
-    private void checkIfPlSelected(){
+    private void checkIfPlSelected() {
         playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
             public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
                 //If something is selected, buttons will be enabled, else they will be disabled
@@ -200,13 +202,16 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
+    /**
+     * Creates the media player which is used to play songs
+     */
     private void mediaPlayerMethod() {
         isSomethingChoosen = false;
 
         createMedia();
 
         isSomethingChoosen = true;
-        //controlling volumenslider
+        //controlling volume slider
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -215,20 +220,19 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
-    private void createMedia()
-    {
+    /**
+    
+     */
+    private void createMedia() {
         allSongsFromDb = musicModel.getSongsList();
         List<String> filePaths = new ArrayList<>();
-        if(allSongsFromDb != null)
-        {
-            for (Song s: allSongsFromDb)
-            {
+        if (allSongsFromDb != null) {
+            for (Song s : allSongsFromDb) {
                 filePaths.add(s.getFilePath());
             }
         }
         directory = new File(filePaths.get(songNumber));
-        if(directory.exists())
-        {
+        if (directory.exists()) {
             media = new Media(directory.getAbsoluteFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
         }
@@ -549,7 +553,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-
     /**
      * goes to the next song in either the songs tableview or the next song in the playlist
      */
@@ -571,21 +574,20 @@ public class MainViewController extends BaseController implements Initializable 
         allSongsFromDb = musicModel.getSongsList();
         mediaPlayer.stop();
         List<String> filePaths = new ArrayList<>();
-        if(allSongsFromDb != null)
-        {
-            for (Song s: allSongsFromDb)
-            {
+        if (allSongsFromDb != null) {
+            for (Song s : allSongsFromDb) {
                 filePaths.add(s.getFilePath());
             }
         }
         directory = new File(filePaths.get(songNumber));
-        if(directory.exists()){
-        media = new Media(directory.getAbsoluteFile().toURI().toString()); //makes a command, possible for mediaPlayer to read
-        mediaPlayer = new MediaPlayer(media);   //sets the song
-        currentSongPlaying.setText(allSongsFromDb.get(songNumber).getTitle() + " is currently playing");
-        isPlaying = false;
-        playBtn.setText("play");
-        playSong();}
+        if (directory.exists()) {
+            media = new Media(directory.getAbsoluteFile().toURI().toString()); //makes a command, possible for mediaPlayer to read
+            mediaPlayer = new MediaPlayer(media);   //sets the song
+            currentSongPlaying.setText(allSongsFromDb.get(songNumber).getTitle() + " is currently playing");
+            isPlaying = false;
+            playBtn.setText("play");
+            playSong();
+        }
     }
 
     /**
@@ -614,20 +616,18 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * tracks the time of the song that is currently playing
      */
-    public void timeMoveAuto()
-    {
-      mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-          @Override
-          public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-              if(!timeSlider.isValueChanging())
-              {
-                  double total = mediaPlayer.getTotalDuration().toSeconds();
-                  double current = mediaPlayer.getCurrentTime().toSeconds();
-                  timeSlider.setMax(total);
-                  timeSlider.setValue(current);
-              }
-          }
-      });
+    public void timeMoveAuto() {
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                if (!timeSlider.isValueChanging()) {
+                    double total = mediaPlayer.getTotalDuration().toSeconds();
+                    double current = mediaPlayer.getCurrentTime().toSeconds();
+                    timeSlider.setMax(total);
+                    timeSlider.setValue(current);
+                }
+            }
+        });
     }
 
     /**
@@ -723,26 +723,22 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-    public void normalSelect()
-    {
+    public void normalSelect() {
         songsTable.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 1)
-            {
+            if (event.getClickCount() == 1) {
                 selectedSong();
             }
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 1)
-            {
+            if (event.getClickCount() == 1) {
                 selectedSongFromPlaylist();
             }
         });
     }
 
-
-    public void Clicks(){
+    public void Clicks() {
         songsTable.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 1){
+            if (event.getClickCount() == 1) {
                 currentSongPlaying.setText(selectedSong() + " is currently playing");
                 selectedSong();
             }
@@ -752,7 +748,7 @@ public class MainViewController extends BaseController implements Initializable 
             }
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 1) {
+            if (event.getClickCount() == 1) {
                 currentSongPlaying.setText(selectedSongFromPlaylist() + " is currently playing");
                 selectedSongFromPlaylist();
             }
@@ -767,13 +763,14 @@ public class MainViewController extends BaseController implements Initializable 
         Song s = (Song) songsTable.getFocusModel().getFocusedItem();
         songSelection(s);
         return s.getTitle();
-
     }
+
     public String selectedSongFromPlaylist() {
         Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
         songSelection(s);
         return s.getTitle();
     }
+
     private void songSelection(Song s) {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
@@ -784,6 +781,5 @@ public class MainViewController extends BaseController implements Initializable 
         directory = new File(s.getFilePath());
         media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);
-
     }
 }
