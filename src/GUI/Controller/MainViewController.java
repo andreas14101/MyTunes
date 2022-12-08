@@ -35,8 +35,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainViewController extends BaseController implements Initializable {
     @FXML
@@ -74,7 +72,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         placeholders();
-        mediaPlayermetod();
+        mediaPlayerMethod();
         currentSongPlaying.setText("(none) is currently playing");
         exceptionHandler = new ExceptionHandler();
         try {
@@ -202,7 +200,7 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
-    private void mediaPlayermetod() {
+    private void mediaPlayerMethod() {
         isSomethingChoosen = false;
 
         createMedia();
