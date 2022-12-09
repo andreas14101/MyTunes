@@ -528,16 +528,20 @@ public class MainViewController extends BaseController implements Initializable 
      * switches the song
      */
     private void shiftSongTable() {
-        int index = songsTable.getSelectionModel().getSelectedIndex() + 1;
-        songsTable.getSelectionModel().select(index);
-        selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
-        directory = new File(selectedSong.getFilePath());
-        if(directory.exists())
-        {
-            media = new Media(directory.getAbsoluteFile().toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-            playSong();
-        }
+
+            int index = songsTable.getSelectionModel().getSelectedIndex() + 1;
+            if(index == musicModel.getSongsList().size()-1)
+            {
+                index = 0;
+            }
+            songsTable.getSelectionModel().select(index);
+            selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+            directory = new File(selectedSong.getFilePath());
+            if (directory.exists()) {
+                media = new Media(directory.getAbsoluteFile().toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+            }
+        playSong();
     }
 
     /**
