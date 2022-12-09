@@ -113,7 +113,8 @@ public class SongViewController extends BaseController {
         }
     }
 
-     /** Check if filepath and category have been chosen. It is used before try in handleSave()
+    /**
+     * Check if filepath and category have been chosen. It is used before try in handleSave()
      * @return - true means something is missing, false means save is allowed
      */
     private boolean saveNotAllowed(){
