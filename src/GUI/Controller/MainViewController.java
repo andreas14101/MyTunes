@@ -725,15 +725,19 @@ public class MainViewController extends BaseController implements Initializable 
      * @param s
      */
     private void songSelection(Song s) {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-        }
-        isSomethingChosen = true;
-        isPlaying = false;
-        System.out.println("Chosen song from Table: " + s.getTitle());
-        directory = new File(s.getFilePath());
-        media = new Media(directory.getAbsoluteFile().toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+       try {
+           if (mediaPlayer != null) {
+               mediaPlayer.stop();
+           }
+           isSomethingChosen = true;
+           isPlaying = false;
+           System.out.println("Chosen song from Table: " + s.getTitle());
+           directory = new File(s.getFilePath());
+           media = new Media(directory.getAbsoluteFile().toURI().toString());
+           mediaPlayer = new MediaPlayer(media);
+       } catch (Exception e) {
+           exceptionHandler.displayError(e);
+       }
     }
 
     public void handlePlaylistUpdate(MouseEvent mouseEvent) {

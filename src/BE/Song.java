@@ -7,6 +7,7 @@ public class Song {
     private String title;
     private String artist;
     private String length;
+
     private String category;
     private String filePath;
 
@@ -52,5 +53,8 @@ public class Song {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+    public String getLength() {
+        return length;
     }
 }
