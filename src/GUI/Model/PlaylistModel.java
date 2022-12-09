@@ -6,6 +6,8 @@ import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public class PlaylistModel {
 
     private Playlist selectedPlaylist;
@@ -15,6 +17,8 @@ public class PlaylistModel {
     private ObservableList<Playlist> playlistsToBeViewed;
 
     private ObservableList<Song> songsOnPL;
+
+    private List<Song> allSongsOnPlaylist;
 
     public PlaylistModel() throws Exception {
 
@@ -117,7 +121,10 @@ public class PlaylistModel {
         songsOnPL = FXCollections.observableArrayList();
         songsOnPL.addAll(musicManager.getSongsFromPlaylist(id));
         return songsOnPL;
+    }
 
-
+    public List<Song> getAllSongsOnPlayList() {
+        allSongsOnPlaylist = songsOnPL;
+        return allSongsOnPlaylist;
     }
 }
