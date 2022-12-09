@@ -45,8 +45,6 @@ public class SongViewController extends BaseController {
         model = getModel().getSongModel();
         setCategoryCB();
         exceptionHandler = new ExceptionHandler();
-        //saveBtn.setDisable(true);
-        //enableSaveBtn();
 
         if (model.getShouldEdit() == true) {
 
@@ -57,34 +55,6 @@ public class SongViewController extends BaseController {
             }
         }
     }
-
-    /*private void enableSaveBtn(){
-        categoryCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Category>() {
-            public void changed(ObservableValue<? extends Category> observable, Category oldValue, Category newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    listenerFilepathTXT();
-                } else {
-                    saveBtn.setDisable(true);
-                }
-            }
-        });
-    }*/
-
-    /*public boolean listenerFilepathTXT(){
-        boolean output = false;
-        fileTxt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    saveBtn.setDisable(false);
-                } else {
-                    saveBtn.setDisable(true);
-                }
-            }
-        });
-        return output;
-    }*/
 
     /**
      * sets the shouldEdit boolean to match the value of the shouldEdit boolean from the model
@@ -163,7 +133,8 @@ public class SongViewController extends BaseController {
                 stage.close();
             }
         } catch (Exception e){
-            exceptionHandler.displayError(e);
+            exceptionHandler.displayNiceError("Something went wrong. Make sure you have written the correct filepath " +
+                    "to the song and category is correct as well.");
         }
     }
 
@@ -190,7 +161,7 @@ public class SongViewController extends BaseController {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select song");
             fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Files", "*"));
+                    new FileChooser.ExtensionFilter("Files", "*.mp3","*.wav"));
             Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
             File selectedFile = fileChooser.showOpenDialog(stage);
             if (selectedFile != null) {
