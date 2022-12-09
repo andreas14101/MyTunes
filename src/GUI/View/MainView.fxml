@@ -28,17 +28,17 @@
          <children>
             <HBox prefHeight="254.0" prefWidth="242.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="backBtn" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#previousOrRestartSong" text="back">
+                  <Button fx:id="backBtn" blendMode="SRC_ATOP" mnemonicParsing="false" onAction="#previousOrRestartSong" text="Back">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playSong" text="play">
+                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playSong" text="Play">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="forwardBtn" mnemonicParsing="false" onAction="#nextSong" text="forward">
+                  <Button fx:id="forwardBtn" mnemonicParsing="false" onAction="#nextSong" text="Forward">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
