@@ -518,6 +518,7 @@ public class MainViewController extends BaseController implements Initializable 
      */
     public void nextSong(ActionEvent event) {
         allSongsFromDb = musicModel.getSongsList();
+        songsTable.getFocusModel().focusNext();
         if (songNumber < allSongsFromDb.size()) {
             songNumber++;
             shiftSong();
@@ -534,6 +535,7 @@ public class MainViewController extends BaseController implements Initializable 
         allSongsFromDb = musicModel.getSongsList();
         mediaPlayer.stop();
         List<String> filePaths = new ArrayList<>();
+
         if(allSongsFromDb != null)
         {
             for (Song s: allSongsFromDb)
@@ -542,13 +544,14 @@ public class MainViewController extends BaseController implements Initializable 
             }
         }
         directory = new File(filePaths.get(songNumber));
-        if(directory.exists()){
-        media = new Media(directory.getAbsoluteFile().toURI().toString()); //makes a command, possible for mediaPlayer to read
-        mediaPlayer = new MediaPlayer(media);   //sets the song
-        currentSongPlaying.setText(allSongsFromDb.get(songNumber).getTitle() + " is currently playing");
-        isPlaying = false;
-        playBtn.setText("play");
-        playSong();}
+        if(directory.exists()) {
+            media = new Media(directory.getAbsoluteFile().toURI().toString()); //makes a command, possible for mediaPlayer to read
+            mediaPlayer = new MediaPlayer(media);   //sets the song
+            currentSongPlaying.setText(allSongsFromDb.get(songNumber).getTitle() + " is currently playing");
+            isPlaying = false;
+            playBtn.setText("play");
+            playSong();
+        }
     }
 
     /**
