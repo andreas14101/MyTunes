@@ -2,7 +2,10 @@ package GUI.Controller;
 
 import BE.Category;
 import BE.ExceptionHandler;
+import BE.Playlist;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,13 +13,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -29,62 +29,38 @@ import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
-    private Button chooseFileBtn;
-    @FXML
     private ComboBox categoryCB;
     @FXML
-    private Button cancelBtn;
+    private Button cancelBtn, saveBtn, chooseFileBtn;
     @FXML
-    private Button saveBtn;
-    @FXML
-    private TextField artistTxt;
-    @FXML
-    private TextField songTitleTxt;
-    @FXML
-    private TextField fileTxt;
+    private TextField artistTxt, songTitleTxt, fileTxt;
 
     private SongModel model;
-
     private boolean shouldEdit;
-
     private ExceptionHandler exceptionHandler;
 
     @Override
     public void setup() {
-
         model = getModel().getSongModel();
         setCategoryCB();
         exceptionHandler = new ExceptionHandler();
-
-        if (model.getShouldEdit() == true) {
-
-            if (model.getShouldEdit() == true) {
-                edit();
-            } else {
-                createNew();
-            }
-        }
+        if (model.getShouldEdit())
+        {edit();}
+        else
+        {createNew();}
     }
 
     /**
-     * sets the shouldEdit boolean to match the value of the shouldEdit boolean from the model
-     */
-    private void setShouldEdit()
-    {
-        shouldEdit = model.getShouldEdit();
-    }
-
-    /**
-     * sets the textfields text to match the selected songs information when editing a song
+     * When editing a song, place the text of the chosen song into the text fields of the song view
      */
     private void edit()
     {
             songTitleTxt.setText(model.getSelectedSong().getTitle());
             artistTxt.setText(model.getSelectedSong().getArtist());
             fileTxt.setText(model.getSelectedSong().getFilePath());
-        }
+    }
     /**
-     * clears the textfields when creating a new song
+     * Clears the text fields when creating a new song
      */
     private void createNew()
     {
@@ -94,36 +70,34 @@ public class SongViewController extends BaseController {
     }
 
     /**
-     * handles save button in new/edit song window.
+     * Handles save button in new/edit song window.
      * @param actionEvent - Button pressed
-     * @throws Exception
      */
     @FXML
     private void handleSave(ActionEvent actionEvent){
+        if(saveNotAllowed()){
+            String warningMessage = "Please remember to choose a category and fill out the filepath for the song";
+            Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage, ButtonType.CANCEL);
+            alert.showAndWait();
+            return;
+        }
         try {
-            if (model.getShouldEdit() == false) {
-                String title = songTitleTxt.getText();
-                String artist = artistTxt.getText();
-                String category = categoryCB.getValue().toString();
-                String pathToFile = fileTxt.getText();
+            String title = songTitleTxt.getText();
+            String artist = artistTxt.getText();
+            String category = categoryCB.getValue().toString();
+            String pathToFile = fileTxt.getText();
 
-                //Takes the duration of the file given, and maps it to an int in seconds,
-                //will be converted to the correct visual value later.
+            if (!model.getShouldEdit()) {
+
                 File file = new File(pathToFile);
                 AudioFile af = AudioFileIO.getDefaultAudioFileIO().readFile(file);
                 int length = af.getAudioHeader().getTrackLength();
+
                 //Sends the info to the model layer.
                 model.createSong(title, artist, String.valueOf(length), category, pathToFile);
 
-                //Closes window
-                Stage stage = (Stage) saveBtn.getScene().getWindow();
-                stage.close();
+                closeWindow();
             } else {
-                String title = songTitleTxt.getText();
-                String artist = artistTxt.getText();
-                String pathToFile = fileTxt.getText();
-                String category = categoryCB.getValue().toString();
-
                 //Updates the selected song
                 model.getSelectedSong().setArtist(artist);
                 model.getSelectedSong().setTitle(title);
@@ -131,38 +105,54 @@ public class SongViewController extends BaseController {
                 model.getSelectedSong().setCategory(category);
                 model.songUpdate(model.getSelectedSong());
 
-                // Closes the window
-                Stage stage = (Stage) saveBtn.getScene().getWindow();
-                stage.close();
+                closeWindow();
             }
         } catch (Exception e){
-            exceptionHandler.displayError(e);
+            exceptionHandler.displayNiceError("Something went wrong. Make sure you have written the correct filepath " +
+                    "to the song and category is correct as well.");
         }
     }
 
+     /** Check if filepath and category have been chosen. It is used before try in handleSave()
+     * @return - true means something is missing, false means save is allowed
+     */
+    private boolean saveNotAllowed(){
+        //Checks the two fields.
+        boolean categoryCheck = categoryCB.getSelectionModel().isEmpty();
+        boolean filepathCheck = fileTxt.getText().isEmpty();
 
-        //choose a new file, without the user having to copy the filepath.
-        public void chooseFile (ActionEvent actionEvent){
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Select song");
-            fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Files", "*"));
-            Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
-            File selectedFile = fileChooser.showOpenDialog(stage);
-            if (selectedFile != null) {
-                fileTxt.setText(String.valueOf(selectedFile));
-            }
+        //if either of them are empty, it will be true if on condition is empty
+        if(categoryCheck || filepathCheck){
+            return true;
         }
+        else return false;
+    }
 
     /**
-     * closes the window when the button is clicked
+    * A button which opens a file chooser, so the user can find the file of the song he wants to add
+    * @param actionEvent
+    */
+    public void chooseFile (ActionEvent actionEvent){
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select song");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Files", "*.mp3","*.wav"));
+        Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            fileTxt.setText(String.valueOf(selectedFile));
+        }
+    }
+
+    /**
+     * Closes the window when the button is clicked
      * @param actionEvent
      */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
-        model.setShouldEdit(false);
-        Stage stage = (Stage) cancelBtn.getScene().getWindow();
-        stage.close();
+        model.setShouldEdit(false); //Revert the shouldEdit variable to false again
+        closeWindow();
     }
 
     /**
@@ -171,7 +161,7 @@ public class SongViewController extends BaseController {
     private void setCategoryCB() {
         try {
             //Create list and add categories.
-            ObservableList<Category> list = FXCollections.observableArrayList();
+            ObservableList<Category> list;
             list = model.getObservableCategories();
 
             //Load categories to combobox
@@ -182,7 +172,7 @@ public class SongViewController extends BaseController {
     }
 
     /**
-     * opens a new window so you can add more categories or delete existing ones
+     * Opens a new window, so you can add more categories or delete existing ones
      * @param event
      * @throws IOException
      */
@@ -207,4 +197,13 @@ public class SongViewController extends BaseController {
 
         setCategoryCB();
     }
+
+    /**
+     * Closes the window
+     */
+    public void closeWindow() {
+        Stage stage = (Stage) cancelBtn.getScene().getWindow();
+        stage.close();
+    }
+
 }
