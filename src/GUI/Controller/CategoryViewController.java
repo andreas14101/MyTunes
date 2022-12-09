@@ -11,7 +11,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class CategoryViewController extends BaseController {
-
     @FXML
     private TableColumn categoryColumn;
     @FXML
@@ -50,7 +49,6 @@ public class CategoryViewController extends BaseController {
 
     /**
      * Deletes chosen category
-     *
      * @param actionEvent
      */
     @FXML
@@ -71,7 +69,6 @@ public class CategoryViewController extends BaseController {
     }
 
     private void updateCategoryTable() {
-
         model = getModel().getSongModel();
         try {
             categoryColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));

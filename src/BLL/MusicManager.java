@@ -8,11 +8,8 @@ import DAL.*;
 import java.util.List;
 
 public class MusicManager {
-
     private ICRUDSongs songDAO;
     private ICRUDPlaylist playlistDAO;
-
-    private Playlist selectedPlaylist;
 
     public MusicManager() {
         songDAO = new SongDAO();
@@ -20,7 +17,7 @@ public class MusicManager {
     }
 
     /**
-     * gets all the songs
+     * Gets all the songs
      * @return
      * @throws Exception
      */
@@ -29,7 +26,7 @@ public class MusicManager {
     }
 
     /**
-     * deletes a song
+     * Deletes a song
      * @param s
      * @throws Exception
      */
@@ -38,7 +35,7 @@ public class MusicManager {
     }
 
     /**
-     * creates a new song object
+     * Creates a new song object
      * @param title
      * @param artist
      * @param length
@@ -52,7 +49,7 @@ public class MusicManager {
     }
 
     /**
-     * edits a song object's information
+     * Edits a song object's information
      * @param updatedSong
      * @throws Exception
      */
@@ -61,7 +58,7 @@ public class MusicManager {
     }
 
     /**
-     * gets all playlists
+     * Gets all playlists
      * @return all playlists
      * @throws Exception
      */
@@ -70,7 +67,7 @@ public class MusicManager {
     }
 
     /**
-     * deletes a playlist
+     * Deletes a playlist
      * @param pl
      * @throws Exception
      */
@@ -79,7 +76,7 @@ public class MusicManager {
     }
 
     /**
-     * creates a new playlist
+     * Creates a new playlist
      * @param plname
      * @return
      * @throws Exception
@@ -89,7 +86,7 @@ public class MusicManager {
     }
 
     /**
-     * edits a playlist object's information
+     * Edits a playlist object's information
      * @param plname
      * @param playlist
      * @return
@@ -100,7 +97,7 @@ public class MusicManager {
     }
 
     /**
-     * gets all categories
+     * Gets all categories
      * @return
      * @throws Exception
      */
@@ -109,7 +106,7 @@ public class MusicManager {
     }
 
     /**
-     * creates a new category
+     * Creates a new category
      * @param name
      * @return
      * @throws Exception
@@ -119,7 +116,7 @@ public class MusicManager {
     }
 
     /**
-     * deletes a category
+     * Deletes a category
      * @param category
      * @throws Exception
      */
@@ -128,7 +125,7 @@ public class MusicManager {
     }
 
     /**
-     * get all songs that are on a playlist
+     * Get all songs that are on a playlist
      * @param id
      * @return all songs that are on a playlist
      * @throws Exception
@@ -138,7 +135,7 @@ public class MusicManager {
     }
 
     /**
-     * adds a song to a playlist
+     * Adds a song to a playlist
      * @param sId
      * @param plId
      */
@@ -147,7 +144,7 @@ public class MusicManager {
     }
 
     /**
-     * removes a song from a playlist
+     * Removes a song from a playlist
      * @param sId
      * @param plId
      */
