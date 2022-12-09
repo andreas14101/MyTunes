@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c580df6-572f-485e-bcb6-c3c4fdf03930" name="Changes" comment="MyDatabaseConnector added" />
+    <list default="true" id="fb2fcb65-99e8-42d6-81f4-d5deba69b5e3" name="Changes" comment="MyDatabaseConnector added">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,7 +100,6 @@
       <workItem from="1670482880387" duration="5271000" />
       <workItem from="1670493263987" duration="484000" />
       <workItem from="1670493815196" duration="108000" />
-      <workItem from="1670493955110" duration="1946000" />
     </task>
     <task id="LOCAL-00001" summary="MyDatabaseConnector added">
       <created>1669709514943</created>
