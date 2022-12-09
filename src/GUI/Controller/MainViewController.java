@@ -203,16 +203,10 @@ public class MainViewController extends BaseController implements Initializable 
      */
     private void mediaPlayerMethod() {
         isSomethingChosen = false;
-
         createMedia();
-
-        isSomethingChoosen = true;
+        isSomethingChosen = true;
         //controlling volume slider
         volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-        isSomethingChosen = true;
-        //controlling volumeSlider
-        volumeSlider.valueProperty().addListener(new ChangeListener<>() {
 
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -221,8 +215,9 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
-    /**
 
+    /**
+     * Creates the media which plays the songs
      */
     private void createMedia() {
         allSongsFromDb = musicModel.getSongsList();
@@ -598,18 +593,6 @@ public class MainViewController extends BaseController implements Initializable 
                 }
             }
         });
-
-    public void timeMoveAuto()
-    {
-      mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
-          if (!timeSlider.isValueChanging()) {
-              double total = mediaPlayer.getTotalDuration().toSeconds();
-              double current = mediaPlayer.getCurrentTime().toSeconds();
-              timeSlider.setMax(total);
-              timeSlider.setValue(current);
-          }
-      });
-
     }
 
     /**
