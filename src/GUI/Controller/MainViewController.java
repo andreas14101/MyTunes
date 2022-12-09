@@ -79,7 +79,7 @@ public class MainViewController extends BaseController implements Initializable 
         try {
             updatePlaylist();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            exceptionHandler.displayNiceError("Something went wrong starting up the program. Please try again");
         }
     }
     @Override
@@ -250,15 +250,19 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Updates the playlist tableview
      */
-    private void updatePlaylist() throws Exception {
-        playlistModel = getModel().getPlaylistModel();
+    private void updatePlaylist() {
+        try {
+            playlistModel = getModel().getPlaylistModel();
 
-        playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
-        playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
-        playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
+            playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+            playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
+            playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
 
-        playlistTable.getColumns().addAll();
-        playlistTable.setItems(playlistModel.getObservablePlaylists());
+            playlistTable.getColumns().addAll();
+            playlistTable.setItems(playlistModel.getObservablePlaylists());
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 
     /**
@@ -280,7 +284,6 @@ public class MainViewController extends BaseController implements Initializable 
      * Opens a new window to show a detailed view when adding a new song
      *
      * @param event when btn is clicked
-     * @throws IOException throws Exception
      */
     @FXML
     private void handleNewSong(ActionEvent event) throws IOException {
@@ -293,7 +296,6 @@ public class MainViewController extends BaseController implements Initializable 
         controller.setup();
         // Create the dialog stage
         Stage dialogWindow = new Stage();
-
         dialogWindow.setTitle("New song");
         dialogWindow.initModality(Modality.WINDOW_MODAL);
         dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
@@ -306,24 +308,27 @@ public class MainViewController extends BaseController implements Initializable 
      * Opens a new window to create a new playList in
      *
      * @param event when btn clicked
-     * @throws IOException Exception handle
      */
     @FXML
-    private void handleNewPlaylist(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
-        AnchorPane pane = loader.load();
-        PlaylistViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New playlist");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
+    private void handleNewPlaylist(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
+            AnchorPane pane = loader.load();
+            PlaylistViewController controller = loader.getController();
+            controller.setModel(super.getModel());
+            controller.setup();
+            // Create the dialog stage
+            Stage dialogWindow = new Stage();
+            dialogWindow.setTitle("New playlist");
+            dialogWindow.initModality(Modality.WINDOW_MODAL);
+            dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogWindow.setScene(scene);
+            dialogWindow.showAndWait();
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 
     /**
@@ -345,7 +350,6 @@ public class MainViewController extends BaseController implements Initializable 
      * Opens a window where you can edit the name of the playlist
      *
      * @param actionEvent when btn is clicked
-     * @throws IOException handle Exception
      */
     @FXML
     private void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
@@ -359,23 +363,25 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Deletes the selected playlist
-     * @throws Exception exception handle
      */
     @FXML
-    private void handleDeletePlaylist() throws Exception {
-        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait(); //Shows an alert asking whether you should delete the selected playlist.
-        if (alert.getResult() == ButtonType.YES) {
-            playlistModel.deletePlaylist(pl); //Call the model to delete the playlist
+    private void handleDeletePlaylist(){
+        try {
+            Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                playlistModel.deletePlaylist(pl);
+            }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
     }
 
     /**
      * Adds the selected song to the selected playlist
      */
-    public void handleAddSongToPlaylist(ActionEvent actionEvent) throws Exception {
+    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
         //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
@@ -401,7 +407,6 @@ public class MainViewController extends BaseController implements Initializable 
                 //Change boolean which indicates whether the song is present or not to true.
                 songPresent = true;
             }
-
         }
         //If song is not present add it to the playlist.
         if (!songPresent) {
@@ -413,9 +418,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Opens a new window where you can edit the selected song
-     *
      * @param actionEvent when btn clicked
-     * @throws IOException exception handle
      */
     @FXML
     private void handleEditSong(ActionEvent actionEvent) throws IOException {
@@ -592,7 +595,8 @@ public class MainViewController extends BaseController implements Initializable 
             try {
                 desktop.browse(URI.create("https://www.nyan.cat/index.php?cat=original"));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                exceptionHandler.displayNiceError("You naughty boy, or girl, or horse, or non binary. " +
+                        "This button didn't work, please don't try again.");
             }
         }
     }
