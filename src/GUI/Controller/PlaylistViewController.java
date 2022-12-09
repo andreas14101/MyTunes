@@ -24,9 +24,7 @@ public class PlaylistViewController extends BaseController {
         playlistModel = getModel().getPlaylistModel();
         exceptionHandler = new ExceptionHandler();
         createNew();
-
-        if(playlistModel.getShouldEditPlaylist())
-        {
+        if (playlistModel.getShouldEditPlaylist()) {
             edit();
         }
         setShouldEditPlaylist();
@@ -35,29 +33,27 @@ public class PlaylistViewController extends BaseController {
     /**
      * Sets the boolean should edit to match the value of the boolean with the same name in the model
      */
-    private void setShouldEditPlaylist()
-    {
+    private void setShouldEditPlaylist() {
         shouldEditPlaylist = playlistModel.getShouldEditPlaylist();
     }
 
     /**
      * Sets the text in the textField when you are going to edit a playlist
      */
-    private void edit()
-    {
+    private void edit() {
         playlistName.setText(playlistModel.getSelectedPlaylist().getTitle());
     }
 
     /**
      * Clears the textFields before you create a new playlist
      */
-    private void createNew()
-    {
+    private void createNew() {
         playlistName.clear();
     }
 
     /**
      * Closes the window when the button is clicked
+     *
      * @param actionEvent
      */
     @FXML
@@ -68,6 +64,7 @@ public class PlaylistViewController extends BaseController {
 
     /**
      * Handles the save event when the save button is pressed both for new and edited songs
+     *
      * @param actionEvent
      */
     @FXML
@@ -88,7 +85,8 @@ public class PlaylistViewController extends BaseController {
             exceptionHandler.displayError(e);
         }
     }
-    public void closeWindow(){
+
+    public void closeWindow() {
         Stage stage = (Stage) cxlBtn.getScene().getWindow();
         stage.close();
     }

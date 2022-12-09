@@ -82,6 +82,7 @@ public class MainViewController extends BaseController implements Initializable 
             exceptionHandler.displayNiceError("Something went wrong starting up the program. Please try again");
         }
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         disableButtons();
@@ -89,7 +90,7 @@ public class MainViewController extends BaseController implements Initializable 
         addListenerBtnSongs();
         addListenerBtnSongsInPlaylist();
         addListenerBtnAddSongsToPl();
-        //clicks();
+        clicks();
     }
 
     /**
@@ -127,7 +128,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Controls Song table buttons. Enable or disable the edit and the delete option for songs,
-     if a song is selected or not.
+     * if a song is selected or not.
      */
     private void addListenerBtnSongs() {
         songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
@@ -497,11 +498,10 @@ public class MainViewController extends BaseController implements Initializable 
      * On the second click pauses the song
      */
     public void playSong() {
-        if (!isSomethingChosen){
+        if (!isSomethingChosen) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
             alert.showAndWait(); //Alert which shows that no song is selected.
-        }
-        else if (isPlaying) {
+        } else if (isPlaying) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
@@ -529,7 +529,6 @@ public class MainViewController extends BaseController implements Initializable 
         {
           shiftSongTable();
         }
-
     }
 
     /**
@@ -668,7 +667,10 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+
+
     public void clicks(){
+
         songsTable.setOnMouseClicked(event -> {
             if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
             {
