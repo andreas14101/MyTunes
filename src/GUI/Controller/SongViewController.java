@@ -45,8 +45,6 @@ public class SongViewController extends BaseController {
         model = getModel().getSongModel();
         setCategoryCB();
         exceptionHandler = new ExceptionHandler();
-        //saveBtn.setDisable(true);
-        //enableSaveBtn();
 
         if (model.getShouldEdit() == true) {
 
@@ -57,34 +55,6 @@ public class SongViewController extends BaseController {
             }
         }
     }
-
-    /*private void enableSaveBtn(){
-        categoryCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Category>() {
-            public void changed(ObservableValue<? extends Category> observable, Category oldValue, Category newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    listenerFilepathTXT();
-                } else {
-                    saveBtn.setDisable(true);
-                }
-            }
-        });
-    }*/
-
-    /*public boolean listenerFilepathTXT(){
-        boolean output = false;
-        fileTxt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    saveBtn.setDisable(false);
-                } else {
-                    saveBtn.setDisable(true);
-                }
-            }
-        });
-        return output;
-    }*/
 
     /**
      * sets the shouldEdit boolean to match the value of the shouldEdit boolean from the model
