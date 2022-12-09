@@ -506,17 +506,24 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.stop();
         if(songsTable.getSelectionModel().getSelectedItem() != null)
         {
-          shiftSongTable();
+          switchSongTable();
         }
-
+        if(songsInsidePlaylist.getSelectionModel().getSelectedItem() != null)
+        {
+            switchSongInPlaylist();
+        }
     }
 
     /**
      * Switches the song in SongTable
      */
-    private void shiftSongTable() {
+    private void switchSongTable() {
+        if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+        {
+            songsInsidePlaylist.getSelectionModel().clearSelection();
+        }
         int index = songsTable.getSelectionModel().getSelectedIndex() + 1;
-        if (index == musicModel.getSongsList().size() - 1) {
+        if (index == musicModel.getSongsList().size() - 1 || index < 0) {
             index = 0;
         }
         songsTable.getSelectionModel().select(index);
@@ -526,7 +533,39 @@ public class MainViewController extends BaseController implements Initializable 
             media = new Media(directory.getAbsoluteFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
         }
+        else if(!directory.exists())
+        {
+            switchSongTable();
+        }
         playSong();
+        mediaPlayer.play();
+    }
+
+    private void switchSongInPlaylist(){
+        if(songsTable.getFocusModel().getFocusedItem() != null)
+        {
+            songsTable.getSelectionModel().clearSelection();
+        }
+        Playlist play = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+        int maxIndex = play.getNumberOfSongs();
+        int index = songsInsidePlaylist.getSelectionModel().getSelectedIndex() + 1;
+        if(index == maxIndex-1 || index < 0)
+        {
+            index =0;
+        }
+        songsInsidePlaylist.getSelectionModel().select(index);
+        selectedSong = (Song) songsInsidePlaylist.getSelectionModel().getSelectedItem();
+        directory = new File(selectedSong.getFilePath());
+        if (directory.exists()) {
+            media = new Media(directory.getAbsoluteFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        }
+        else if(!directory.exists())
+        {
+            switchSongInPlaylist();
+        }
+        playSong();
+        mediaPlayer.play();
     }
 
     /**
