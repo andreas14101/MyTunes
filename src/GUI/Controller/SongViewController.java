@@ -2,7 +2,10 @@ package GUI.Controller;
 
 import BE.Category;
 import BE.ExceptionHandler;
+import BE.Playlist;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,13 +13,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -29,24 +29,14 @@ import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
-    private Button chooseFileBtn;
-    @FXML
     private ComboBox categoryCB;
     @FXML
-    private Button cancelBtn;
+    private Button cancelBtn, saveBtn, chooseFileBtn;
     @FXML
-    private Button saveBtn;
-    @FXML
-    private TextField artistTxt;
-    @FXML
-    private TextField songTitleTxt;
-    @FXML
-    private TextField fileTxt;
+    private TextField artistTxt, songTitleTxt, fileTxt;
 
     private SongModel model;
-
     private boolean shouldEdit;
-
     private ExceptionHandler exceptionHandler;
 
     @Override
@@ -55,6 +45,8 @@ public class SongViewController extends BaseController {
         model = getModel().getSongModel();
         setCategoryCB();
         exceptionHandler = new ExceptionHandler();
+        //saveBtn.setDisable(true);
+        //enableSaveBtn();
 
         if (model.getShouldEdit() == true) {
 
@@ -65,6 +57,34 @@ public class SongViewController extends BaseController {
             }
         }
     }
+
+    /*private void enableSaveBtn(){
+        categoryCB.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Category>() {
+            public void changed(ObservableValue<? extends Category> observable, Category oldValue, Category newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    listenerFilepathTXT();
+                } else {
+                    saveBtn.setDisable(true);
+                }
+            }
+        });
+    }*/
+
+    /*public boolean listenerFilepathTXT(){
+        boolean output = false;
+        fileTxt.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //If something is selected, buttons will be enabled, else they will be disabled
+                if (newValue != null) {
+                    saveBtn.setDisable(false);
+                } else {
+                    saveBtn.setDisable(true);
+                }
+            }
+        });
+        return output;
+    }*/
 
     /**
      * sets the shouldEdit boolean to match the value of the shouldEdit boolean from the model
@@ -100,6 +120,13 @@ public class SongViewController extends BaseController {
      */
     @FXML
     private void handleSave(ActionEvent actionEvent){
+        if(saveNotAllowed()){
+            String warningMessage = "Please remember to choose a category and fill out the filepath for the song";
+            Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage, ButtonType.CANCEL);
+            alert.showAndWait();
+            return;
+        }
+
         try {
             if (model.getShouldEdit() == false) {
                 String title = songTitleTxt.getText();
@@ -140,8 +167,25 @@ public class SongViewController extends BaseController {
         }
     }
 
+    /**
+     * Check if filepath and category have been chosen. It is used before try in handleSave()
+     * @return - true means something is missing, false means save is allowed
+     */
+    private boolean saveNotAllowed(){
+        //Checks the two fields.
+        boolean categoryCheck = categoryCB.getSelectionModel().isEmpty();
+        boolean filepathCheck = fileTxt.getText().isEmpty();
 
-        //choose a new file, without the user having to copy the filepath.
+        //if either of them are empty, it will be true if on condition is empty
+        if(categoryCheck || filepathCheck){
+            return true;
+        }
+        else return false;
+    }
+
+    /**
+     * choose a new file, without the user having to copy the filepath.
+     */
         public void chooseFile (ActionEvent actionEvent){
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select song");
