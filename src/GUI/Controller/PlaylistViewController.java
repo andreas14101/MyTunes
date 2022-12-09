@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.ExceptionHandler;
 import BE.Playlist;
 import GUI.Model.PlaylistModel;
 import javafx.event.ActionEvent;
@@ -16,11 +17,14 @@ public class PlaylistViewController extends BaseController {
     private TextField playlistName;
 
     private boolean shouldEditPlaylist;
+    private ExceptionHandler exceptionHandler;
 
     @Override
     public void setup() {
         playlistModel = getModel().getPlaylistModel();
+        exceptionHandler = new ExceptionHandler();
         createNew();
+
         if(playlistModel.getShouldEditPlaylist())
         {
             edit();
@@ -65,20 +69,23 @@ public class PlaylistViewController extends BaseController {
     /**
      * Handles the save event when the save button is pressed both for new and edited songs
      * @param actionEvent
-     * @throws Exception
      */
     @FXML
-    private void handleSave(ActionEvent actionEvent) throws Exception {
-        if (!shouldEditPlaylist) {
-            String plname = playlistName.getText();
-            playlistModel.createNewPlaylist(plname);
-            closeWindow();
-        } else {
-            String plname = playlistName.getText();
-            Playlist pl = playlistModel.getSelectedPlaylist();
-            playlistModel.editPlaylist(plname, pl);
-            playlistModel.setShouldEdit(false);
-            closeWindow();
+    private void handleSave(ActionEvent actionEvent) {
+        try {
+            if (!shouldEditPlaylist) {
+                String plname = playlistName.getText();
+                playlistModel.createNewPlaylist(plname);
+                closeWindow();
+            } else {
+                String plname = playlistName.getText();
+                Playlist pl = playlistModel.getSelectedPlaylist();
+                playlistModel.editPlaylist(plname, pl);
+                playlistModel.setShouldEdit(false);
+                closeWindow();
+            }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
     }
     public void closeWindow(){
