@@ -74,7 +74,7 @@ public class MainViewController extends BaseController implements Initializable 
         updateSongList();
         placeholders();
         mediaPlayerMethod();
-        currentSongPlaying.setText("(none) is currently playing");
+        currentSongPlaying.setText("No song currently playing");
         exceptionHandler = new ExceptionHandler();
         try {
             updatePlaylist();
