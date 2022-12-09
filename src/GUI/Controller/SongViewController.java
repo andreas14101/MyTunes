@@ -2,7 +2,10 @@ package GUI.Controller;
 
 import BE.Category;
 import BE.ExceptionHandler;
+import BE.Playlist;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,13 +13,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -29,24 +29,14 @@ import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
-    private Button chooseFileBtn;
-    @FXML
     private ComboBox categoryCB;
     @FXML
-    private Button cancelBtn;
+    private Button cancelBtn, saveBtn, chooseFileBtn;
     @FXML
-    private Button saveBtn;
-    @FXML
-    private TextField artistTxt;
-    @FXML
-    private TextField songTitleTxt;
-    @FXML
-    private TextField fileTxt;
+    private TextField artistTxt, songTitleTxt, fileTxt;
 
     private SongModel model;
-
     private boolean shouldEdit;
-
     private ExceptionHandler exceptionHandler;
 
     @Override
@@ -82,10 +72,15 @@ public class SongViewController extends BaseController {
     /**
      * Handles save button in new/edit song window.
      * @param actionEvent - Button pressed
-     * @throws Exception
      */
     @FXML
     private void handleSave(ActionEvent actionEvent){
+        if(saveNotAllowed()){
+            String warningMessage = "Please remember to choose a category and fill out the filepath for the song";
+            Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage, ButtonType.CANCEL);
+            alert.showAndWait();
+            return;
+        }
         try {
             String title = songTitleTxt.getText();
             String artist = artistTxt.getText();
@@ -113,25 +108,42 @@ public class SongViewController extends BaseController {
                 closeWindow();
             }
         } catch (Exception e){
-            exceptionHandler.displayError(e);
+            exceptionHandler.displayNiceError("Something went wrong. Make sure you have written the correct filepath " +
+                    "to the song and category is correct as well.");
         }
     }
 
-    /**
-     * A button which opens a file chooser, so the user can find the file of the song he wants to add
-     * @param actionEvent
+     /** Check if filepath and category have been chosen. It is used before try in handleSave()
+     * @return - true means something is missing, false means save is allowed
      */
-    public void chooseFile (ActionEvent actionEvent){
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Select song");
-            fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Files", "*"));
-            Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
-            File selectedFile = fileChooser.showOpenDialog(stage);
-            if (selectedFile != null) {
-                fileTxt.setText(String.valueOf(selectedFile));
-            }
+    private boolean saveNotAllowed(){
+        //Checks the two fields.
+        boolean categoryCheck = categoryCB.getSelectionModel().isEmpty();
+        boolean filepathCheck = fileTxt.getText().isEmpty();
+
+        //if either of them are empty, it will be true if on condition is empty
+        if(categoryCheck || filepathCheck){
+            return true;
         }
+        else return false;
+    }
+
+    /**
+    * A button which opens a file chooser, so the user can find the file of the song he wants to add
+    * @param actionEvent
+    */
+    public void chooseFile (ActionEvent actionEvent){
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select song");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Files", "*.mp3","*.wav"));
+        Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            fileTxt.setText(String.valueOf(selectedFile));
+        }
+    }
 
     /**
      * Closes the window when the button is clicked
