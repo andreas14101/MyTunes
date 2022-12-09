@@ -43,13 +43,14 @@ public class CategoryViewController extends BaseController {
             model.createCategory(newCategory);
             Stage stage = (Stage) saveBtn.getScene().getWindow();
             stage.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * Deletes chosen category
+     *
      * @param actionEvent
      */
     @FXML
@@ -64,7 +65,7 @@ public class CategoryViewController extends BaseController {
                 model.deleteCategory(c);
                 updateCategoryTable();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -77,7 +78,7 @@ public class CategoryViewController extends BaseController {
 
             categoriesTable.getColumns().addAll();
             categoriesTable.setItems(model.getObservableCategories());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

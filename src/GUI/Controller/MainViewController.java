@@ -80,6 +80,7 @@ public class MainViewController extends BaseController implements Initializable 
             ex.printStackTrace();
         }
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         disableButtons();
@@ -125,7 +126,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Controls Song table buttons. Enable or disable the edit and the delete option for songs,
-     if a song is selected or not.
+     * if a song is selected or not.
      */
     private void addListenerBtnSongs() {
         songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
@@ -371,6 +372,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Deletes the selected playlist
+     *
      * @throws Exception exception handle
      */
     @FXML
@@ -488,11 +490,10 @@ public class MainViewController extends BaseController implements Initializable 
      * On the second click pauses the song
      */
     public void playSong() {
-        if (!isSomethingChosen){
+        if (!isSomethingChosen) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
             alert.showAndWait(); //Alert which shows that no song is selected.
-        }
-        else if (isPlaying) {
+        } else if (isPlaying) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
@@ -528,16 +529,14 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.stop();
         List<String> filePaths = new ArrayList<>();
 
-        if(allSongsFromDb != null)
-        {
-            for (Song s: allSongsFromDb)
-            {
+        if (allSongsFromDb != null) {
+            for (Song s : allSongsFromDb) {
                 filePaths.add(s.getFilePath());
             }
         }
         directory = new File(filePaths.get(songNumber));
 
-        if(directory.exists()) {
+        if (directory.exists()) {
             media = new Media(directory.getAbsoluteFile().toURI().toString()); //makes a command, possible for mediaPlayer to read
             mediaPlayer = new MediaPlayer(media);   //sets the song
             currentSongPlaying.setText(allSongsFromDb.get(songNumber).getTitle() + " is currently playing");
@@ -659,7 +658,7 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-    public void Clicks(){
+    public void Clicks() {
         songsTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 currentSongPlaying.setText(selectedSong() + " is currently playing");

@@ -44,26 +44,26 @@ public class SongViewController extends BaseController {
         model = getModel().getSongModel();
         setCategoryCB();
         exceptionHandler = new ExceptionHandler();
-        if (model.getShouldEdit())
-        {edit();}
-        else
-        {createNew();}
+        if (model.getShouldEdit()) {
+            edit();
+        } else {
+            createNew();
+        }
     }
 
     /**
      * When editing a song, place the text of the chosen song into the text fields of the song view
      */
-    private void edit()
-    {
-            songTitleTxt.setText(model.getSelectedSong().getTitle());
-            artistTxt.setText(model.getSelectedSong().getArtist());
-            fileTxt.setText(model.getSelectedSong().getFilePath());
+    private void edit() {
+        songTitleTxt.setText(model.getSelectedSong().getTitle());
+        artistTxt.setText(model.getSelectedSong().getArtist());
+        fileTxt.setText(model.getSelectedSong().getFilePath());
     }
+
     /**
      * Clears the text fields when creating a new song
      */
-    private void createNew()
-    {
+    private void createNew() {
         songTitleTxt.clear();
         artistTxt.clear();
         fileTxt.clear();
@@ -71,11 +71,12 @@ public class SongViewController extends BaseController {
 
     /**
      * Handles save button in new/edit song window.
+     *
      * @param actionEvent - Button pressed
      */
     @FXML
-    private void handleSave(ActionEvent actionEvent){
-        if(saveNotAllowed()){
+    private void handleSave(ActionEvent actionEvent) {
+        if (saveNotAllowed()) {
             String warningMessage = "Please remember to choose a category and fill out the filepath for the song";
             Alert alert = new Alert(Alert.AlertType.WARNING, warningMessage, ButtonType.CANCEL);
             alert.showAndWait();
@@ -107,7 +108,7 @@ public class SongViewController extends BaseController {
 
                 closeWindow();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             exceptionHandler.displayNiceError("Something went wrong. Make sure you have written the correct filepath " +
                     "to the song and category is correct as well.");
         }
@@ -115,30 +116,31 @@ public class SongViewController extends BaseController {
 
     /**
      * Check if filepath and category have been chosen. It is used before try in handleSave()
+     *
      * @return - true means something is missing, false means save is allowed
      */
-    private boolean saveNotAllowed(){
+    private boolean saveNotAllowed() {
         //Checks the two fields.
         boolean categoryCheck = categoryCB.getSelectionModel().isEmpty();
         boolean filepathCheck = fileTxt.getText().isEmpty();
 
         //if either of them are empty, it will be true if on condition is empty
-        if(categoryCheck || filepathCheck){
+        if (categoryCheck || filepathCheck) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     /**
-    * A button which opens a file chooser, so the user can find the file of the song he wants to add
-    * @param actionEvent
-    */
-    public void chooseFile (ActionEvent actionEvent){
+     * A button which opens a file chooser, so the user can find the file of the song he wants to add
+     *
+     * @param actionEvent
+     */
+    public void chooseFile(ActionEvent actionEvent) {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select song");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Files", "*.mp3","*.wav"));
+                new FileChooser.ExtensionFilter("Files", "*.mp3", "*.wav"));
         Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
@@ -148,6 +150,7 @@ public class SongViewController extends BaseController {
 
     /**
      * Closes the window when the button is clicked
+     *
      * @param actionEvent
      */
     @FXML
@@ -167,13 +170,14 @@ public class SongViewController extends BaseController {
 
             //Load categories to combobox
             categoryCB.setItems(list);
-        } catch (Exception e){
+        } catch (Exception e) {
             exceptionHandler.displayError(e);
         }
     }
 
     /**
      * Opens a new window, so you can add more categories or delete existing ones
+     *
      * @param event
      * @throws IOException
      */
@@ -206,5 +210,4 @@ public class SongViewController extends BaseController {
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
         stage.close();
     }
-
 }
