@@ -86,7 +86,6 @@ public class SongViewController extends BaseController {
     /**
      * handles save button in new/edit song window.
      * @param actionEvent - Button pressed
-     * @throws Exception
      */
     @FXML
     private void handleSave(ActionEvent actionEvent){
@@ -199,27 +198,30 @@ public class SongViewController extends BaseController {
     /**
      * opens a new window so you can add more categories or delete existing ones
      * @param event
-     * @throws IOException
      */
     @FXML
-    private void handleMoreCategoriesBtn(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/NewCategoryView.fxml"));
-        AnchorPane pane = (AnchorPane) loader.load();
+    private void handleMoreCategoriesBtn(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/View/NewCategoryView.fxml"));
+            AnchorPane pane = (AnchorPane) loader.load();
 
-        CategoryViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
+            CategoryViewController controller = loader.getController();
+            controller.setModel(super.getModel());
+            controller.setup();
 
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New Category");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
+            // Create the dialog stage
+            Stage dialogWindow = new Stage();
+            dialogWindow.setTitle("New Category");
+            dialogWindow.initModality(Modality.WINDOW_MODAL);
+            dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogWindow.setScene(scene);
+            dialogWindow.showAndWait();
 
-        setCategoryCB();
+            setCategoryCB();
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 }
