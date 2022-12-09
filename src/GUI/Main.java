@@ -12,7 +12,6 @@ public class Main extends Application {
     public static void main(String[] args) throws Exception {
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
@@ -27,6 +26,5 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
 
         primaryStage.show();
-
     }
 }
