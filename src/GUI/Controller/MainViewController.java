@@ -364,7 +364,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Deletes the selected playlist
-     * @throws Exception exception handle
      */
     @FXML
     private void handleDeletePlaylist(){
