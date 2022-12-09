@@ -163,7 +163,8 @@ public class SongViewController extends BaseController {
                 stage.close();
             }
         } catch (Exception e){
-            exceptionHandler.displayError(e);
+            exceptionHandler.displayNiceError("Something went wrong. Make sure you have written the correct filepath " +
+                    "to the song and category is correct as well.");
         }
     }
 
@@ -190,7 +191,7 @@ public class SongViewController extends BaseController {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select song");
             fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Files", "*"));
+                    new FileChooser.ExtensionFilter("Files", "*.mp3","*.wav"));
             Stage stage = (Stage) chooseFileBtn.getScene().getWindow();
             File selectedFile = fileChooser.showOpenDialog(stage);
             if (selectedFile != null) {

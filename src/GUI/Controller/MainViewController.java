@@ -45,15 +45,13 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private TableColumn songTitleColumn, songArtistColumn, songCategoryColumn, songTimeColumn;
     @FXML
-    private TableColumn playlistNameColumn, playlistSongsAmountColumn, playlistTimeColumn;
+    private TableColumn playlistNameColumn, playlistSongsAmountColumn, playlistTimeColumn, titleColumn;
     @FXML
     private Button CloseBtn, searchBtn, playBtn, editPlaylistBtn, deleteSongFromPlaylistBtn;
     @FXML
     private Button deletePlaylistBtn, deleteSongBtn, EditSongBtn, upArrowBtn, downArrowBtn, leftArrowBtn;
     @FXML
     private Label currentSongPlaying;
-    @FXML
-    private TableColumn titleColumn;
     private SongModel musicModel;
     private PlaylistModel playlistModel;
     private File directory;

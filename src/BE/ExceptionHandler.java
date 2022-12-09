@@ -20,4 +20,17 @@ public class ExceptionHandler {
         //Display and wait on user action.
         alert.showAndWait();
     }
+
+    public void displayNiceError(String s){
+        //Create new alert.
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        //Set title and load error from parameter.
+        alert.setTitle("Something went wrong");
+        alert.setHeaderText(s);
+
+        //Display and wait on user action.
+        alert.showAndWait();
+
+    }
 }
