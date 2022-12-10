@@ -519,11 +519,10 @@ public class MainViewController extends BaseController implements Initializable 
     private void autoPlayNext()
     {
         if (timeSlider.getValue() == timeSlider.getMax()) {
-            if (songsTable.getFocusModel().getFocusedItem() != null)
+            if(songsTable.getFocusModel().getFocusedItem() != null)
             {
                 nextSong();
-            }
-            else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+            } else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
             {
                 nextSong();
             }
