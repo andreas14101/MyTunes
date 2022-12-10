@@ -11,7 +11,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class CategoryViewController extends BaseController {
-
     @FXML
     private TableColumn categoryColumn;
     @FXML
@@ -43,7 +42,7 @@ public class CategoryViewController extends BaseController {
             model.createCategory(newCategory);
             Stage stage = (Stage) saveBtn.getScene().getWindow();
             stage.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -64,20 +63,19 @@ public class CategoryViewController extends BaseController {
                 model.deleteCategory(c);
                 updateCategoryTable();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void updateCategoryTable() {
-
         model = getModel().getSongModel();
         try {
             categoryColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
 
             categoriesTable.getColumns().addAll();
             categoriesTable.setItems(model.getObservableCategories());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -6,7 +6,7 @@ public abstract class BaseController {
     private MyTunesModel model;
 
     /**
-     * sets the model of the controller
+     * Sets the model of the controller
      * @param model
      */
     public void setModel(MyTunesModel model) {
@@ -14,7 +14,7 @@ public abstract class BaseController {
     }
 
     /**
-     * get the model of the controller
+     * Get the model of the controller
      * @return the model of the controller
      */
     public MyTunesModel getModel() {
@@ -22,7 +22,7 @@ public abstract class BaseController {
     }
 
     /**
-     * what happens when the controller starts
+     * What happens when the controller starts
      */
     public abstract void setup();
 }
