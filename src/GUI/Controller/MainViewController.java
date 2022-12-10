@@ -78,9 +78,10 @@ public class MainViewController extends BaseController implements Initializable 
         try {
             updatePlaylist();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            exceptionHandler.displayNiceError("Something went wrong starting up the program. Please try again");
         }
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         disableButtons();
@@ -126,7 +127,7 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Controls Song table buttons. Enable or disable the edit and the delete option for songs,
-     if a song is selected or not.
+     * if a song is selected or not.
      */
     private void addListenerBtnSongs() {
         songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
@@ -264,15 +265,19 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Updates the playlist tableview
      */
-    private void updatePlaylist() throws Exception {
-        playlistModel = getModel().getPlaylistModel();
+    private void updatePlaylist() {
+        try {
+            playlistModel = getModel().getPlaylistModel();
 
-        playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
-        playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
-        playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
+            playlistNameColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
+            playlistSongsAmountColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfSongs"));
+            playlistTimeColumn.setCellValueFactory(new PropertyValueFactory<>("timeLength"));
 
-        playlistTable.getColumns().addAll();
-        playlistTable.setItems(playlistModel.getObservablePlaylists());
+            playlistTable.getColumns().addAll();
+            playlistTable.setItems(playlistModel.getObservablePlaylists());
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 
     /**
@@ -294,102 +299,115 @@ public class MainViewController extends BaseController implements Initializable 
      * Opens a new window to show a detailed view when adding a new song
      *
      * @param event when btn is clicked
-     * @throws IOException throws Exception
      */
     @FXML
-    private void handleNewSong(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
-        AnchorPane pane = loader.load();
+    private void handleNewSong(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/View/SongView.fxml"));
+            AnchorPane pane = loader.load();
 
-        SongViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-
-        dialogWindow.setTitle("New song");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
+            SongViewController controller = loader.getController();
+            controller.setModel(super.getModel());
+            controller.setup();
+            // Create the dialog stage
+            Stage dialogWindow = new Stage();
+            dialogWindow.setTitle("New song");
+            dialogWindow.initModality(Modality.WINDOW_MODAL);
+            dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogWindow.setScene(scene);
+            dialogWindow.showAndWait();
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 
     /**
      * Opens a new window to create a new playList in
      *
      * @param event when btn clicked
-     * @throws IOException Exception handle
      */
     @FXML
-    private void handleNewPlaylist(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
-        AnchorPane pane = loader.load();
-        PlaylistViewController controller = loader.getController();
-        controller.setModel(super.getModel());
-        controller.setup();
-        // Create the dialog stage
-        Stage dialogWindow = new Stage();
-        dialogWindow.setTitle("New playlist");
-        dialogWindow.initModality(Modality.WINDOW_MODAL);
-        dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
-        Scene scene = new Scene(pane);
-        dialogWindow.setScene(scene);
-        dialogWindow.showAndWait();
+    private void handleNewPlaylist(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/View/PlaylistView.fxml"));
+            AnchorPane pane = loader.load();
+            PlaylistViewController controller = loader.getController();
+            controller.setModel(super.getModel());
+            controller.setup();
+            // Create the dialog stage
+            Stage dialogWindow = new Stage();
+            dialogWindow.setTitle("New playlist");
+            dialogWindow.initModality(Modality.WINDOW_MODAL);
+            dialogWindow.initOwner(((Node) event.getSource()).getScene().getWindow());
+            Scene scene = new Scene(pane);
+            dialogWindow.setScene(scene);
+            dialogWindow.showAndWait();
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 
     /**
      * Deletes a song from a playlist
      */
     @FXML
-    private void handleDeleteSongOnPlaylist() throws Exception {
-        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem(); //Get the playlist chosen
-        Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem(); //Get the song chosen
-        int sId = s.getId(); //Map song id into a variable
-        int plId = pl.getId(); //Map playlist id into a variable
+    private void handleDeleteSongOnPlaylist(){
+        try {
+            Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem(); //Get the playlist chosen
+            Song s = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem(); //Get the song chosen
+            int sId = s.getId(); //Map song id into a variable
+            int plId = pl.getId(); //Map playlist id into a variable
 
-        musicModel.removeSongFromPlaylist(sId, plId); //Call the Model to remove the song
-        updateSongsInPlaylist(); //Update the table which holds the songs in the playlist
-        updatePlaylist(); //Update the playlist table to show actual number of songs and length
+            musicModel.removeSongFromPlaylist(sId, plId); //Call the Model to remove the song
+            updateSongsInPlaylist(); //Update the table which holds the songs in the playlist
+            updatePlaylist(); //Update the playlist table to show actual number of songs and length
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
+        }
     }
 
     /**
      * Opens a window where you can edit the name of the playlist
-     *
      * @param actionEvent when btn is clicked
-     * @throws IOException handle Exception
      */
     @FXML
-    private void handleEditPlaylist(ActionEvent actionEvent) throws IOException {
-        Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem(); //Get selected Playlist
-        if (selectedPlaylist != null) {
-            playlistModel.setSelectedPlaylist(selectedPlaylist); //The model saves which playlist you have selected
-            playlistModel.setShouldEdit(true); //Places the shouldEdit variable to true
+    private void handleEditPlaylist(ActionEvent actionEvent) {
+        try {
+            Playlist selectedPlaylist = (Playlist) playlistTable.getFocusModel().getFocusedItem(); //Get selected Playlist
+            if (selectedPlaylist != null) {
+                playlistModel.setSelectedPlaylist(selectedPlaylist); //The model saves which playlist you have selected
+                playlistModel.setShouldEdit(true); //Places the shouldEdit variable to true
+            }
+            handleNewPlaylist(actionEvent); //Initiates the same window as we use to create a new playlist to edit the chosen one.
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
-        handleNewPlaylist(actionEvent); //Initiates the same window as we use to create a new playlist to edit the chosen one.
     }
 
     /**
      * Deletes the selected playlist
-     * @throws Exception exception handle
      */
     @FXML
-    private void handleDeletePlaylist() throws Exception {
-        Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait(); //Shows an alert asking whether you should delete the selected playlist.
-        if (alert.getResult() == ButtonType.YES) {
-            playlistModel.deletePlaylist(pl); //Call the model to delete the playlist
+    private void handleDeletePlaylist(){
+        try {
+            Playlist pl = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + pl.getTitle() + "?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                playlistModel.deletePlaylist(pl);
+            }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
     }
 
     /**
      * Adds the selected song to the selected playlist
      */
-    public void handleAddSongToPlaylist(ActionEvent actionEvent) throws Exception {
+    public void handleAddSongToPlaylist(ActionEvent actionEvent) {
         //Get chosen playlist & song
         Playlist pl = (Playlist) playlistTable.getSelectionModel().getSelectedItem();
         Song s = (Song) songsTable.getSelectionModel().getSelectedItem();
@@ -415,7 +433,6 @@ public class MainViewController extends BaseController implements Initializable 
                 //Change boolean which indicates whether the song is present or not to true.
                 songPresent = true;
             }
-
         }
         //If song is not present add it to the playlist.
         if (!songPresent) {
@@ -427,33 +444,38 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Opens a new window where you can edit the selected song
-     *
      * @param actionEvent when btn clicked
-     * @throws IOException exception handle
      */
     @FXML
-    private void handleEditSong(ActionEvent actionEvent) throws IOException {
-        Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
-        if (selectedSong != null) {
-            musicModel.setSelectedSong(selectedSong); //The model saves which song you have selected
-            musicModel.setShouldEdit(true); //Places the shouldEdit variable to true
+    private void handleEditSong(ActionEvent actionEvent) {
+        try {
+            Song selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+            if (selectedSong != null) {
+                musicModel.setSelectedSong(selectedSong); //The model saves which song you have selected
+                musicModel.setShouldEdit(true); //Places the shouldEdit variable to true
+            }
+            handleNewSong(actionEvent); //Initiates the same window as we use to create a new song to edit the chosen one.
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
-        handleNewSong(actionEvent); //Initiates the same window as we use to create a new song to edit the chosen one.
     }
 
     /**
      * Deletes the selected song
-     * @throws Exception exception handle
      */
     @FXML
-    private void handleDeleteSong() throws Exception {
-        Song s = (Song) songsTable.getFocusModel().getFocusedItem(); //Get selected song
+    private void handleDeleteSong() {
+        try {
+            Song s = (Song) songsTable.getFocusModel().getFocusedItem(); //Get selected song
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "? \nThis will also remove the song in all your playlists.", ButtonType.YES, ButtonType.NO);
-        alert.showAndWait(); //Alert which asks whether to delete the song
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + s.getArtist() + " - " + s.getTitle() + "? \nThis will also remove the song in all your playlists.", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait(); //Alert which asks whether to delete the song
 
-        if (alert.getResult() == ButtonType.YES) {
-            musicModel.deleteSong(s);
+            if (alert.getResult() == ButtonType.YES) {
+                musicModel.deleteSong(s);
+            }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
     }
 
@@ -493,8 +515,7 @@ public class MainViewController extends BaseController implements Initializable 
         if (!isSomethingSelected){
             Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
             alert.showAndWait(); //Alert which shows that no song is selected.
-        }
-        else if (isPlaying) {
+        } else if (isPlaying) {
             playBtn.setText("Play");
             mediaPlayer.pause();
             isPlaying = false;
@@ -711,7 +732,8 @@ public class MainViewController extends BaseController implements Initializable 
             try {
                 desktop.browse(URI.create("https://www.nyan.cat/index.php?cat=original"));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                exceptionHandler.displayNiceError("You naughty boy, or girl, or horse, or non binary. " +
+                        "This button didn't work, please don't try again.");
             }
         }
     }
@@ -765,7 +787,10 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
+
+
     public void clicks(){
+
         songsTable.setOnMouseClicked(event -> {
             playPlaylist = false;
             if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)

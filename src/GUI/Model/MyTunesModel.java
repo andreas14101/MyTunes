@@ -2,7 +2,6 @@ package GUI.Model;
 
 
 public class MyTunesModel {
-
     private SongModel songModel;
     private PlaylistModel playlistModel;
 

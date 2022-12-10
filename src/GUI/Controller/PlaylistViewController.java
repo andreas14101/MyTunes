@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.ExceptionHandler;
 import BE.Playlist;
 import GUI.Model.PlaylistModel;
 import javafx.event.ActionEvent;
@@ -16,73 +17,77 @@ public class PlaylistViewController extends BaseController {
     private TextField playlistName;
 
     private boolean shouldEditPlaylist;
+    private ExceptionHandler exceptionHandler;
 
     @Override
     public void setup() {
         playlistModel = getModel().getPlaylistModel();
+        exceptionHandler = new ExceptionHandler();
         createNew();
-
-        if(playlistModel.getShouldEditPlaylist() == true)
-        {
+        if (playlistModel.getShouldEditPlaylist()) {
             edit();
         }
         setShouldEditPlaylist();
     }
 
     /**
-     * sets the boolean should edit to match the value of the boolean with the same name in the model
+     * Sets the boolean should edit to match the value of the boolean with the same name in the model
      */
-    private void setShouldEditPlaylist()
-    {
+    private void setShouldEditPlaylist() {
         shouldEditPlaylist = playlistModel.getShouldEditPlaylist();
     }
 
     /**
-     * sets the text in the textField when you are going to edit a playlist
+     * Sets the text in the textField when you are going to edit a playlist
      */
-    private void edit()
-    {
+    private void edit() {
         playlistName.setText(playlistModel.getSelectedPlaylist().getTitle());
     }
 
     /**
-     * clears the textFields when before you create a new playlist
+     * Clears the textFields before you create a new playlist
      */
-    private void createNew()
-    {
+    private void createNew() {
         playlistName.clear();
     }
 
     /**
-     * closes the window when the button is clicked
+     * Closes the window when the button is clicked
+     *
      * @param actionEvent
      */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
         playlistModel.setShouldEdit(false);
-        Stage stage = (Stage) cxlBtn.getScene().getWindow();
-        stage.close();
+        closeWindow();
     }
 
     /**
-     * handles the save event when the save button is pressed both for new and edited songs
+     * Handles the save event when the save button is pressed both for new and edited songs
+     *
      * @param actionEvent
-     * @throws Exception
      */
     @FXML
-    private void handleSave(ActionEvent actionEvent) throws Exception {
-        if (shouldEditPlaylist == false) {
-            String plname = playlistName.getText();
-            playlistModel.createNewPlaylist(plname);
-            Stage stage = (Stage) cxlBtn.getScene().getWindow();
-            stage.close();
-        } else {
-            String plname = playlistName.getText();
-            Playlist pl = playlistModel.getSelectedPlaylist();
-            playlistModel.editPlaylist(plname, pl);
-            playlistModel.setShouldEdit(false);
-            Stage stage = (Stage) cxlBtn.getScene().getWindow();
-            stage.close();
+    private void handleSave(ActionEvent actionEvent) {
+        try {
+            if (!shouldEditPlaylist) {
+                String plname = playlistName.getText();
+                playlistModel.createNewPlaylist(plname);
+                closeWindow();
+            } else {
+                String plname = playlistName.getText();
+                Playlist pl = playlistModel.getSelectedPlaylist();
+                playlistModel.editPlaylist(plname, pl);
+                playlistModel.setShouldEdit(false);
+                closeWindow();
+            }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
+    }
+
+    public void closeWindow() {
+        Stage stage = (Stage) cxlBtn.getScene().getWindow();
+        stage.close();
     }
 }

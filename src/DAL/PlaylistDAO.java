@@ -22,7 +22,6 @@ public class PlaylistDAO implements ICRUDPlaylist {
 
     /**
      * Gets all playlists from the database with respective number of songs & length of playlist.
-     *
      * @return ArrayList<Playlists> allplaylists
      * @throws Exception
      */
@@ -224,7 +223,6 @@ public class PlaylistDAO implements ICRUDPlaylist {
             //Execute the update
             ps2.executeUpdate();
             ps.executeUpdate();
-
         }
     }
 }
