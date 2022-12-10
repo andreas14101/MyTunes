@@ -848,10 +848,20 @@ public class MainViewController extends BaseController implements Initializable 
         updateSongsInPlaylist();
     }
 
+    /**
+     * plays the selected song if it's double clicked
+     */
     private void playOnDoubleClick()
     {
+        try
+        {
         isPlaying = false;
         createMedia();
         playSong();
+        }
+        catch (Exception e)
+        {
+            exceptionHandler.displayError(e);
+        }
     }
 }
