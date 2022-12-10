@@ -12,13 +12,21 @@ import java.util.List;
 public class SongModel {
     private ObservableList<Song> songsToBeViewed, filteredSongs;
     private ArrayList<Song> songs;
+
     private ObservableList<Category> categoriesToBeViewed;
+
+
     private MusicManager musicManager;
+
     private Song selectedSong;
+
+    private Category selectedCategory;
+
     private boolean shouldEdit = false;
 
     //Constructor
     public SongModel() throws Exception {
+
         musicManager = new MusicManager();
         songsToBeViewed = FXCollections.observableArrayList();
         songsToBeViewed.addAll(musicManager.getAllSongs());
@@ -35,7 +43,7 @@ public class SongModel {
     }
 
     /**
-     * Get the songs that to be viewed in the tableview
+     *  get the songs that to be viewed in the tableview
      * @return the songsToBeViewed observableList
      */
     public ObservableList<Song> getObservableSongs() {
@@ -43,7 +51,7 @@ public class SongModel {
     }
 
     /**
-     * Get the categories to be viewed
+     *  get the categories to be viewed
      * @return the categoriesToBeViewed observableList
      * @throws Exception
      */
@@ -54,7 +62,7 @@ public class SongModel {
     }
 
     /**
-     * Sends the selected song to BLL as the start of the delete process and removes the song from the observableList
+     * sends the selected song to BLL as the start of the delete process and removes the song from the observableList
      * @param s
      * @throws Exception
      */
@@ -63,25 +71,22 @@ public class SongModel {
         songsToBeViewed.remove(s);
     }
 
-    /**
-     * Delete the category chosen
-     * @param c
-     * @throws Exception
-     */
-    public void deleteCategory(Category c) throws Exception {
+
+    public void deleteCategory(Category c)throws Exception{
         musicManager.deleteCategory(c);
     }
 
 
-    /**
-     * Sends a new song to BLL as the start of the create new song process
+     /**
+      * sends a new song to BLL as the start of the create new song process
      */
+
     public void createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         songsToBeViewed.add(musicManager.createSong(title, artist, length, category, pathToFile));
     }
 
     /**
-     * Creates a new category and adds it to the observableList
+     * creates a new category and adds it to the observableList
      * @param name
      * @throws Exception
      */
@@ -90,7 +95,7 @@ public class SongModel {
     }
 
     /**
-     * Get the songs that contains the search string
+     * get the songs that contains the search string
      * @param search
      * @return return the songs who's title contains the search string
      */
@@ -105,18 +110,32 @@ public class SongModel {
             } else if (songsToBeViewed.get(i).getCategory().toLowerCase().contains(search)) {
                 filteredSongs.add(songsToBeViewed.get(i));
             }
+
         }
         return filteredSongs;
     }
 
+    //looks at the song the user has selected.
     /**
-     * Gets the selected song
+     * gets the selected song
      * @return selectedSong object
      */
-    public Song getSelectedSong() { return selectedSong; }
+    public Song getSelectedSong() {
+        //TODO needs to be a used method.
+        //System.out.println("choosen song: " + selectedSong.getTitle());
+        return selectedSong;
+    }
 
     /**
-     * Sets the selectedSong object
+     * get the selected category
+     * @return selectedCategory object
+     */
+    public Category getSelectedCategory(){
+        return selectedCategory;
+    }
+
+    /**
+     * sets the selectedSong object
      * @param selectedSong
      */
     public void setSelectedSong(Song selectedSong) {
@@ -124,7 +143,7 @@ public class SongModel {
     }
 
     /**
-     * Get the shouldEdit boolean
+     * get the shouldEdit boolean
      * @return the shouldEdit boolean
      */
     public Boolean getShouldEdit() {
@@ -132,15 +151,16 @@ public class SongModel {
     }
 
     /**
-     * Sets the shouldEdit boolean according to the value parameter
+     * sets the shouldEdit boolean according to the value parameter
      * @param value
      */
-    public void setShouldEdit(boolean value) {
+    public void setShouldEdit(boolean value)
+    {
         shouldEdit = value;
     }
 
     /**
-     * Calls BLL, so you can add the selected song to the selected playlist
+     *  calls BLL so you can add the selected song to the selected playlist
      * @param sId
      * @param plId
      */
@@ -149,7 +169,7 @@ public class SongModel {
     }
 
     /**
-     * Calls BLL, so you can delete the selected song from the selected playlist
+     * calls Bll so you can delete the selected song from the selected playlist
      * @param sId
      * @param plId
      */
@@ -158,14 +178,16 @@ public class SongModel {
     }
 
     /**
-     * Updates the selected song
+     * updates the selected song
      * @param updatedSong
      * @throws Exception
      */
     public void songUpdate(Song updatedSong) throws Exception {
-        //Update song in DB
+        // Call BLL
+        // Update song in DB
         musicManager.editSong(updatedSong);
-        //Update TableView
+
+        // Update TableView
         songsToBeViewed.clear();
         songsToBeViewed.addAll(musicManager.getAllSongs());
     }

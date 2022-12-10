@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46e642d6-50a1-4301-b3d3-88a52f6e74b3" name="Changes" comment="MyDatabaseConnector added">
+    <list default="true" id="46e642d6-50a1-4301-b3d3-88a52f6e74b3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BE/Song.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BE/Song.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/MainViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Controller/SongViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Controller/SongViewController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +75,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="46e642d6-50a1-4301-b3d3-88a52f6e74b3" name="Changes" comment="" />
+      <changelist id="fb2fcb65-99e8-42d6-81f4-d5deba69b5e3" name="Changes" comment="MyDatabaseConnector added" />
       <created>1669211996090</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -102,8 +101,6 @@
       <workItem from="1670493263987" duration="484000" />
       <workItem from="1670493815196" duration="108000" />
       <workItem from="1670569530678" duration="5952000" />
-      <workItem from="1670581148297" duration="14000" />
-      <workItem from="1670581174328" duration="339000" />
     </task>
     <task id="LOCAL-00001" summary="MyDatabaseConnector added">
       <created>1669709514943</created>

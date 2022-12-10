@@ -21,10 +21,6 @@ public class ExceptionHandler {
         alert.showAndWait();
     }
 
-    /**
-     * Exception where you can write your own message to the user
-     * @param s
-     */
     public void displayNiceError(String s){
         //Create new alert.
         Alert alert = new Alert(Alert.AlertType.ERROR);
