@@ -13,10 +13,9 @@ public class PlaylistModel {
     private boolean shouldEdit = false;
     private MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
-    
-    private ObservableList<Song> songsOnPL;
 
-    private List<Song> allSongsOnPlaylist;
+    private ObservableList<Song> songsOnPL;
+    
 
     public PlaylistModel() throws Exception {
         musicManager = new MusicManager();
@@ -112,10 +111,5 @@ public class PlaylistModel {
         ObservableList<Song> songsOnPL = FXCollections.observableArrayList();
         songsOnPL.addAll(musicManager.getSongsFromPlaylist(id));
         return songsOnPL;
-    }
-
-    public List<Song> getAllSongsOnPlayList() {
-        allSongsOnPlaylist = songsOnPL;
-        return allSongsOnPlaylist;
     }
 }

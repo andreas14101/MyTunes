@@ -529,6 +529,7 @@ public class MainViewController extends BaseController implements Initializable 
             }
             currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
             timeMoveAuto();
+            autoPlayNext();
             timeSkip();
             mediaPlayer.play();
         }
@@ -539,15 +540,23 @@ public class MainViewController extends BaseController implements Initializable 
      */
     private void autoPlayNext()
     {
-        if (timeSlider.getValue() == timeSlider.getMax()) {
-            if(songsTable.getFocusModel().getFocusedItem() != null)
-            {
-                nextSong();
-            } else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
-            {
-                nextSong();
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                if(!timeSlider.isValueChanging())
+                {
+                    if (timeSlider.getValue() == timeSlider.getMax()) {
+                        if(songsTable.getSelectionModel().getSelectedItem() != null)
+                        {
+                            nextSong();
+                        } else if (songsInsidePlaylist.getSelectionModel().getSelectedItem() != null)
+                        {
+                            nextSong();
+                        }
+                    }
+                }
             }
-        }
+        });
     }
 
     /**
@@ -603,7 +612,7 @@ public class MainViewController extends BaseController implements Initializable 
     private void switchSongInPlaylist(){
         Playlist play = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         int index = songsInsidePlaylist.getSelectionModel().getSelectedIndex()+1;
-        if(index == playlistModel.getAllSongsOnPlayList().size()  || index < 0)
+        if(index == play.getNumberOfSongs()  || index < 0)
         {
             index = 0;
         }
@@ -680,7 +689,7 @@ public class MainViewController extends BaseController implements Initializable 
     {
         Playlist play = (Playlist) playlistTable.getFocusModel().getFocusedItem();
         int index = songsInsidePlaylist.getSelectionModel().getSelectedIndex()-1;
-        if(index == playlistModel.getAllSongsOnPlayList().size()  || index < 0)
+        if(index == play.getNumberOfSongs()  || index < 0)
         {
             index = 0;
         }
@@ -710,7 +719,6 @@ public class MainViewController extends BaseController implements Initializable 
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 timeSlider.setMax(total);
                 timeSlider.setValue(current);
-                autoPlayNext();
             }
         });
     }
@@ -793,9 +801,12 @@ public class MainViewController extends BaseController implements Initializable 
 
         songsTable.setOnMouseClicked(event -> {
             playPlaylist = false;
-            if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+            if(mediaPlayer != null)
             {
                 mediaPlayer.stop();
+            }
+            if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+            {
                 songsInsidePlaylist.getSelectionModel().clearSelection();
             }
             if(event.getClickCount() == 1){
@@ -809,9 +820,12 @@ public class MainViewController extends BaseController implements Initializable 
         });
         songsInsidePlaylist.setOnMouseClicked(event -> {
             playPlaylist = true;
-            if(songsTable.getFocusModel().getFocusedItem() != null)
+            if(mediaPlayer != null)
             {
                 mediaPlayer.stop();
+            }
+            if(songsTable.getFocusModel().getFocusedItem() != null)
+            {
                 songsTable.getSelectionModel().clearSelection();
             }
             if(event.getClickCount() == 1) {
