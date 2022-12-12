@@ -814,8 +814,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-
-
     public void clicks(){
 
         songsTable.setOnMouseClicked(event -> {
