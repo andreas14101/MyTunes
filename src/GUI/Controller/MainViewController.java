@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
@@ -74,6 +75,8 @@ public class MainViewController extends BaseController implements Initializable 
     private MediaPlayer mediaPlayer;
     private Media media;
     private Song selectedSong;
+    private boolean itemInSongTableChosen, itemInPlaylistTableChosen;
+    private int songNumber;
     private boolean isSomethingSelected = false;
     private ExceptionHandler exceptionHandler;
     private boolean playPlaylist;
@@ -105,7 +108,8 @@ public class MainViewController extends BaseController implements Initializable 
         addListenerBtnPlaylists();
         addListenerBtnSongs();
         addListenerBtnSongsInPlaylist();
-        addListenerBtnAddSongsToPl();
+        checkIfSongSelected();
+        checkIfPlSelected();
         clicks();
     }
 
@@ -177,33 +181,53 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Controls button for adding songs to playlists. Enable or disable add song to playlist option,
-     * if a song is selected and a playlist is selected.
+     * Used to check if a song is selected.
      */
-    private void addListenerBtnAddSongsToPl() {
-        songsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //If something is selected, buttons will be enabled, else they will be disabled
-            if (newValue != null) {
-                checkIfPlSelected();
-            } else {
-                leftArrowBtn.setDisable(true);
+    private void checkIfSongSelected() {
+        itemInSongTableChosen = false;
+        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                //If something is selected, boolean goes true, and run check for button, else they will be disabled
+                if (newValue != null) {
+                    itemInSongTableChosen = true;
+                    allowLeftBtn();
+                } else {
+                    itemInSongTableChosen = false;
+                    allowLeftBtn();
+                }
             }
         });
     }
 
     /**
-     * Used to check if a playlist is selected. It is called in addListenerBtnAddSongToPl() methode, to check both song
-     * and playlist table.
+     * Used to check if a playlist is selected.
      */
     private void checkIfPlSelected() {
-        playlistTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //If something is selected, buttons will be enabled, else they will be disabled
-            if (newValue != null) {
-                leftArrowBtn.setDisable(false);
-            } else {
-                leftArrowBtn.setDisable(true);
+
+        itemInPlaylistTableChosen = false;
+        playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
+            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
+                //If something is selected, boolean goes true, and run check for button, else they will be disabled
+                if (newValue != null) {
+                    itemInPlaylistTableChosen = true;
+                    allowLeftBtn();
+                } else {
+                    itemInPlaylistTableChosen = false;
+                    allowLeftBtn();
+                }
             }
         });
+    }
+    /**
+    * Controls button for adding songs to playlists. Enable or disable add song to playlist option,
+    * if a song is selected and a playlist is selected.
+    */
+    private void allowLeftBtn(){
+        if (itemInPlaylistTableChosen && itemInSongTableChosen){
+            leftArrowBtn.setDisable(false);
+        } else {
+            leftArrowBtn.setDisable(true);
+        }
     }
 
     /**
@@ -806,8 +830,6 @@ public class MainViewController extends BaseController implements Initializable 
             alert.showAndWait();
         }
     }
-
-
 
     public void clicks(){
 
