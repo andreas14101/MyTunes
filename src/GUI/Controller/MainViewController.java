@@ -227,6 +227,7 @@ public class MainViewController extends BaseController implements Initializable 
         //controlling volume slider
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(volumeSlider.getValue()*0.01));
         volume = volumeSlider.getValue();
+
     }
 
     /**
@@ -565,19 +566,19 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Plays the next song after the previous song ended
      */
-    private void autoPlayNext()
-    {
+    private void autoPlayNext() {
         mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
             if(!timeSlider.isValueChanging())
             {
                 if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
                     nextSong();
                 }
-            }
-        });
+        }
+    });
     }
 
-            /**
+
+    /**
      * Goes to the next song in either the songs tableview or the next song in the playlist
      */
     public void nextSong() {
@@ -820,8 +821,29 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void clicks(){
-
+        hasChanged = true;
+        songsTable.setOnMouseClicked(event -> {
+            playPlaylist = false;
+            if(mediaPlayer != null)
+            {
+                mediaPlayer.stop();
+            }
+            if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+            {
+                songsInsidePlaylist.getSelectionModel().clearSelection();
+            }
+            if(event.getClickCount() == 1)
+            {
+                isPlaying = false;
+                createMedia();
+            }
+            if(event.getClickCount() == 2)
+            {
+                playOnDoubleClick();
+            }
+        });
         songsInsidePlaylist.setOnMouseClicked(event -> {
+            hasChanged = true;
             playPlaylist = true;
             if(mediaPlayer != null)
             {
@@ -862,6 +884,7 @@ public class MainViewController extends BaseController implements Initializable 
     {
         try
         {
+        hasChanged = true;
         isPlaying = false;
         createMedia();
         playSong();
