@@ -63,6 +63,7 @@ public class MainViewController extends BaseController implements Initializable 
     private boolean isSomethingSelected = false;
     private ExceptionHandler exceptionHandler;
     private boolean playPlaylist;
+    private boolean hasChanged = false;
 
 
     /**
@@ -70,6 +71,7 @@ public class MainViewController extends BaseController implements Initializable 
      */
     @Override
     public void setup() {
+        hasChanged = false;
         updateSongList();
         placeholders();
         volumeControll();
@@ -545,7 +547,8 @@ public class MainViewController extends BaseController implements Initializable 
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 if(!timeSlider.isValueChanging())
                 {
-                    if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax())) {
+                    System.out.println("max = " + Math.round(timeSlider.getMax()) + " current = " + Math.round(timeSlider.getValue()) + " " + hasChanged);
+                    if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
                         nextSong();
                     }
                 }
@@ -557,6 +560,7 @@ public class MainViewController extends BaseController implements Initializable 
      * Goes to the next song in either the songs tableview or the next song in the playlist
      */
     public void nextSong() {
+        hasChanged = true;
         mediaPlayer.stop();
         if(!playPlaylist)
         {
@@ -564,7 +568,7 @@ public class MainViewController extends BaseController implements Initializable 
             {
                 songsInsidePlaylist.getSelectionModel().clearSelection();
             }
-          switchSongTable();
+            switchSongTable();
         }
 
         if(playPlaylist)
@@ -641,6 +645,7 @@ public class MainViewController extends BaseController implements Initializable 
         }
         else
         {
+            hasChanged = true;
             if(!playPlaylist)
             {
                 previousSongSongTable();
@@ -659,7 +664,7 @@ public class MainViewController extends BaseController implements Initializable 
     {
         int index = songsTable.getSelectionModel().getSelectedIndex() - 1;
         if (index == musicModel.getSongsList().size() || index < 0) {
-            index = 0;
+            index = musicModel.getSongsList().size();
         }
         songsTable.getSelectionModel().select(index);
         selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
@@ -685,7 +690,7 @@ public class MainViewController extends BaseController implements Initializable 
         int index = songsInsidePlaylist.getSelectionModel().getSelectedIndex()-1;
         if(index == play.getNumberOfSongs()  || index < 0)
         {
-            index = 0;
+            index = play.getNumberOfSongs();
         }
         songsInsidePlaylist.getSelectionModel().select(index);
         selectedSong = (Song) songsInsidePlaylist.getSelectionModel().getSelectedItem();
@@ -713,6 +718,10 @@ public class MainViewController extends BaseController implements Initializable 
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 timeSlider.setMax(total);
                 timeSlider.setValue(current);
+                if(current > 1.0)
+                {
+                    hasChanged = false;
+                }
             }
         });
     }
