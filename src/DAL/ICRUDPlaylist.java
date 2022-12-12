@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ICRUDPlaylist {
 
-    public List<Playlist> getAllPlaylists() throws Exception;
+    List<Playlist> getAllPlaylists() throws Exception;
 
-    public Playlist createNewPlaylist(String plname) throws Exception;
+    Playlist createNewPlaylist(String plName) throws Exception;
 
-    public Playlist editUpdatePlaylist(String plname, Playlist playlist) throws Exception;
+    Playlist editUpdatePlaylist(String plName, Playlist playlist) throws Exception;
 
-    public void deletePlaylist(Playlist playlist) throws Exception;
+    void deletePlaylist(Playlist playlist) throws Exception;
 }

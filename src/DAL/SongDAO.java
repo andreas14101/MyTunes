@@ -12,7 +12,7 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class SongDAO implements ICRUDSongs{
 
-    private MyDatabaseConnector databaseConnector;
+    private final MyDatabaseConnector databaseConnector;
 
     public SongDAO(){
         databaseConnector = new MyDatabaseConnector();
@@ -21,7 +21,7 @@ public class SongDAO implements ICRUDSongs{
     /**
      * Returns the list of all songs which are in the DB
      * @return List<Song>
-     * @throws Exception
+     * @throws Exception upwards
      */
     @Override
     public List<Song> getAllSongs() throws Exception {
@@ -64,13 +64,13 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Create a song based on the users input, and store it in the DB
-     * @param title
-     * @param artist
-     * @param length
-     * @param category
-     * @param pathToFile
-     * @return
-     * @throws Exception
+     * @param title of the song
+     * @param artist who made the song
+     * @param length of the song
+     * @param category of the song
+     * @param pathToFile of the song
+     * @return Song
+     * @throws Exception upwards
      */
     @Override
     public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
@@ -115,8 +115,8 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Updates a specified song in the DB with new values placed by the user.
-     * @param song
-     * @throws Exception
+     * @param song that the user has chosen
+     * @throws Exception upwards
      */
     @Override
     public void editUpdateSong(Song song) throws Exception {
@@ -146,8 +146,8 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Delete the chosen song the user has selected, and delete the link to all playlists.
-     * @param song
-     * @throws Exception
+     * @param song the user has chosen
+     * @throws Exception upwards
      */
     @Override
     public void deleteSong(Song song) throws Exception {
@@ -176,8 +176,8 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Returns a list of categories from the DB
-     * @return
-     * @throws Exception
+     * @return a list of all the categories
+     * @throws Exception upwards
      */
     @Override
     public List<Category> getAllCategories() throws Exception {
@@ -212,9 +212,9 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Create a new category and store it in the DB
-     * @param name
+     * @param name of the category the user made
      * @return Category
-     * @throws Exception
+     * @throws Exception upwards
      */
     @Override
     public Category createCategory(String name) throws Exception {
@@ -247,8 +247,8 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Deletes a category from the DB
-     * @param category
-     * @throws Exception
+     * @param category the user has chosen
+     * @throws Exception upwards
      */
     @Override
     public void deleteCategory(Category category) throws Exception {
@@ -265,9 +265,9 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Get all songs which are connected to the users chosen playlist
-     * @param id
+     * @param id of the playlist the user has chosen
      * @return List<Song>
-     * @throws Exception
+     * @throws Exception upwards
      */
     @Override
     public List<Song> getSongsOnPlaylist(int id) throws Exception {
@@ -308,8 +308,8 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Add the chosen song to the chosen playlist.
-     * @param sId
-     * @param plId
+     * @param sId the id of the song the user chose
+     * @param plId the id of the playlist the user chose
      */
     @Override
     public void addSongToPlayList(int sId, int plId) {
@@ -327,8 +327,8 @@ public class SongDAO implements ICRUDSongs{
 
     /**
      * Removes the chosen song from the chosen playlist
-     * @param sId
-     * @param plId
+     * @param sId the id of the song the user chose
+     * @param plId the id of the playlist the user chose
      */
     @Override
     public void removeSongFromPlayList(int sId, int plId) {

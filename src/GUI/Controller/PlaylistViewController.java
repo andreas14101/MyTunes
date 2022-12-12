@@ -54,7 +54,7 @@ public class PlaylistViewController extends BaseController {
     /**
      * Closes the window when the button is clicked
      *
-     * @param actionEvent
+     * @param actionEvent when the button is  clicked
      */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
@@ -65,22 +65,20 @@ public class PlaylistViewController extends BaseController {
     /**
      * Handles the save event when the save button is pressed both for new and edited songs
      *
-     * @param actionEvent
+     * @param actionEvent when the button is clicked
      */
     @FXML
     private void handleSave(ActionEvent actionEvent) {
         try {
+            String plName = playlistName.getText();
             if (!shouldEditPlaylist) {
-                String plname = playlistName.getText();
-                playlistModel.createNewPlaylist(plname);
-                closeWindow();
+                playlistModel.createNewPlaylist(plName);
             } else {
-                String plname = playlistName.getText();
                 Playlist pl = playlistModel.getSelectedPlaylist();
-                playlistModel.editPlaylist(plname, pl);
+                playlistModel.editPlaylist(plName, pl);
                 playlistModel.setShouldEdit(false);
-                closeWindow();
             }
+            closeWindow();
         } catch (Exception e){
             exceptionHandler.displayError(e);
         }

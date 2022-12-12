@@ -2,8 +2,8 @@ package GUI.Model;
 
 
 public class MyTunesModel {
-    private SongModel songModel;
-    private PlaylistModel playlistModel;
+    private final SongModel songModel;
+    private final PlaylistModel playlistModel;
 
     public MyTunesModel() throws Exception {
         songModel = new SongModel();

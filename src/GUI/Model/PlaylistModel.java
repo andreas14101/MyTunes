@@ -11,7 +11,7 @@ import java.util.List;
 public class PlaylistModel {
     private Playlist selectedPlaylist;
     private boolean shouldEdit = false;
-    private MusicManager musicManager;
+    private final MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
 
     private ObservableList<Song> songsOnPL;
@@ -38,8 +38,8 @@ public class PlaylistModel {
 
     /**
      * Deletes the selected playlist
-     * @param pl
-     * @throws Exception
+     * @param pl the playlist the user chose
+     * @throws Exception upwards
      */
     public void deletePlaylist(Playlist pl) throws Exception {
         playlistsToBeViewed.remove(pl);
@@ -48,11 +48,11 @@ public class PlaylistModel {
 
     /**
      * Creates a new playlist and moves it down to BLL
-     * @param plname
-     * @throws Exception
+     * @param plName the name the user chose for the playlist
+     * @throws Exception upwards
      */
-    public void createNewPlaylist(String plname) throws Exception {
-        playlistsToBeViewed.add(musicManager.createPlaylist(plname));
+    public void createNewPlaylist(String plName) throws Exception {
+        playlistsToBeViewed.add(musicManager.createPlaylist(plName));
     }
 
     /**
@@ -64,7 +64,7 @@ public class PlaylistModel {
 
     /**
      * Sets the selected playlist
-     * @param selectedPlaylist
+     * @param selectedPlaylist the playlist the user chose
      */
     public void setSelectedPlaylist(Playlist selectedPlaylist) {
         this.selectedPlaylist = selectedPlaylist;
@@ -79,7 +79,7 @@ public class PlaylistModel {
 
     /**
      * Set the shouldEdit boolean value
-     * @param value
+     * @param value either true or false
      */
     public void setShouldEdit(boolean value) {
         shouldEdit = value;
@@ -87,14 +87,14 @@ public class PlaylistModel {
 
     /**
      * Sends the edited playlist to BLL and updates the playlist tableview
-     * @param plname
-     * @param pl
-     * @throws Exception
+     * @param plName the new name of the playlist the user chose to edit
+     * @param pl the playlist the user choose
+     * @throws Exception upwards
      */
-    public void editPlaylist(String plname, Playlist pl) throws Exception {
+    public void editPlaylist(String plName, Playlist pl) throws Exception {
         // Call BLL
         // Update playlist in DB
-        musicManager.editPlaylist(plname, pl);
+        musicManager.editPlaylist(plName, pl);
 
         // Update tableView
         playlistsToBeViewed.clear();
@@ -103,9 +103,9 @@ public class PlaylistModel {
 
     /**
      * Gets the songs on the selected playlist
-     * @param id
+     * @param id the id of the playlist the user chose
      * @return the songs on the selected playlist
-     * @throws Exception
+     * @throws Exception upwards
      */
     public ObservableList<Song> getSongsOnPL(int id) throws Exception {
         ObservableList<Song> songsOnPL = FXCollections.observableArrayList();
