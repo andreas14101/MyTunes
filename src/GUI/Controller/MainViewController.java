@@ -5,6 +5,8 @@ import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -221,12 +223,12 @@ public class MainViewController extends BaseController implements Initializable 
      */
     private void volumeControl() {
         //controlling volume slider
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue()*0.01);
-            }
-        });
+       volumeSlider.valueProperty().addListener(new javafx.beans.value.ChangeListener<Number>() {
+           @Override
+           public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+               mediaPlayer.setVolume(volumeSlider.getValue()*0.01);
+           }
+       });
     }
 
     /**
@@ -570,12 +572,12 @@ public class MainViewController extends BaseController implements Initializable 
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                if(!timeSlider.isValueChanging())
-                {
-                    if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
-                        nextSong();
+                    if(!timeSlider.isValueChanging())
+                    {
+                        if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
+                            nextSong();
+                        }
                     }
-                }
             }
         });
     }
