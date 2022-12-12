@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 public class ExceptionHandler {
 
     /**
-     * Handles thrown exceptions by displaying the error in a Alert window.
+     * Handles thrown exceptions by displaying the error in an Alert window.
      * @param t - Exception thrown
      */
     public void displayError(Throwable t) {
@@ -23,7 +23,7 @@ public class ExceptionHandler {
 
     /**
      * Exception where you can write your own message to the user
-     * @param s
+     * @param s the string which we wish the user to see
      */
     public void displayNiceError(String s){
         //Create new alert.

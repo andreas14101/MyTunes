@@ -8,8 +8,8 @@ import DAL.*;
 import java.util.List;
 
 public class MusicManager {
-    private ICRUDSongs songDAO;
-    private ICRUDPlaylist playlistDAO;
+    private final ICRUDSongs songDAO;
+    private final ICRUDPlaylist playlistDAO;
 
     public MusicManager() {
         songDAO = new SongDAO();
@@ -18,8 +18,8 @@ public class MusicManager {
 
     /**
      * Gets all the songs
-     * @return
-     * @throws Exception
+     * @return all the songs from the DB
+     * @throws Exception upwards
      */
     public List<Song> getAllSongs() throws Exception {
         return songDAO.getAllSongs();
@@ -27,8 +27,8 @@ public class MusicManager {
 
     /**
      * Deletes a song
-     * @param s
-     * @throws Exception
+     * @param s the song the user chose
+     * @throws Exception upwards
      */
     public void deleteSong(Song s) throws Exception {
         songDAO.deleteSong(s);
@@ -36,13 +36,13 @@ public class MusicManager {
 
     /**
      * Creates a new song object
-     * @param title
-     * @param artist
-     * @param length
-     * @param category
-     * @param pathToFile
-     * @return
-     * @throws Exception
+     * @param title of the song
+     * @param artist who made the song
+     * @param length of the song
+     * @param category of the song
+     * @param pathToFile of the song
+     * @return the song the user created
+     * @throws Exception upwards
      */
     public Song createSong(String title, String artist, String length, String category, String pathToFile) throws Exception {
         return songDAO.createSong(title, artist, length, category, pathToFile);
@@ -50,8 +50,8 @@ public class MusicManager {
 
     /**
      * Edits a song object's information
-     * @param updatedSong
-     * @throws Exception
+     * @param updatedSong the user chose
+     * @throws Exception upwards
      */
     public void editSong(Song updatedSong) throws Exception {
         songDAO.editUpdateSong(updatedSong);
@@ -60,7 +60,7 @@ public class MusicManager {
     /**
      * Gets all playlists
      * @return all playlists
-     * @throws Exception
+     * @throws Exception upwards
      */
     public List<Playlist> getAllPlaylists() throws Exception {
         return playlistDAO.getAllPlaylists();
@@ -68,8 +68,8 @@ public class MusicManager {
 
     /**
      * Deletes a playlist
-     * @param pl
-     * @throws Exception
+     * @param pl the playlist the user chose
+     * @throws Exception upwards
      */
     public void deletePlaylist(Playlist pl) throws Exception {
         playlistDAO.deletePlaylist(pl);
@@ -77,29 +77,28 @@ public class MusicManager {
 
     /**
      * Creates a new playlist
-     * @param plname
-     * @return
-     * @throws Exception
+     * @param plName the name of the new playlist from the users input
+     * @return the new playlist
+     * @throws Exception upwards
      */
-    public Playlist createPlaylist(String plname) throws Exception {
-        return playlistDAO.createNewPlaylist(plname);
+    public Playlist createPlaylist(String plName) throws Exception {
+        return playlistDAO.createNewPlaylist(plName);
     }
 
     /**
      * Edits a playlist object's information
-     * @param plname
-     * @param playlist
-     * @return
-     * @throws Exception
+     * @param plName the new name of the playlist from the users input
+     * @param playlist the playlist the user chose
+     * @throws Exception upwards
      */
-    public Playlist editPlaylist(String plname, Playlist playlist) throws Exception {
-        return playlistDAO.editUpdatePlaylist(plname, playlist);
+    public void editPlaylist(String plName, Playlist playlist) throws Exception {
+        playlistDAO.editUpdatePlaylist(plName, playlist);
     }
 
     /**
      * Gets all categories
-     * @return
-     * @throws Exception
+     * @return list of categories
+     * @throws Exception upwards
      */
     public List<Category> getAllCategories() throws Exception {
         return songDAO.getAllCategories();
@@ -107,9 +106,9 @@ public class MusicManager {
 
     /**
      * Creates a new category
-     * @param name
-     * @return
-     * @throws Exception
+     * @param name of the new category from the users input
+     * @return Category
+     * @throws Exception upwards
      */
     public Category createCategory(String name) throws Exception {
         return songDAO.createCategory(name);
@@ -117,8 +116,8 @@ public class MusicManager {
 
     /**
      * Deletes a category
-     * @param category
-     * @throws Exception
+     * @param category which the user chose
+     * @throws Exception upwards
      */
     public void deleteCategory(Category category) throws Exception {
         songDAO.deleteCategory(category);
@@ -126,9 +125,9 @@ public class MusicManager {
 
     /**
      * Get all songs that are on a playlist
-     * @param id
+     * @param id the id of the playlist the user chose
      * @return all songs that are on a playlist
-     * @throws Exception
+     * @throws Exception upwards
      */
     public List<Song> getSongsFromPlaylist(int id) throws Exception {
         return songDAO.getSongsOnPlaylist(id);
@@ -136,8 +135,8 @@ public class MusicManager {
 
     /**
      * Adds a song to a playlist
-     * @param sId
-     * @param plId
+     * @param sId the id of the song the user chose
+     * @param plId the id of the playlist the user chose
      */
     public void addSongToPlaylist(int sId, int plId) {
         songDAO.addSongToPlayList(sId, plId);
@@ -145,8 +144,8 @@ public class MusicManager {
 
     /**
      * Removes a song from a playlist
-     * @param sId
-     * @param plId
+     * @param sId the id of the song the user chose
+     * @param plId the id of the playlist the user chose
      */
     public void removeSongFromPlaylist(int sId, int plId) {
         songDAO.removeSongFromPlayList(sId, plId);

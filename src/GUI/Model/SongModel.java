@@ -7,13 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SongModel {
-    private ObservableList<Song> songsToBeViewed, filteredSongs;
+    private ObservableList<Song> songsToBeViewed;
     private ArrayList<Song> songs;
     private ObservableList<Category> categoriesToBeViewed;
-    private MusicManager musicManager;
+    private final MusicManager musicManager;
     private Song selectedSong;
     private boolean shouldEdit = false;
 
@@ -45,7 +44,7 @@ public class SongModel {
     /**
      * Get the categories to be viewed
      * @return the categoriesToBeViewed observableList
-     * @throws Exception
+     * @throws Exception upwards
      */
     public ObservableList<Category> getObservableCategories() throws Exception {
         categoriesToBeViewed = FXCollections.observableArrayList();
@@ -55,8 +54,8 @@ public class SongModel {
 
     /**
      * Sends the selected song to BLL as the start of the delete process and removes the song from the observableList
-     * @param s
-     * @throws Exception
+     * @param s the song the user chose to be deleted
+     * @throws Exception upwards
      */
     public void deleteSong(Song s) throws Exception {
         musicManager.deleteSong(s);
@@ -65,8 +64,8 @@ public class SongModel {
 
     /**
      * Delete the category chosen
-     * @param c
-     * @throws Exception
+     * @param c the category the user chose to be deleted
+     * @throws Exception upwards
      */
     public void deleteCategory(Category c) throws Exception {
         musicManager.deleteCategory(c);
@@ -82,28 +81,28 @@ public class SongModel {
 
     /**
      * Creates a new category and adds it to the observableList
-     * @param name
-     * @throws Exception
+     * @param name the new category which the user wants to add
+     * @throws Exception upwards
      */
     public void createCategory(String name) throws Exception {
         categoriesToBeViewed.add(musicManager.createCategory(name));
     }
 
     /**
-     * Get the songs that contains the search string
-     * @param search
-     * @return return the songs who's title contains the search string
+     * Get the songs which contains the search string
+     * @param search the keyword the user has input
+     * @return return the songs which title, artists or category contains the search string
      */
     public ObservableList<Song> filteredSongs(String search) {
-        //filter function. Searching in both title, artist and categories
-        filteredSongs = FXCollections.observableArrayList();
-        for (int i = 0; i < songsToBeViewed.size(); i++) {
-            if (songsToBeViewed.get(i).getTitle().toLowerCase().contains(search)) {
-                filteredSongs.add(songsToBeViewed.get(i));
-            } else if (songsToBeViewed.get(i).getArtist().toLowerCase().contains(search)) {
-                filteredSongs.add(songsToBeViewed.get(i));
-            } else if (songsToBeViewed.get(i).getCategory().toLowerCase().contains(search)) {
-                filteredSongs.add(songsToBeViewed.get(i));
+        //Filter function. Searching in both title, artist and categories
+        ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
+        for (Song song : songsToBeViewed) {
+            if (song.getTitle().toLowerCase().contains(search)) {
+                filteredSongs.add(song);
+            } else if (song.getArtist().toLowerCase().contains(search)) {
+                filteredSongs.add(song);
+            } else if (song.getCategory().toLowerCase().contains(search)) {
+                filteredSongs.add(song);
             }
         }
         return filteredSongs;
@@ -117,7 +116,7 @@ public class SongModel {
 
     /**
      * Sets the selectedSong object
-     * @param selectedSong
+     * @param selectedSong the selected song the user chose
      */
     public void setSelectedSong(Song selectedSong) {
         this.selectedSong = selectedSong;
@@ -133,7 +132,7 @@ public class SongModel {
 
     /**
      * Sets the shouldEdit boolean according to the value parameter
-     * @param value
+     * @param value either true or false
      */
     public void setShouldEdit(boolean value) {
         shouldEdit = value;
@@ -141,8 +140,8 @@ public class SongModel {
 
     /**
      * Calls BLL, so you can add the selected song to the selected playlist
-     * @param sId
-     * @param plId
+     * @param sId the id of the song the user chose
+     * @param plId the id of the playlist the user chose
      */
     public void addSongToPlaylist(int sId, int plId) {
         musicManager.addSongToPlaylist(sId, plId);
@@ -150,8 +149,8 @@ public class SongModel {
 
     /**
      * Calls BLL, so you can delete the selected song from the selected playlist
-     * @param sId
-     * @param plId
+     * @param sId the id of the song the user chose
+     * @param plId the id of the playlist the user chose
      */
     public void removeSongFromPlaylist(int sId, int plId) {
         musicManager.removeSongFromPlaylist(sId, plId);
@@ -159,8 +158,8 @@ public class SongModel {
 
     /**
      * Updates the selected song
-     * @param updatedSong
-     * @throws Exception
+     * @param updatedSong the song which the user chose to be updated
+     * @throws Exception upwards
      */
     public void songUpdate(Song updatedSong) throws Exception {
         //Update song in DB
