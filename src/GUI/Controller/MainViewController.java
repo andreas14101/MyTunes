@@ -5,6 +5,8 @@ import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,16 +74,22 @@ public class MainViewController extends BaseController implements Initializable 
     private MediaPlayer mediaPlayer;
     private Media media;
     private Song selectedSong;
-    private boolean isSomethingChosen;
+    private boolean isSomethingSelected = false;
     private ExceptionHandler exceptionHandler;
+    private boolean playPlaylist;
+    private boolean hasChanged = false;
+
 
     /**
      * Our setup method which initiates the program
      */
     @Override
     public void setup() {
+        hasChanged = false;
         updateSongList();
         placeholders();
+        volumeControl();
+        currentSongPlaying.setText("No song currently playing");
         volumeControl();
         exceptionHandler = new ExceptionHandler();
         try {
@@ -209,14 +217,33 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Generate a media from selected song. It is used in other methods.
      */
+    @FXML
     private void createMedia() {
-        try {
-            selectedSong = songsTable.getSelectionModel().getSelectedItem();
+        try
+        {
+            if(isPlaying)
+            {
+                mediaPlayer.stop();
+                isPlaying = false;
+            }
+            if(songsTable.getSelectionModel().getSelectedItem() != null)
+            {
+                isSomethingSelected = true;
+                selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+            }
+            if(songsInsidePlaylist.getSelectionModel().getSelectedItem() != null)
+            {
+                isSomethingSelected = true;
+                selectedSong = (Song) songsInsidePlaylist.getSelectionModel().getSelectedItem();
+            }
             directory = new File(selectedSong.getFilePath());
             if (directory.exists()) {
-                media = new Media(directory.getAbsoluteFile().getPath());
-            }
-        } catch (Exception e){
+            media = new Media(directory.getAbsoluteFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        }
+    }
+        catch (Exception e)
+        {
             exceptionHandler.displayError(e);
         }
     }
@@ -496,49 +523,79 @@ public class MainViewController extends BaseController implements Initializable 
      * On the second click pauses the song
      */
     public void playSong() {
-        try {
-            if (!isSomethingChosen) {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
-                alert.showAndWait(); //Alert which shows that no song is selected.
-            } else if (isPlaying) {
-                playBtn.setText("Play");
-                mediaPlayer.pause();
-                isPlaying = false;
-            } else {
-                playBtn.setText("Pause");
-                isPlaying = true;
-                if (songsTable.getFocusModel().getFocusedItem() != null) {
-                    selectedSong = songsTable.getFocusModel().getFocusedItem();
-                } else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
-                    selectedSong = songsInsidePlaylist.getFocusModel().getFocusedItem();
-                }
-                currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
-                timeMoveAuto();
-                timeSkip();
-                mediaPlayer.play();
+        if (!isSomethingSelected){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
+            alert.showAndWait(); //Alert which shows that no song is selected.
+        } else if (isPlaying) {
+            playBtn.setText("Play");
+            mediaPlayer.pause();
+            isPlaying = false;
+        } else {
+            playBtn.setText("Pause");
+            isPlaying = true;
+            if (songsTable.getFocusModel().getFocusedItem() != null) {
+                selectedSong = (Song) songsTable.getFocusModel().getFocusedItem();
+            } else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
+                selectedSong = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
             }
-        } catch (Exception e){
-            exceptionHandler.displayError(e);
+            currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
+            timeMoveAuto();
+            autoPlayNext();
+            timeSkip();
+            mediaPlayer.play();
         }
+    }
+
+    /**
+     * plays the next song after the previous song ended
+     */
+    private void autoPlayNext()
+    {
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                if(!timeSlider.isValueChanging())
+                {
+                    System.out.println("max = " + Math.round(timeSlider.getMax()) + " current = " + Math.round(timeSlider.getValue()) + " " + hasChanged);
+                    if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
+                        nextSong();
+                    }
+                }
+            }
+        });
     }
 
     /**
      * Goes to the next song in either the songs tableview or the next song in the playlist
      */
-    public void nextSong(ActionEvent event) {
+    public void nextSong() {
+        hasChanged = true;
         mediaPlayer.stop();
-        if(songsTable.getSelectionModel().getSelectedItem() != null)
+        if(!playPlaylist)
         {
-          shiftSongTable();
+            if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+            {
+                songsInsidePlaylist.getSelectionModel().clearSelection();
+            }
+            switchSongTable();
+        }
+
+        if(playPlaylist)
+        {
+            if(songsTable.getFocusModel().getFocusedItem() != null)
+            {
+                songsTable.getSelectionModel().clearSelection();
+            }
+            switchSongInPlaylist();
         }
     }
 
     /**
-     * Switches the song in SongTable
+     * Switches the song in SongTable to the next song on the user's computer
      */
-    private void shiftSongTable() {
+    private void switchSongTable() {
         int index = songsTable.getSelectionModel().getSelectedIndex() + 1;
-        if (index == musicModel.getSongsList().size() - 1) {
+        if (index == musicModel.getSongsList().size() || index < 0) {
             index = 0;
         }
         songsTable.getSelectionModel().select(index);
@@ -548,6 +605,36 @@ public class MainViewController extends BaseController implements Initializable 
             media = new Media(directory.getAbsoluteFile().toURI().toString());
             mediaPlayer = new MediaPlayer(media);
         }
+        else if(!directory.exists())
+        {
+            switchSongTable();
+        }
+        isPlaying = false;
+        playSong();
+    }
+
+    /**
+     * switches to the next song in the playlist that is on user's computer
+     */
+    private void switchSongInPlaylist(){
+        Playlist play = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+        int index = songsInsidePlaylist.getSelectionModel().getSelectedIndex()+1;
+        if(index == play.getNumberOfSongs()  || index < 0)
+        {
+            index = 0;
+        }
+        songsInsidePlaylist.getSelectionModel().select(index);
+        selectedSong = (Song) songsInsidePlaylist.getSelectionModel().getSelectedItem();
+        directory = new File(selectedSong.getFilePath());
+        if (directory.exists()) {
+            media = new Media(directory.getAbsoluteFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        }
+        else if(!directory.exists())
+        {
+            switchSongInPlaylist();
+        }
+        isPlaying = false;
         playSong();
     }
 
@@ -558,28 +645,75 @@ public class MainViewController extends BaseController implements Initializable 
     public void previousOrRestartSong(ActionEvent event) {
         mediaPlayer.stop();
         //if more than 7 seconds has passed, the song is restarted, else it is the previous song
-       /* double current = mediaPlayer.getCurrentTime().toSeconds();
-        allSongsFromDb = musicModel.getSongsList();
-        double current = mediaPlayer.getCurrentTime().toSeconds();
+       double current = mediaPlayer.getCurrentTime().toSeconds();
         if (current >= 7.0) {
             mediaPlayer.seek(Duration.seconds(0));
             isPlaying = false;
             playBtn.setText("Play");
             playSong();
-        } else if (songNumber > 0) {
-            songNumber--;
-            playBtn.setText("play");
-           shiftSong();
-        } else {
-            songNumber = allSongsFromDb.size();
-           playBtn.setText("play");
-            playBtn.setText("Play");
-            shiftSong();
-        } else {
-            songNumber = allSongsFromDb.size();
-            playBtn.setText("Play");
-            shiftSong();
-        }*/
+        }
+        else
+        {
+            hasChanged = true;
+            if(!playPlaylist)
+            {
+                previousSongSongTable();
+            }
+            if(playPlaylist)
+            {
+                previousSongInPlaylist();
+            }
+        }
+    }
+
+    /**
+     * switches to the previous song in the songTable as long as the index doesn't go below 0 or the file does not exist on the user's computer
+     */
+    private void previousSongSongTable()
+    {
+        int index = songsTable.getSelectionModel().getSelectedIndex() - 1;
+        if (index == musicModel.getSongsList().size() || index < 0) {
+            index = musicModel.getSongsList().size();
+        }
+        songsTable.getSelectionModel().select(index);
+        selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+        directory = new File(selectedSong.getFilePath());
+        if (directory.exists()) {
+            media = new Media(directory.getAbsoluteFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        }
+        else if(!directory.exists())
+        {
+            previousSongSongTable();
+        }
+        isPlaying = false;
+        playSong();
+    }
+
+    /**
+     * switches to the previous song in the songInPlaylistTable as long as the index doesn't go below 0 or the file does not exist on the user's computer
+     */
+    private void previousSongInPlaylist()
+    {
+        Playlist play = (Playlist) playlistTable.getFocusModel().getFocusedItem();
+        int index = songsInsidePlaylist.getSelectionModel().getSelectedIndex()-1;
+        if(index == play.getNumberOfSongs()  || index < 0)
+        {
+            index = play.getNumberOfSongs();
+        }
+        songsInsidePlaylist.getSelectionModel().select(index);
+        selectedSong = (Song) songsInsidePlaylist.getSelectionModel().getSelectedItem();
+        directory = new File(selectedSong.getFilePath());
+        if (directory.exists()) {
+            media = new Media(directory.getAbsoluteFile().toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+        }
+        else if(!directory.exists())
+        {
+            previousSongInPlaylist();
+        }
+        isPlaying = false;
+        playSong();
     }
 
     /**
@@ -593,6 +727,10 @@ public class MainViewController extends BaseController implements Initializable 
                 double current = mediaPlayer.getCurrentTime().toSeconds();
                 timeSlider.setMax(total);
                 timeSlider.setValue(current);
+                if(current > 1.0)
+                {
+                    hasChanged = false;
+                }
             }
         });
     }
@@ -673,31 +811,28 @@ public class MainViewController extends BaseController implements Initializable 
 
     public void clicks(){
 
-        songsTable.setOnMouseClicked(event -> {
-            if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
-            {
-                songsInsidePlaylist.getSelectionModel().clearSelection();
-            }
-            if(event.getClickCount() == 1){
-                createMedia();
-            }
-            if (event.getClickCount() == 2) {
-                createMedia();
-                playSong();
-            }
-        });
         songsInsidePlaylist.setOnMouseClicked(event -> {
+            playPlaylist = true;
+            if(mediaPlayer != null)
+            {
+                mediaPlayer.stop();
+            }
             if(songsTable.getFocusModel().getFocusedItem() != null)
             {
                 songsTable.getSelectionModel().clearSelection();
             }
             if(event.getClickCount() == 1) {
-                currentSongPlaying.setText(selectedSongFromPlaylist() + " is currently playing");
-                selectedSongFromPlaylist();
+
+                isPlaying = false;
+                playBtn.setText("Play");
+                Song title = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+                createMedia();
+                currentSongPlaying.setText(title.getTitle() +" is currently playing");
             }
             if (event.getClickCount() == 2) {
-                currentSongPlaying.setText(selectedSongFromPlaylist() + " is currently playing");
-                playSong();
+                Song title = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+                playOnDoubleClick();
+                currentSongPlaying.setText(title.getTitle() +" is currently playing");
             }
         });
     }
@@ -731,7 +866,7 @@ public class MainViewController extends BaseController implements Initializable 
            if (mediaPlayer != null) {
                mediaPlayer.stop();
            }
-           isSomethingChosen = true;
+           isSomethingSelected = true;
            isPlaying = false;
            System.out.println("Chosen song from Table: " + s.getTitle());
            directory = new File(s.getFilePath());
@@ -743,5 +878,22 @@ public class MainViewController extends BaseController implements Initializable 
     }
     public void handlePlaylistUpdate(MouseEvent event) {
         updateSongsInPlaylist();
+    }
+
+    /**
+     * plays the selected song if it's double-clicked
+     */
+    private void playOnDoubleClick()
+    {
+        try
+        {
+        isPlaying = false;
+        createMedia();
+        playSong();
+        }
+        catch (Exception e)
+        {
+            exceptionHandler.displayError(e);
+        }
     }
 }
