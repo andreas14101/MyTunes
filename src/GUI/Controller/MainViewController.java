@@ -6,7 +6,6 @@ import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,8 +30,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainViewController extends BaseController implements Initializable {
@@ -59,10 +56,8 @@ public class MainViewController extends BaseController implements Initializable 
     boolean isPlaying;
     private MediaPlayer mediaPlayer;
     private Media media;
-    private List<Song> allSongsFromDb;
     private Song selectedSong;
     private boolean isSomethingChosen;
-    private int songNumber;
     private ExceptionHandler exceptionHandler;
 
     /**
@@ -72,9 +67,7 @@ public class MainViewController extends BaseController implements Initializable 
     public void setup() {
         updateSongList();
         placeholders();
-        currentSongPlaying.setText("(none) is currently playing");
-        volumeControll();
-        currentSongPlaying.setText("No song currently playing");
+        volumeControl();
         exceptionHandler = new ExceptionHandler();
         try {
             updatePlaylist();
@@ -112,16 +105,14 @@ public class MainViewController extends BaseController implements Initializable 
      * if a playlist is selected or not.
      */
     private void addListenerBtnPlaylists() {
-        playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
-            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    deletePlaylistBtn.setDisable(false);
-                    editPlaylistBtn.setDisable(false);
-                } else {
-                    deletePlaylistBtn.setDisable(true);
-                    editPlaylistBtn.setDisable(true);
-                }
+        playlistTable.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Playlist>) (observable, oldValue, newValue) -> {
+            //If something is selected, buttons will be enabled, else they will be disabled
+            if (newValue != null) {
+                deletePlaylistBtn.setDisable(false);
+                editPlaylistBtn.setDisable(false);
+            } else {
+                deletePlaylistBtn.setDisable(true);
+                editPlaylistBtn.setDisable(true);
             }
         });
     }
@@ -131,16 +122,14 @@ public class MainViewController extends BaseController implements Initializable 
      * if a song is selected or not.
      */
     private void addListenerBtnSongs() {
-        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    EditSongBtn.setDisable(false);
-                    deleteSongBtn.setDisable(false);
-                } else {
-                    EditSongBtn.setDisable(true);
-                    deleteSongBtn.setDisable(true);
-                }
+        songsTable.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Song>) (observable, oldValue, newValue) -> {
+            //If something is selected, buttons will be enabled, else they will be disabled
+            if (newValue != null) {
+                EditSongBtn.setDisable(false);
+                deleteSongBtn.setDisable(false);
+            } else {
+                EditSongBtn.setDisable(true);
+                deleteSongBtn.setDisable(true);
             }
         });
     }
@@ -150,18 +139,16 @@ public class MainViewController extends BaseController implements Initializable 
      * if a song is selected or not.
      */
     private void addListenerBtnSongsInPlaylist() {
-        songsInsidePlaylist.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    deleteSongFromPlaylistBtn.setDisable(false);
-                    upArrowBtn.setDisable(false);
-                    downArrowBtn.setDisable(false);
-                } else {
-                    deleteSongFromPlaylistBtn.setDisable(true);
-                    upArrowBtn.setDisable(true);
-                    downArrowBtn.setDisable(true);
-                }
+        songsInsidePlaylist.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Song>) (observable, oldValue, newValue) -> {
+            //If something is selected, buttons will be enabled, else they will be disabled
+            if (newValue != null) {
+                deleteSongFromPlaylistBtn.setDisable(false);
+                upArrowBtn.setDisable(false);
+                downArrowBtn.setDisable(false);
+            } else {
+                deleteSongFromPlaylistBtn.setDisable(true);
+                upArrowBtn.setDisable(true);
+                downArrowBtn.setDisable(true);
             }
         });
     }
@@ -171,14 +158,12 @@ public class MainViewController extends BaseController implements Initializable 
      * if a song is selected and a playlist is selected.
      */
     private void addListenerBtnAddSongsToPl() {
-        songsTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
-            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    checkIfPlSelected();
-                } else {
-                    leftArrowBtn.setDisable(true);
-                }
+        songsTable.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Song>) (observable, oldValue, newValue) -> {
+            //If something is selected, buttons will be enabled, else they will be disabled
+            if (newValue != null) {
+                checkIfPlSelected();
+            } else {
+                leftArrowBtn.setDisable(true);
             }
         });
     }
@@ -188,14 +173,12 @@ public class MainViewController extends BaseController implements Initializable 
      * and playlist table.
      */
     private void checkIfPlSelected() {
-        playlistTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Playlist>() {
-            public void changed(ObservableValue<? extends Playlist> observable, Playlist oldValue, Playlist newValue) {
-                //If something is selected, buttons will be enabled, else they will be disabled
-                if (newValue != null) {
-                    leftArrowBtn.setDisable(false);
-                } else {
-                    leftArrowBtn.setDisable(true);
-                }
+        playlistTable.getSelectionModel().selectedItemProperty().addListener((ChangeListener<Playlist>) (observable, oldValue, newValue) -> {
+            //If something is selected, buttons will be enabled, else they will be disabled
+            if (newValue != null) {
+                leftArrowBtn.setDisable(false);
+            } else {
+                leftArrowBtn.setDisable(true);
             }
         });
     }
@@ -203,15 +186,9 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Creates the media player which is used to play songs
      */
-    private void volumeControll() {
+    private void volumeControl() {
         //controlling volume slider
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-            }
-        });
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(volumeSlider.getValue() * 0.01));
     }
 
     private void createMedia() {
@@ -226,6 +203,7 @@ public class MainViewController extends BaseController implements Initializable 
      * Sets the label text when the tableview are empty
      */
     private void placeholders() {
+        currentSongPlaying.setText("No song currently playing");
         songsInsidePlaylist.setPlaceholder(new Label("No songs on playlist"));
         songsTable.setPlaceholder(new Label("No songs added yet"));
         playlistTable.setPlaceholder(new Label("No playlist created yet"));
@@ -283,7 +261,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Opens a new window to show a detailed view when adding a new song
-     *
      * @param event when btn is clicked
      */
     @FXML
@@ -311,7 +288,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     /**
      * Opens a new window to create a new playList in
-     *
      * @param event when btn clicked
      */
     @FXML
@@ -425,7 +401,7 @@ public class MainViewController extends BaseController implements Initializable 
             musicModel.addSongToPlaylist(sId, plId); //Call the model to add the song to the playlist.
             updateSongsInPlaylist(); //Update the songs inside the tableview
         }
-        updatePlaylist(); //Update the playlists table to show actual number of songs and length
+        updatePlaylist(); //Update the playlist table to show actual number of songs and length
     }
 
     /**
@@ -603,7 +579,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Nyan cat Easter egg press the button and get taken to the standard browser of you computer on the given url.
+     * Nyan cat Easter egg press the button and get taken to the standard browser of your computer on the given url.
      */
     @FXML
     private void handleCat() {
@@ -721,8 +697,8 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * If the song is doubleclicked on it stops what it is playing now, and starts playing the chosen song.
-     * @param s
+     * If the song is double-clicked on it stops what it is playing now, and starts playing the chosen song.
+     * @param s song
      */
     private void songSelection(Song s) {
        try {
