@@ -75,9 +75,7 @@ public class MainViewController extends BaseController implements Initializable 
         hasChanged = false;
         updateSongList();
         placeholders();
-        volumeControl();
         currentSongPlaying.setText("No song currently playing");
-        volumeControl();
         exceptionHandler = new ExceptionHandler();
         try {
             updatePlaylist();
@@ -218,7 +216,12 @@ public class MainViewController extends BaseController implements Initializable 
      */
     private void volumeControl() {
         //controlling volume slider
-        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(volumeSlider.getValue() * 0.01));
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                mediaPlayer.setVolume(volumeSlider.getValue()*0.01);
+            }
+        });
     }
 
     /**
@@ -546,6 +549,7 @@ public class MainViewController extends BaseController implements Initializable 
                 selectedSong = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
             }
             currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
+            volumeControl();
             timeMoveAuto();
             autoPlayNext();
             timeSkip();
@@ -563,7 +567,6 @@ public class MainViewController extends BaseController implements Initializable 
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 if(!timeSlider.isValueChanging())
                 {
-                    System.out.println("max = " + Math.round(timeSlider.getMax()) + " current = " + Math.round(timeSlider.getValue()) + " " + hasChanged);
                     if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
                         nextSong();
                     }
