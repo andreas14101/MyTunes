@@ -6,11 +6,16 @@ import BLL.MusicManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public class PlaylistModel {
     private Playlist selectedPlaylist;
     private boolean shouldEdit = false;
     private MusicManager musicManager;
     private ObservableList<Playlist> playlistsToBeViewed;
+
+    private ObservableList<Song> songsOnPL;
+    
 
     public PlaylistModel() throws Exception {
         musicManager = new MusicManager();
