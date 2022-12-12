@@ -545,7 +545,7 @@ public class MainViewController extends BaseController implements Initializable 
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 if(!timeSlider.isValueChanging())
                 {
-                    if (timeSlider.getValue() == timeSlider.getMax()) {
+                    if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax())) {
                         nextSong();
                     }
                 }
