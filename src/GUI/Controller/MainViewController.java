@@ -741,7 +741,6 @@ public class MainViewController extends BaseController implements Initializable 
            exceptionHandler.displayError(e);
        }
     }
-
     public void handlePlaylistUpdate(MouseEvent event) {
         updateSongsInPlaylist();
     }
