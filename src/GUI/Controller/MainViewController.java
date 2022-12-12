@@ -834,6 +834,7 @@ public class MainViewController extends BaseController implements Initializable 
             }
             if(event.getClickCount() == 1)
             {
+                hasChanged = true;
                 isPlaying = false;
                 createMedia();
             }
@@ -854,7 +855,7 @@ public class MainViewController extends BaseController implements Initializable 
                 songsTable.getSelectionModel().clearSelection();
             }
             if(event.getClickCount() == 1) {
-
+                hasChanged = true;
                 isPlaying = false;
                 playBtn.setText("Play");
                 Song title = songsInsidePlaylist.getFocusModel().getFocusedItem();
@@ -878,7 +879,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * plays the selected song if it's double-clicked
+     * Plays the selected song if it's double-clicked
      */
     private void playOnDoubleClick()
     {
