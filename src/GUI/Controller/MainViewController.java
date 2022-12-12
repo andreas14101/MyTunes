@@ -214,11 +214,18 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
+    /**
+     * Generate a media from selected song. It is used in other methods.
+     */
     private void createMedia() {
-        selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
-        directory = new File(selectedSong.getFilePath());
-        if (directory.exists()) {
-            media = new Media(directory.getAbsoluteFile().getPath());
+        try {
+            selectedSong = (Song) songsTable.getSelectionModel().getSelectedItem();
+            directory = new File(selectedSong.getFilePath());
+            if (directory.exists()) {
+                media = new Media(directory.getAbsoluteFile().getPath());
+            }
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
     }
 
@@ -498,25 +505,29 @@ public class MainViewController extends BaseController implements Initializable 
      * On the second click pauses the song
      */
     public void playSong() {
-        if (!isSomethingChosen) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
-            alert.showAndWait(); //Alert which shows that no song is selected.
-        } else if (isPlaying) {
-            playBtn.setText("Play");
-            mediaPlayer.pause();
-            isPlaying = false;
-        } else {
-            playBtn.setText("Pause");
-            isPlaying = true;
-            if(songsTable.getFocusModel().getFocusedItem() != null){
-                selectedSong = (Song)songsTable.getFocusModel().getFocusedItem();
-            } else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
-                selectedSong = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+        try {
+            if (!isSomethingChosen) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
+                alert.showAndWait(); //Alert which shows that no song is selected.
+            } else if (isPlaying) {
+                playBtn.setText("Play");
+                mediaPlayer.pause();
+                isPlaying = false;
+            } else {
+                playBtn.setText("Pause");
+                isPlaying = true;
+                if (songsTable.getFocusModel().getFocusedItem() != null) {
+                    selectedSong = (Song) songsTable.getFocusModel().getFocusedItem();
+                } else if (songsInsidePlaylist.getFocusModel().getFocusedItem() != null) {
+                    selectedSong = (Song) songsInsidePlaylist.getFocusModel().getFocusedItem();
+                }
+                currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
+                timeMoveAuto();
+                timeSkip();
+                mediaPlayer.play();
             }
-            currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
-            timeMoveAuto();
-            timeSkip();
-            mediaPlayer.play();
+        } catch (Exception e){
+            exceptionHandler.displayError(e);
         }
     }
 
