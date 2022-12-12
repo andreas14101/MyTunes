@@ -5,6 +5,8 @@ import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -77,6 +79,7 @@ public class MainViewController extends BaseController implements Initializable 
     private ExceptionHandler exceptionHandler;
     private boolean playPlaylist;
     private boolean hasChanged = false;
+    public static double volume = 4;
 
 
     /**
@@ -220,13 +223,10 @@ public class MainViewController extends BaseController implements Initializable 
      * Creates the media player which is used to play songs
      */
     private void volumeControl() {
+        mediaPlayer.setVolume(volume*0.01);
         //controlling volume slider
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mediaPlayer.setVolume(volumeSlider.getValue()*0.01);
-            }
-        });
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(volumeSlider.getValue()*0.01));
+        volume = volumeSlider.getValue();
     }
 
     /**
@@ -563,18 +563,15 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * plays the next song after the previous song ended
+     * Plays the next song after the previous song ended
      */
     private void autoPlayNext()
     {
-        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                if(!timeSlider.isValueChanging())
-                {
-                    if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
-                        nextSong();
-                    }
+        mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+            if(!timeSlider.isValueChanging())
+            {
+                if (Math.round(timeSlider.getValue()) == Math.round(timeSlider.getMax()) && !hasChanged) {
+                    nextSong();
                 }
             }
         });
@@ -629,7 +626,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * switches to the next song in the playlist that is on user's computer
+     * Switches to the next song in the playlist that is on user's computer
      */
     private void switchSongInPlaylist(){
         Playlist play = playlistTable.getFocusModel().getFocusedItem();
@@ -682,7 +679,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * switches to the previous song in the songTable as long as the index doesn't go below 0 or the file does not exist on the user's computer
+     * Switches to the previous song in the songTable as long as the index doesn't go below 0 or the file does not exist on the user's computer
      */
     private void previousSongSongTable()
     {
@@ -706,7 +703,7 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * switches to the previous song in the songInPlaylistTable as long as the index doesn't go below 0 or the file does not exist on the user's computer
+     * Switches to the previous song in the songInPlaylistTable as long as the index doesn't go below 0 or the file does not exist on the user's computer
      */
     private void previousSongInPlaylist()
     {
