@@ -825,8 +825,29 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     public void clicks(){
-
+        hasChanged = true;
+        songsTable.setOnMouseClicked(event -> {
+            playPlaylist = false;
+            if(mediaPlayer != null)
+            {
+                mediaPlayer.stop();
+            }
+            if(songsInsidePlaylist.getFocusModel().getFocusedItem() != null)
+            {
+                songsInsidePlaylist.getSelectionModel().clearSelection();
+            }
+            if(event.getClickCount() == 1)
+            {
+                isPlaying = false;
+                createMedia();
+            }
+            if(event.getClickCount() == 2)
+            {
+                playOnDoubleClick();
+            }
+        });
         songsInsidePlaylist.setOnMouseClicked(event -> {
+            hasChanged = true;
             playPlaylist = true;
             if(mediaPlayer != null)
             {
@@ -867,6 +888,7 @@ public class MainViewController extends BaseController implements Initializable 
     {
         try
         {
+        hasChanged = true;
         isPlaying = false;
         createMedia();
         playSong();
