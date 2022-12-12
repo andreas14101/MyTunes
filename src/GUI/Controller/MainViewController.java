@@ -546,13 +546,7 @@ public class MainViewController extends BaseController implements Initializable 
                 if(!timeSlider.isValueChanging())
                 {
                     if (timeSlider.getValue() == timeSlider.getMax()) {
-                        if(songsTable.getSelectionModel().getSelectedItem() != null)
-                        {
-                            nextSong();
-                        } else if (songsInsidePlaylist.getSelectionModel().getSelectedItem() != null)
-                        {
-                            nextSong();
-                        }
+                        nextSong();
                     }
                 }
             }
