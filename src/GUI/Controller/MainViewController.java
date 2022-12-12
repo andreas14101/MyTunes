@@ -5,8 +5,6 @@ import BE.Playlist;
 import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
