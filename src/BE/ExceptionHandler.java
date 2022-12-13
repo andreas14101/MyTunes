@@ -23,7 +23,7 @@ public class ExceptionHandler {
 
     /**
      * Exception where you can write your own message to the user
-     * @param s
+     * @param s the string which we wish the user to see
      */
     public void displayNiceError(String s){
         //Create new alert.

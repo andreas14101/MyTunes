@@ -1,8 +1,6 @@
 package GUI.Controller;
 
 import BE.Category;
-import BE.Playlist;
-import BE.Song;
 import GUI.Model.SongModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,9 +10,9 @@ import javafx.stage.Stage;
 
 public class CategoryViewController extends BaseController {
     @FXML
-    private TableColumn categoryColumn;
+    private TableColumn<?, ?> categoryColumn;
     @FXML
-    private TableView categoriesTable;
+    private TableView<Category> categoriesTable;
     @FXML
     private TextField categoryName;
     @FXML
@@ -49,11 +47,11 @@ public class CategoryViewController extends BaseController {
 
     /**
      * Deletes chosen category
-     * @param actionEvent
+     * @param actionEvent when the button is clicked
      */
     @FXML
     public void handleDelete(ActionEvent actionEvent) {
-        Category c = (Category) categoriesTable.getFocusModel().getFocusedItem();
+        Category c = categoriesTable.getFocusModel().getFocusedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Delete " + c.getName() + "?", ButtonType.YES, ButtonType.NO);
         alert.showAndWait();

@@ -2,11 +2,7 @@ package GUI.Controller;
 
 import BE.Category;
 import BE.ExceptionHandler;
-import BE.Playlist;
 import GUI.Model.SongModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,8 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -25,18 +19,16 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 
 import java.io.File;
-import java.io.IOException;
 
 public class SongViewController extends BaseController {
     @FXML
     private ComboBox categoryCB;
     @FXML
-    private Button cancelBtn, saveBtn, chooseFileBtn;
+    private Button cancelBtn, chooseFileBtn;
     @FXML
     private TextField artistTxt, songTitleTxt, fileTxt;
 
     private SongModel model;
-    private boolean shouldEdit;
     private ExceptionHandler exceptionHandler;
 
     @Override
@@ -125,15 +117,12 @@ public class SongViewController extends BaseController {
         boolean filepathCheck = fileTxt.getText().isEmpty();
 
         //if either of them are empty, it will be true if on condition is empty
-        if (categoryCheck || filepathCheck) {
-            return true;
-        } else return false;
+        return categoryCheck || filepathCheck;
     }
 
     /**
      * A button which opens a file chooser, so the user can find the file of the song he wants to add
-     *
-     * @param actionEvent
+     * @param actionEvent when button is clicked
      */
     public void chooseFile(ActionEvent actionEvent) {
 
@@ -151,7 +140,7 @@ public class SongViewController extends BaseController {
     /**
      * Closes the window when the button is clicked
      *
-     * @param actionEvent
+     * @param actionEvent when button is clicked
      */
     @FXML
     private void handleCancel(ActionEvent actionEvent) {
@@ -168,7 +157,7 @@ public class SongViewController extends BaseController {
             ObservableList<Category> list;
             list = model.getObservableCategories();
 
-            //Load categories to combobox
+            //Load categories to combo-box
             categoryCB.setItems(list);
         } catch (Exception e) {
             exceptionHandler.displayError(e);
@@ -178,14 +167,14 @@ public class SongViewController extends BaseController {
     /**
      * Opens a new window, so you can add more categories or delete existing ones
      *
-     * @param event
+     * @param event when button is clicked
      */
     @FXML
     private void handleMoreCategoriesBtn(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/GUI/View/NewCategoryView.fxml"));
-            AnchorPane pane = (AnchorPane) loader.load();
+            AnchorPane pane = loader.load();
 
             CategoryViewController controller = loader.getController();
             controller.setModel(super.getModel());
