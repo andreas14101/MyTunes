@@ -95,7 +95,7 @@ public class PlaylistDAO implements ICRUDPlaylist {
                 String title = rs.getString("Title");
                 int time = rs.getInt("Time");
 
-                if (firstSong) { //If it is the first song of a playlist set lastID Local variable to be equal to id and set firstSong to false
+                if (firstSong) { //If it is the first song, set lastID Local variable to be equal to id and set firstSong to false
                     lastID = id;
                     firstSong = false;
                 }

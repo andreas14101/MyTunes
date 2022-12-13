@@ -799,7 +799,6 @@ public class MainViewController extends BaseController implements Initializable 
                 isSomethingSelected = true;
                 playMedia();
             }
-
         });
         songsTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
@@ -809,7 +808,6 @@ public class MainViewController extends BaseController implements Initializable 
                 selectedSong = songsTable.getSelectionModel().getSelectedItem();
                 isSomethingSelected = true;
                 playMedia();
-
             }
         });
     }
