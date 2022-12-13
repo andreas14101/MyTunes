@@ -231,33 +231,6 @@ public class MainViewController extends BaseController implements Initializable 
 
     }
 
-    /**
-     * Generate a media from selected song. It is used in other methods.
-     */
-    @FXML
-    private void createMedia() {
-        try {
-            if (isPlaying) {
-                mediaPlayer.stop();
-                isPlaying = false;
-            }
-            if (songsTable.getSelectionModel().getSelectedItem() != null) {
-                isSomethingSelected = true;
-                selectedSong = songsTable.getSelectionModel().getSelectedItem();
-            }
-            if (songsInsidePlaylist.getSelectionModel().getSelectedItem() != null) {
-                isSomethingSelected = true;
-                selectedSong = songsInsidePlaylist.getSelectionModel().getSelectedItem();
-            }
-            directory = new File(selectedSong.getFilePath());
-            if (directory.exists()) {
-                media = new Media(directory.getAbsoluteFile().toURI().toString());
-                mediaPlayer = new MediaPlayer(media);
-            }
-        } catch (Exception e) {
-            exceptionHandler.displayError(e);
-        }
-    }
 
     /**
      * Sets the label text when the tableview are empty
@@ -815,22 +788,6 @@ public class MainViewController extends BaseController implements Initializable 
         updateSongsInPlaylist();
     }
 
-    /**
-     * Plays the selected song if it's double-clicked
-     */
-    private void playOnDoubleClick() {
-        try {
-            if (mediaPlayer != null) {
-                mediaPlayer.stop();
-            }
-            hasChanged = true;
-            isPlaying = false;
-            createMedia();
-            playSong();
-        } catch (Exception e) {
-            exceptionHandler.displayError(e);
-        }
-    }
 
     public void clicks() {
         songsInsidePlaylist.setOnMouseClicked(event -> {
