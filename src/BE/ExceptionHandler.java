@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 public class ExceptionHandler {
 
     /**
-     * Handles thrown exceptions by displaying the error in a Alert window.
+     * Handles thrown exceptions by displaying the error in an Alert window.
      * @param t - Exception thrown
      */
     public void displayError(Throwable t) {
