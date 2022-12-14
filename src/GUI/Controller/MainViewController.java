@@ -696,12 +696,10 @@ public class MainViewController extends BaseController implements Initializable 
             playMedia();
         } else {
             hasChanged = true;
-            if (!playPlaylist) {
-                previousSongSongTable();
-            }
             if (playPlaylist) {
                 previousSongInPlaylist();
             }
+            else { previousSongSongTable(); }
         }
     }
 
@@ -715,13 +713,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
         songsTable.getSelectionModel().select(index);
         selectedSong = songsTable.getSelectionModel().getSelectedItem();
-        directory = new File(selectedSong.getFilePath());
-        if (directory.exists()) {
-            media = new Media(directory.getAbsoluteFile().toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-        } else if (!directory.exists()) {
-            previousSongSongTable();
-        }
         isPlaying = false;
         playMedia();
     }
@@ -737,13 +728,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
         songsInsidePlaylist.getSelectionModel().select(index);
         selectedSong = songsInsidePlaylist.getSelectionModel().getSelectedItem();
-        directory = new File(selectedSong.getFilePath());
-        if (directory.exists()) {
-            media = new Media(directory.getAbsoluteFile().toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-        } else if (!directory.exists()) {
-            previousSongInPlaylist();
-        }
         isPlaying = false;
         playMedia();
     }
@@ -852,13 +836,10 @@ public class MainViewController extends BaseController implements Initializable 
     private void clicks(MouseEvent event) {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { //Check for double-click on left MouseButton
                 TableRow<Song> row = (TableRow<Song>) event.getSource();
-                if (mediaPlayer != null && row.getItem() != null) { //If media player is active, and the item we are choosing is not zero play that song
+                if (row.getItem() != null) { //If the item we are choosing is not zero play that song
                     selectedSong = row.getItem();
                     playMedia();
-                } else if (mediaPlayer == null){ //If the media player is not active, play that song
-                    selectedSong = row.getItem();
-                    playMedia();
-                }  else { //If the user targets an empty row and double clicks, then just consume the clicks
+                } else { //If the user targets an empty row and double clicks, then just consume the clicks
                     event.consume();
                 }
             }
@@ -868,39 +849,37 @@ public class MainViewController extends BaseController implements Initializable 
      * Handles the playing of selectedSong
      */
     private void playMedia() {
+        directory = new File(selectedSong.getFilePath());
         if (mediaPlayer != null) {
             mediaPlayer.stop();
-            directory = new File(selectedSong.getFilePath());
             if (directory.exists()) {
-                media = new Media(directory.getAbsoluteFile().toURI().toString());
-                mediaPlayer = new MediaPlayer(media);
-                volumeControl();
-                mediaPlayer.play();
-                Song s = selectedSong;
-                currentSongPlaying.setText(s.getTitle() + " is currently playing");
-                isPlaying = true;
-                hasChanged = true;
-                playBtn.setText("Pause");
-                timeMoveAuto();
-                timeSkip();
-                autoPlayNext();
+                playTheDamnSong(directory);
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Song file not found on PC, please choose another song", ButtonType.CANCEL);
+                alert.showAndWait();
             }
         } else {
-            directory = new File(selectedSong.getFilePath());
             if (directory.exists()) {
-                media = new Media(directory.getAbsoluteFile().toURI().toString());
-                mediaPlayer = new MediaPlayer(media);
-                volumeControl();
-                mediaPlayer.play();
-                Song s = selectedSong;
-                currentSongPlaying.setText(s.getTitle() + " is currently playing");
-                isPlaying = true;
-                hasChanged = true;
-                playBtn.setText("Pause");
-                timeMoveAuto();
-                timeSkip();
-                autoPlayNext();
+                playTheDamnSong(directory);
+            }
+            else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Song file not found on PC, please choose another song", ButtonType.CANCEL);
+                alert.showAndWait();
             }
         }
+    }
+    private void playTheDamnSong(File directory){
+        media = new Media(directory.getAbsoluteFile().toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        volumeControl();
+        mediaPlayer.play();
+        currentSongPlaying.setText(selectedSong.getTitle() + " is currently playing");
+        isPlaying = true;
+        hasChanged = true;
+        playBtn.setText("Pause");
+        timeMoveAuto();
+        timeSkip();
+        autoPlayNext();
     }
 }
