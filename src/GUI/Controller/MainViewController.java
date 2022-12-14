@@ -80,8 +80,7 @@ public class MainViewController extends BaseController implements Initializable 
     private boolean playPlaylist; //Checks whether a playlist is playing, or a song in all songs are playing
     private boolean hasChanged = false;
     public static double volume = 4;
-
-
+    
     /**
      * Our setup method which initiates the program
      */
@@ -109,7 +108,6 @@ public class MainViewController extends BaseController implements Initializable 
         checkIfSongInPlSelected();
         checkIfPlSelected();
         eventHandler();
-
     }
 
     /**
@@ -283,9 +281,7 @@ public class MainViewController extends BaseController implements Initializable 
         //controlling volume slider
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> mediaPlayer.setVolume(volumeSlider.getValue() * 0.01));
         volume = volumeSlider.getValue();
-
     }
-
 
     /**
      * Sets the label text when the tableview are empty
@@ -565,7 +561,7 @@ public class MainViewController extends BaseController implements Initializable 
      * On the first click of the button plays selected song
      * On the second click pauses the song
      */
-    public void playSong() {
+    public void handlePlaySong() {
         if (!isSomethingSelected) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "No song selected (ง •_•)ง  ( ͡• ͜ʖ ͡• )  o((⊙﹏⊙))o", ButtonType.CANCEL);
             alert.showAndWait(); //Alert which shows that no song is selected.
@@ -599,8 +595,6 @@ public class MainViewController extends BaseController implements Initializable 
         }
     }
 
-
-
     /**
      * Plays the next song after the previous song ended
      */
@@ -614,7 +608,6 @@ public class MainViewController extends BaseController implements Initializable 
         });
     }
 
-
     /**
      * Goes to the next song in either the songs tableview or the next song in the playlist
      */
@@ -627,7 +620,6 @@ public class MainViewController extends BaseController implements Initializable 
             }
             switchSongTable();
         }
-
         if (playPlaylist) {
             if (songsTable.getFocusModel().getFocusedItem() != null) {
                 songsTable.getSelectionModel().clearSelection();
@@ -792,7 +784,6 @@ public class MainViewController extends BaseController implements Initializable 
             Alert alert = new Alert(Alert.AlertType.ERROR, "Song already at top of playlist", ButtonType.CANCEL);
             alert.showAndWait();
         }
-
     }
 
     /**
@@ -872,6 +863,11 @@ public class MainViewController extends BaseController implements Initializable 
             }
         }
     }
+
+    /**
+     * Finally plays the damn song
+     * @param directory of the file
+     */
     private void playTheDamnSong(File directory){
         media = new Media(directory.getAbsoluteFile().toURI().toString());
         mediaPlayer = new MediaPlayer(media);

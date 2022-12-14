@@ -33,7 +33,7 @@
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playSong" text="Play">
+                  <Button fx:id="playBtn" mnemonicParsing="false" onAction="#handlePlaySong" text="Play">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
