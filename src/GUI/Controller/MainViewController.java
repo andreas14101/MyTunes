@@ -60,7 +60,7 @@ public class MainViewController extends BaseController implements Initializable 
     @FXML
     private TableColumn<?, ?> titleColumn;
     @FXML
-    private Button CloseBtn, searchBtn, playBtn, editPlaylistBtn, deleteSongFromPlaylistBtn;
+    private Button CloseBtn, searchBtn, playBtn, editPlaylistBtn, deleteSongFromPlaylistBtn, forwardBtn, backBtn;
     @FXML
     private Button deletePlaylistBtn, deleteSongBtn, EditSongBtn, upArrowBtn, downArrowBtn, leftArrowBtn;
     @FXML
@@ -72,7 +72,7 @@ public class MainViewController extends BaseController implements Initializable 
     private MediaPlayer mediaPlayer;
     private Media media;
     private Song selectedSong;
-    private boolean itemInSongTableChosen, itemInPlaylistTableChosen;
+    private boolean itemInSongTableChosen, itemInPlaylistTableChosen, itemInSongPlChosen;
     private boolean isSomethingSelected = false;
     private ExceptionHandler exceptionHandler;
     private boolean playPlaylist;
@@ -103,7 +103,8 @@ public class MainViewController extends BaseController implements Initializable 
         addListenerBtnPlaylists();
         addListenerBtnSongs();
         addListenerBtnSongsInPlaylist();
-        checkIfSongSelected();
+        checkIfSongInTableSelected();
+        checkIfSongInPlSelected();
         checkIfPlSelected();
         clicks();
     }
@@ -120,6 +121,8 @@ public class MainViewController extends BaseController implements Initializable 
         upArrowBtn.setDisable(true);
         downArrowBtn.setDisable(true);
         leftArrowBtn.setDisable(true);
+        forwardBtn.setDisable(true);
+        backBtn.setDisable(true);
     }
 
     /**
@@ -178,18 +181,37 @@ public class MainViewController extends BaseController implements Initializable 
     }
 
     /**
-     * Used to check if a song is selected.
+     * Used to check if a song in all songs list is selected.
      */
-    private void checkIfSongSelected() {
+    private void checkIfSongInTableSelected() {
         itemInSongTableChosen = false;
         songsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             //If something is selected, boolean goes true, and run check for button, else they will be disabled
             if (newValue != null) {
                 itemInSongTableChosen = true;
                 allowLeftBtn();
+                allowBackForwardBtn();
             } else {
                 itemInSongTableChosen = false;
                 allowLeftBtn();
+                allowBackForwardBtn();
+            }
+        });
+    }
+
+    /**
+     * Used to check if a song in a playlist is selected
+     */
+    private void checkIfSongInPlSelected(){
+        itemInSongPlChosen = false;
+        songsInsidePlaylist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            //If something is selected, boolean goes true, and run check for button, else they will be disabled
+            if (newValue != null) {
+                itemInSongPlChosen = true;
+                allowBackForwardBtn();
+            } else {
+                itemInSongPlChosen = false;
+                allowBackForwardBtn();
             }
         });
     }
@@ -218,6 +240,15 @@ public class MainViewController extends BaseController implements Initializable 
      */
     private void allowLeftBtn() {
         leftArrowBtn.setDisable(!itemInPlaylistTableChosen || !itemInSongTableChosen);
+    }
+
+    /**
+     * Controls buttons for change song, the forward and back buttons. Enable or disable the buttons,
+     * if a song is selected in either table with songs.
+     */
+    private void allowBackForwardBtn(){
+        forwardBtn.setDisable(!itemInSongTableChosen || itemInSongPlChosen);
+        backBtn.setDisable(!itemInSongTableChosen || itemInSongPlChosen);
     }
 
     /**
