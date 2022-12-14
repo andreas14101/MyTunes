@@ -686,9 +686,9 @@ public class MainViewController extends BaseController implements Initializable 
      * Else it goes back to the previous song on the list
      */
     public void previousOrRestartSong(ActionEvent event) {
-        mediaPlayer.stop();
         //if more than 7 seconds has passed, the song is restarted, else it is the previous song
         double current = mediaPlayer.getCurrentTime().toSeconds();
+        mediaPlayer.stop();
         if (current >= 7.0) {
             mediaPlayer.seek(Duration.seconds(0));
             isPlaying = false;
