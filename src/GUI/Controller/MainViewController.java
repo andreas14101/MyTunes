@@ -6,6 +6,7 @@ import BE.Song;
 import GUI.Model.PlaylistModel;
 import GUI.Model.SongModel;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -105,9 +107,22 @@ public class MainViewController extends BaseController implements Initializable 
         addListenerBtnSongsInPlaylist();
         checkIfSongSelected();
         checkIfPlSelected();
-        clicks();
-    }
+        eventHandler();
 
+    }
+    private void eventHandler(){
+    EventHandler<MouseEvent> onClick = this::clicks;
+    songsInsidePlaylist.setRowFactory(param -> {
+        TableRow<Song> row = new TableRow<>();
+        row.setOnMouseClicked(onClick);
+        return row;
+    });
+    songsTable.setRowFactory(param -> {
+                TableRow<Song> row = new TableRow<>();
+                row.setOnMouseClicked(onClick);
+                return row;
+    });
+    }
     /**
      * Disable buttons that shouldn't be usable before a selection in a table has been made
      */
@@ -788,30 +803,28 @@ public class MainViewController extends BaseController implements Initializable 
         updateSongsInPlaylist();
     }
 
-
-    public void clicks() {
-        songsInsidePlaylist.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                if (mediaPlayer != null) {
-                    mediaPlayer.stop();
+    /**
+     * Handles the mouse button clicks inside songsTable & songsInsidePlaylist table
+     * @param event mouse button events, specifically double clicks
+     */
+    private void clicks(MouseEvent event) {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                TableRow<Song> row = (TableRow<Song>) event.getSource();
+                if (mediaPlayer != null && row.getItem() != null) {
+                    selectedSong = row.getItem();
+                    playMedia();
+                } else if (mediaPlayer == null){
+                    selectedSong = row.getItem();
+                    playMedia();
+                }  else {
+                    event.consume();
                 }
-                selectedSong = songsInsidePlaylist.getSelectionModel().getSelectedItem();
-                isSomethingSelected = true;
-                playMedia();
             }
-        });
-        songsTable.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                if (mediaPlayer != null) {
-                    mediaPlayer.stop();
-                }
-                selectedSong = songsTable.getSelectionModel().getSelectedItem();
-                isSomethingSelected = true;
-                playMedia();
-            }
-        });
     }
 
+    /**
+     * 
+     */
     public void playMedia() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
