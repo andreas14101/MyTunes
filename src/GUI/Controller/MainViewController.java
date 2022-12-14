@@ -111,16 +111,22 @@ public class MainViewController extends BaseController implements Initializable 
         eventHandler();
 
     }
+
+    /**
+     * EventHandler which uses the clicks to target the specific rows of the tables
+     */
     private void eventHandler(){
     EventHandler<MouseEvent> onClick = this::clicks;
     songsInsidePlaylist.setRowFactory(param -> {
         TableRow<Song> row = new TableRow<>();
         row.setOnMouseClicked(onClick);
+        playPlaylist = true;
         return row;
     });
     songsTable.setRowFactory(param -> {
                 TableRow<Song> row = new TableRow<>();
                 row.setOnMouseClicked(onClick);
+                playPlaylist = false;
                 return row;
     });
     }
@@ -745,7 +751,7 @@ public class MainViewController extends BaseController implements Initializable 
     /**
      * Tracks the time of the song currently playing and displays it as the slider
      */
-    public void timeMoveAuto() {
+    private void timeMoveAuto() {
         mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
             if (!timeSlider.isValueChanging()) {
                 double total = mediaPlayer.getTotalDuration().toSeconds();
@@ -844,24 +850,24 @@ public class MainViewController extends BaseController implements Initializable 
      * @param event mouse button events, specifically double clicks
      */
     private void clicks(MouseEvent event) {
-            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { //Check for double-click on left MouseButton
                 TableRow<Song> row = (TableRow<Song>) event.getSource();
-                if (mediaPlayer != null && row.getItem() != null) {
+                if (mediaPlayer != null && row.getItem() != null) { //If media player is active, and the item we are choosing is not zero play that song
                     selectedSong = row.getItem();
                     playMedia();
-                } else if (mediaPlayer == null){
+                } else if (mediaPlayer == null){ //If the media player is not active, play that song
                     selectedSong = row.getItem();
                     playMedia();
-                }  else {
+                }  else { //If the user targets an empty row and double clicks, then just consume the clicks
                     event.consume();
                 }
             }
     }
 
     /**
-     * 
+     * Handles the playing of selectedSong
      */
-    public void playMedia() {
+    private void playMedia() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             directory = new File(selectedSong.getFilePath());
