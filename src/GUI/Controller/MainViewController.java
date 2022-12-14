@@ -77,7 +77,7 @@ public class MainViewController extends BaseController implements Initializable 
     private boolean itemInSongTableChosen, itemInPlaylistTableChosen, itemInSongPlChosen;
     private boolean isSomethingSelected = false;
     private ExceptionHandler exceptionHandler;
-    private boolean playPlaylist;
+    private boolean playPlaylist; //Checks whether a playlist is playing, or a song in all songs are playing
     private boolean hasChanged = false;
     public static double volume = 4;
 
@@ -120,13 +120,11 @@ public class MainViewController extends BaseController implements Initializable 
     songsInsidePlaylist.setRowFactory(param -> {
         TableRow<Song> row = new TableRow<>();
         row.setOnMouseClicked(onClick);
-        playPlaylist = true;
         return row;
     });
     songsTable.setRowFactory(param -> {
                 TableRow<Song> row = new TableRow<>();
                 row.setOnMouseClicked(onClick);
-                playPlaylist = false;
                 return row;
     });
     }
@@ -837,6 +835,11 @@ public class MainViewController extends BaseController implements Initializable 
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) { //Check for double-click on left MouseButton
                 TableRow<Song> row = (TableRow<Song>) event.getSource();
                 if (row.getItem() != null) { //If the item we are choosing is not zero play that song
+                    if (row.getTableView() == songsTable) { //If the chosen song is inside the songs table, set playPlaylist to be false
+                        playPlaylist = false;
+                    } else if (row.getTableView() == songsInsidePlaylist) { //If the chosen song is inside the songsInsidePlaylist table, set playPlaylist to be true
+                        playPlaylist = true;
+                    }
                     selectedSong = row.getItem();
                     playMedia();
                 } else { //If the user targets an empty row and double clicks, then just consume the clicks
