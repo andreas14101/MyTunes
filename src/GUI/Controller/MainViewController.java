@@ -247,8 +247,13 @@ public class MainViewController extends BaseController implements Initializable 
      * if a song is selected in either table with songs.
      */
     private void allowBackForwardBtn(){
-        forwardBtn.setDisable(!itemInSongTableChosen || itemInSongPlChosen);
-        backBtn.setDisable(!itemInSongTableChosen || itemInSongPlChosen);
+        if (itemInSongPlChosen || itemInSongTableChosen) {
+            forwardBtn.setDisable(false);
+            backBtn.setDisable(false);
+        } else {
+            forwardBtn.setDisable(true);
+            backBtn.setDisable(true);
+        }
     }
 
     /**
